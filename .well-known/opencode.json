@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "name": "Calavia Org OpenCode Hub",
+  "defaults": {
+    "editor": "nvim",
+    "shell": "zsh"
+  },
+  "instructions": [
+    "Prefer minimal diffs",
+    "Use existing architecture patterns",
+    "Avoid unnecessary dependencies",
+    "Run tests when possible",
+    "Explain tradeoffs briefly"
+  ],
+  "profiles": {
+    "typescript": "/profiles/typescript.json",
+    "python": "/profiles/python.json",
+    "go": "/profiles/go.json"
+  },
+  "prompts": {
+    "review": "/prompts/senior-review.md",
+    "refactor": "/prompts/refactor-safe.md",
+    "debug": "/prompts/debugging.md"
+  }
+}

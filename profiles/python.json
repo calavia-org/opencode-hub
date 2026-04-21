@@ -1,0 +1,9 @@
+{
+  "stack": "python",
+  "rules": [
+    "Prefer readability",
+    "Use typing where valuable",
+    "Follow project formatter",
+    "Keep functions small"
+  ]
+}
