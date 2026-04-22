@@ -4,10 +4,10 @@
   "baseUrl": "https://opencode.calavia.org",
   "defaultAgent": "architect-generalist",
   "defaultMode": "build",
-  "agents": "/agents",
-  "modes": "/modes",
-  "skills": "/skills",
-  "commands": "/commands",
-  "tools": "/tools",
-  "themes": "/themes"
+  "agents": "https://opencode.calavia.org/agents",
+  "modes": "https://opencode.calavia.org/modes",
+  "skills": "https://opencode.calavia.org/skills",
+  "commands": "https://opencode.calavia.org/commands",
+  "tools": "https://opencode.calavia.org/tools",
+  "themes": "https://opencode.calavia.org/themes"
 }
