@@ -13,15 +13,25 @@ opencode
 
 ## Available Agents
 
+### Orchestrator
 | Agent | Description |
 |-------|-------------|
 | `spec-driven` | SPEC-driven development orchestrator |
-| `implementer` | Implementation specialist |
+
+### Sub-Agents (via task tool)
+| Agent | Description |
+|-------|-------------|
+| `implementer` | Implements code from specifications |
+| `tester` | Runs tests and validates criteria |
+| `deployer` | Deploys to Docker/Portainer/K8s |
+
+### Specialists
+| Agent | Description |
+|-------|-------------|
 | `go-staff` | Go backend engineer |
 | `python-staff` | Python backend engineer |
 | `spring-staff` | Java/Kotlin backend engineer |
-| `docker-platform` | Container/K8s deployment specialist |
-| `architect-generalist` | Cross-stack senior architect |
+| `docker-platform` | Container/K8s specialist |
 
 ## Available Modes
 
