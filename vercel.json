@@ -7,7 +7,7 @@
   ],
   "headers": [
     {
-      "source": "/.well-known/opencode.json",
+      "source": "/.well-known/(.*)",
       "headers": [
         {
           "key": "Content-Type",
@@ -39,6 +39,33 @@
         {
           "key": "Content-Type",
           "value": "text/markdown"
+        }
+      ]
+    },
+    {
+      "source": "/commands/(.*)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/markdown"
+        }
+      ]
+    },
+    {
+      "source": "/SPEC.template.md",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/markdown"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)\\.(md|yml|yaml|txt)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain"
         }
       ]
     }

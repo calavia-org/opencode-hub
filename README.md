@@ -101,10 +101,10 @@ Review the Helm chart
 ## Structure
 
 ```
-agents/      # 7 agents
-modes/       # 2 modes
-skills/      # 4 skills
-commands/    # /spec command
+agents/          # 14 agents
+modes/           # 1 mode
+skills/          # 4 skills
+commands/        # 1 command
 SPEC.template.md
 ```
 
