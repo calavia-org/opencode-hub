@@ -12,25 +12,68 @@ export GITHUB_TOKEN=ghp_your_token_here
 opencode
 ```
 
-## GitHub Workflow
+## Architecture
 
-Automated workflow: SPEC → Issue → Branch → Implement → PR
+```mermaid
+graph TB
+    subgraph "GitHub"
+        Issue[GitHub Issue]
+        Branch[GitHub Branch]
+        PR[GitHub PR]
+    end
 
-### Flow
-```bash
-opencode --agent spec-driven
-Create a spec for user authentication
-# 1. SPEC.md created
-# 2. GitHub Issue created
-# 3. Branch created: spec/{issue}-{slug}
-# 4. Implementation via pipeline
-# 5. PR created (closes #issue)
+    subgraph "Orchestrator"
+        SD[spec-driven]
+    end
+
+    subgraph "Pipeline"
+        subgraph "[lang]-implementer"
+            Impl[Implement]
+        end
+        subgraph "[lang]-tester"
+            Test[Test]
+        end
+        subgraph "[lang]-verifier"
+            Verify[Verify]
+        end
+        subgraph "[lang]-deployer"
+            Deploy[Deploy]
+        end
+    end
+
+    SD -->|1. Creates| Issue
+    SD -->|2. Creates| Branch
+    SD -->|3. Delegates| Impl
+    Impl --> Test
+    Test --> Verify
+    Verify --> Deploy
+    Deploy -->|5. Creates| PR
+    PR -->|Closes| Issue
 ```
 
-### Required Environment
-```bash
-export GITHUB_TOKEN=ghp_your_token_here
-export OPENCODE_CONFIG_URL=https://opencode.calavia.org/.well-known/opencode.json
+## GitHub Workflow
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant SD as spec-driven
+    participant GitHub
+    participant Impl as [lang]-implementer
+    participant Test as [lang]-tester
+    participant Verify as [lang]-verifier
+    participant Deploy as [lang]-deployer
+
+    User->>SD: Create spec for feature
+    SD->>GitHub: Create Issue
+    SD->>GitHub: Create Branch spec/{id}-{slug}
+    SD->>Impl: Implement task 1
+    Impl->>Test: Run tests
+    SD->>Impl: Implement task 2
+    SD->>Test: Run tests
+    Test->>Verify: Verify non-functional
+    Verify->>Deploy: Prepare deployment
+    Deploy->>GitHub: Create PR
+    Note over GitHub: Closes #[issue]
 ```
 
 ## Available Agents
@@ -79,29 +122,10 @@ export OPENCODE_CONFIG_URL=https://opencode.calavia.org/.well-known/opencode.jso
 | `root-cause-analysis` | Debug distributed systems |
 | `repo-bootstrap` | Project setup |
 
-## SPEC-Driven Development
-
-```bash
-opencode --agent spec-driven
-Create a spec for user authentication with JWT
-```
-
-## Deployment Workflow
-
-```bash
-# Local dev with Docker Compose
-opencode --agent docker-platform
-Audit the docker-compose.yml
-
-# K8s deployment
-opencode --agent docker-platform
-Review the Helm chart
-```
-
 ## Structure
 
 ```
-agents/          # 14 agents
+agents/          # 13 agents
 modes/           # 1 mode
 skills/          # 4 skills
 commands/        # 1 command
