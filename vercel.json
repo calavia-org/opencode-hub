@@ -16,56 +16,29 @@
       ]
     },
     {
-      "source": "/agents/(.*)",
+      "source": "/(.*)\\.md$",
       "headers": [
         {
           "key": "Content-Type",
-          "value": "text/markdown"
+          "value": "text/markdown; charset=utf-8"
         }
       ]
     },
     {
-      "source": "/modes/(.*)",
+      "source": "/(.*)\\.json$",
       "headers": [
         {
           "key": "Content-Type",
-          "value": "text/markdown"
+          "value": "application/json"
         }
       ]
     },
     {
-      "source": "/skills/(.*)/SKILL.md",
+      "source": "/(.*)\\.html$",
       "headers": [
         {
           "key": "Content-Type",
-          "value": "text/markdown"
-        }
-      ]
-    },
-    {
-      "source": "/commands/(.*)",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "text/markdown"
-        }
-      ]
-    },
-    {
-      "source": "/SPEC.template.md",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "text/markdown"
-        }
-      ]
-    },
-    {
-      "source": "/(.*)\\.(md|yml|yaml|txt)",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "text/plain"
+          "value": "text/html; charset=utf-8"
         }
       ]
     }
