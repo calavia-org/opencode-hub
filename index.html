@@ -25,40 +25,67 @@
 opencode</code></pre>
 
   <h2>SPEC-Driven Development</h2>
-  <pre><code># Start SPEC-driven development
+
+  <h3>Pipeline</h3>
+  <div style="background:#f4f4f4;padding:1rem;border-radius:5px;font-family:monospace;">
+    spec-driven (orchestrator)<br>
+    &nbsp;&nbsp;│<br>
+    &nbsp;&nbsp;├─→ [lang]-implementer<br>
+    &nbsp;&nbsp;│<br>
+    &nbsp;&nbsp;├─→ [lang]-tester<br>
+    &nbsp;&nbsp;│<br>
+    &nbsp;&nbsp;├─→ [lang]-verifier<br>
+    &nbsp;&nbsp;│<br>
+    &nbsp;&nbsp;└─→ [lang]-deployer
+  </div>
+
+  <h3>Usage</h3>
+  <pre><code># Start development
 opencode --agent spec-driven
 Create a spec for user authentication
 
-# Validate
-opencode --agent spec-driven
-Validate implementation against SPEC.md
+# Language auto-detected, pipeline executes:
+# 1. Implement with [lang]-implementer
+# 2. Test with [lang]-tester
+# 3. Verify with [lang]-verifier
+# 4. Deploy with [lang]-deployer</code></pre>
 
-# Implement
-opencode --agent implementer</code></pre>
+  <h2>SPEC-Driven Pipeline</h2>
+  <pre><code>spec-driven → [lang]-implementer → [lang]-tester → [lang]-verifier → [lang]-deployer</code></pre>
 
   <h2>Agents</h2>
 
   <h3>Orchestrator</h3>
   <table>
     <tr><th>Agent</th><th>Description</th></tr>
-    <tr><td><code>spec-driven</code></td><td>SPEC-driven development orchestrator</td></tr>
+    <tr><td><code>spec-driven</code></td><td>SPEC-driven orchestrator</td></tr>
   </table>
 
-  <h3>Sub-Agents (via task tool)</h3>
+  <h3>Java/Kotlin</h3>
   <table>
     <tr><th>Agent</th><th>Description</th></tr>
-    <tr><td><code>implementer</code></td><td>Implements code from specifications</td></tr>
-    <tr><td><code>tester</code></td><td>Runs tests and validates criteria</td></tr>
-    <tr><td><code>deployer</code></td><td>Deploys to Docker/Portainer/K8s</td></tr>
+    <tr><td><code>java-implementer</code></td><td>Implements Java code</td></tr>
+    <tr><td><code>java-tester</code></td><td>Runs JUnit tests</td></tr>
+    <tr><td><code>java-verifier</code></td><td>Validates non-functional</td></tr>
+    <tr><td><code>java-deployer</code></td><td>Deploys to Docker/K8s</td></tr>
   </table>
 
-  <h3>Specialists</h3>
+  <h3>Python</h3>
   <table>
     <tr><th>Agent</th><th>Description</th></tr>
-    <tr><td><code>go-staff</code></td><td>Go backend engineer</td></tr>
-    <tr><td><code>python-staff</code></td><td>Python backend engineer</td></tr>
-    <tr><td><code>spring-staff</code></td><td>Java/Kotlin backend engineer</td></tr>
-    <tr><td><code>docker-platform</code></td><td>Container/K8s specialist</td></tr>
+    <tr><td><code>python-implementer</code></td><td>Implements Python code</td></tr>
+    <tr><td><code>python-tester</code></td><td>Runs pytest tests</td></tr>
+    <tr><td><code>python-verifier</code></td><td>Validates non-functional</td></tr>
+    <tr><td><code>python-deployer</code></td><td>Deploys to Docker/K8s</td></tr>
+  </table>
+
+  <h3>Go</h3>
+  <table>
+    <tr><th>Agent</th><th>Description</th></tr>
+    <tr><td><code>go-implementer</code></td><td>Implements Go code</td></tr>
+    <tr><td><code>go-tester</code></td><td>Runs Go tests</td></tr>
+    <tr><td><code>go-verifier</code></td><td>Validates non-functional</td></tr>
+    <tr><td><code>go-deployer</code></td><td>Deploys to Docker/K8s</td></tr>
   </table>
 
   <h2>Skills</h2>

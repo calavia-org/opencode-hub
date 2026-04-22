@@ -18,20 +18,29 @@ opencode
 |-------|-------------|
 | `spec-driven` | SPEC-driven development orchestrator |
 
-### Sub-Agents (via task tool)
+### Java/Kotlin Pipeline
 | Agent | Description |
 |-------|-------------|
-| `implementer` | Implements code from specifications |
-| `tester` | Runs tests and validates criteria |
-| `deployer` | Deploys to Docker/Portainer/K8s |
+| `java-implementer` | Implements Java code |
+| `java-tester` | Runs JUnit tests |
+| `java-verifier` | Validates non-functional |
+| `java-deployer` | Deploys to Docker/K8s |
 
-### Specialists
+### Python Pipeline
 | Agent | Description |
 |-------|-------------|
-| `go-staff` | Go backend engineer |
-| `python-staff` | Python backend engineer |
-| `spring-staff` | Java/Kotlin backend engineer |
-| `docker-platform` | Container/K8s specialist |
+| `python-implementer` | Implements Python code |
+| `python-tester` | Runs pytest tests |
+| `python-verifier` | Validates non-functional |
+| `python-deployer` | Deploys to Docker/K8s |
+
+### Go Pipeline
+| Agent | Description |
+|-------|-------------|
+| `go-implementer` | Implements Go code |
+| `go-tester` | Runs Go tests |
+| `go-verifier` | Validates non-functional |
+| `go-deployer` | Deploys to Docker/K8s |
 
 ## Available Modes
 
