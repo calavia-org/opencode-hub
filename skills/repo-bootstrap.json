@@ -1,0 +1,24 @@
+{
+  "name": "Repository Bootstrap Smart",
+  "goal": "Understand repository and adapt by detected stack",
+  "detect": [
+    "package.json",
+    "pyproject.toml",
+    "requirements.txt",
+    "go.mod",
+    "Cargo.toml"
+  ],
+  "dispatch": {
+    "package.json": "/skills/stacks/typescript.json",
+    "pyproject.toml": "/skills/stacks/python.json",
+    "go.mod": "/skills/stacks/go.json",
+    "Cargo.toml": "/skills/stacks/rust.json",
+    "pom.xml": "/skills/stacks/java.json",
+    "build.gradle": "/skills/stacks/java.json",
+    "@SpringBootApplication": "/skills/stacks/java-spring.json",
+    "spring-boot-starter": "/skills/stacks/java-spring.json"
+  },
+
+  
+  "fallback": "generic"
+}

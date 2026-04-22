@@ -1,0 +1,16 @@
+{
+  "stack": "python",
+  "bootstrap": {
+    "install": ["pip install -r requirements.txt"],
+    "run": ["python main.py"],
+    "test": ["pytest"],
+    "lint": ["ruff check ."]
+  },
+  "reviewFocus": [
+    "readability",
+    "exceptions",
+    "typing",
+    "performance hotspots",
+    "side effects"
+  ]
+}

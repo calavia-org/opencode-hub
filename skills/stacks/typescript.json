@@ -1,0 +1,21 @@
+{
+  "stack": "typescript",
+  "bootstrap": {
+    "install": ["npm install"],
+    "run": ["npm run dev"],
+    "test": ["npm test"],
+    "lint": ["npm run lint"]
+  },
+  "reviewFocus": [
+    "typesafety",
+    "async errors",
+    "API contracts",
+    "null handling",
+    "bundle impact"
+  ],
+  "refactorFocus": [
+    "remove any",
+    "extract services",
+    "reduce nested async logic"
+  ]
+}

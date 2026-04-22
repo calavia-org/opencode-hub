@@ -1,0 +1,11 @@
+{
+  "name": "Bug Hunt",
+  "goal": "Find likely root causes quickly",
+  "steps": [
+    "reproduce",
+    "inspect logs",
+    "narrow scope",
+    "rank hypotheses",
+    "propose smallest test"
+  ]
+}

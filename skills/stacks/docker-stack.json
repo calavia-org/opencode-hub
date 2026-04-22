@@ -1,0 +1,45 @@
+{
+  "name": "Docker Stack Review",
+  "version": 1,
+  "goal": "Analyze and improve containerized projects safely.",
+  "detect": [
+    "Dockerfile",
+    "docker-compose.yml",
+    "compose.yaml",
+    ".dockerignore"
+  ],
+  "steps": [
+    "Identify services",
+    "Inspect Dockerfiles",
+    "Inspect networking",
+    "Inspect volumes",
+    "Inspect environment variables",
+    "Inspect startup commands",
+    "Inspect healthchecks",
+    "Inspect image size and layers"
+  ],
+  "reviewFocus": [
+    "security",
+    "small images",
+    "multi-stage builds",
+    "least privilege",
+    "restart policies",
+    "healthchecks",
+    "secrets handling",
+    "persistent data safety"
+  ],
+  "recommendations": [
+    "Reduce image size",
+    "Pin versions",
+    "Add healthchecks",
+    "Use named volumes",
+    "Move secrets to env/secrets",
+    "Improve startup resilience"
+  ],
+  "deliverables": [
+    "Stack summary",
+    "Risk list",
+    "Performance improvements",
+    "Production readiness notes"
+  ]
+}

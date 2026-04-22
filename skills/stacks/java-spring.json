@@ -1,0 +1,52 @@
+{
+  "stack": "java-spring",
+  "detect": [
+    "@SpringBootApplication",
+    "spring-boot-starter",
+    "application.yml",
+    "application.properties"
+  ],
+  "bootstrap": {
+    "install": [
+      "./mvnw clean package",
+      "./gradlew build"
+    ],
+    "run": [
+      "./mvnw spring-boot:run",
+      "./gradlew bootRun"
+    ],
+    "test": [
+      "./mvnw test",
+      "./gradlew test"
+    ]
+  },
+  "reviewFocus": [
+    "controller/service/repository boundaries",
+    "transaction boundaries",
+    "dependency injection quality",
+    "configuration sprawl",
+    "security defaults",
+    "N+1 queries",
+    "DTO boundaries",
+    "exception handling"
+  ],
+  "operabilityFocus": [
+    "actuator usage",
+    "health endpoints",
+    "logging quality",
+    "metrics",
+    "profiles",
+    "startup time"
+  ],
+  "refactorFocus": [
+    "thin controllers",
+    "service cohesion",
+    "remove business logic from controllers",
+    "simplify configuration"
+  ],
+  "databaseFocus": [
+    "lazy loading issues",
+    "query efficiency",
+    "transaction scope"
+  ]
+}

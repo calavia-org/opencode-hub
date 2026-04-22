@@ -1,0 +1,10 @@
+{
+  "stack": "react",
+  "reviewFocus": [
+    "rerenders",
+    "state ownership",
+    "effects misuse",
+    "bundle size",
+    "accessibility"
+  ]
+}
