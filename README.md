@@ -69,7 +69,6 @@ export OPENCODE_CONFIG_URL=https://opencode.calavia.org/.well-known/opencode.jso
 | Mode | Description |
 |------|-------------|
 | `spec-driven` | SPEC-driven development workflow |
-| `build` | Default productive development mode |
 
 ## Available Skills
 
