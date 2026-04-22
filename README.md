@@ -12,17 +12,26 @@ export GITHUB_TOKEN=ghp_your_token_here
 opencode
 ```
 
-## GitHub MCP
+## GitHub Workflow
 
-The configuration includes GitHub MCP for repository access. Set your GitHub token:
+Automated workflow: SPEC → Issue → Branch → Implement → PR
 
+### Flow
 ```bash
-export GITHUB_TOKEN=ghp_your_token_here
+opencode --agent spec-driven
+Create a spec for user authentication
+# 1. SPEC.md created
+# 2. GitHub Issue created
+# 3. Branch created: spec/{issue}-{slug}
+# 4. Implementation via pipeline
+# 5. PR created (closes #issue)
 ```
 
-Required scopes:
-- `repo` - Full repository access
-- `read:org` - Organization membership
+### Required Environment
+```bash
+export GITHUB_TOKEN=ghp_your_token_here
+export OPENCODE_CONFIG_URL=https://opencode.calavia.org/.well-known/opencode.json
+```
 
 ## Available Agents
 
@@ -66,10 +75,10 @@ Required scopes:
 
 | Skill | Description |
 |-------|-------------|
-| `spec-driven` | Create and manage specifications |
-| `container-deploy` | Docker, Kubernetes, Helm deployments |
+| `spec-driven` | Create specs |
+| `github-workflow` | GitHub issue/branch/PR automation |
 | `root-cause-analysis` | Debug distributed systems |
-| `repo-bootstrap` | Quick project setup |
+| `repo-bootstrap` | Project setup |
 
 ## SPEC-Driven Development
 
