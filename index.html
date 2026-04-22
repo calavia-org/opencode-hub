@@ -27,8 +27,15 @@
   <p>Centralized OpenCode configuration. Stack: Java/Kotlin, Python, Go + Docker/Portainer/K8s</p>
 
   <h2>Quick Start</h2>
-  <pre><code>export OPENCODE_CONFIG_URL=https://opencode.calavia.org/.well-known/opencode.json
-export GITHUB_TOKEN=ghp_your_token_here
+  <pre><code># One-time setup
+curl -sL https://opencode.calavia.org/setup.sh | bash
+
+# Add to profile
+echo 'export OPENCODE_CONFIG_DIR=~/.config/opencode' >> ~/.zshrc
+echo 'export GITHUB_TOKEN=ghp_your_token_here' >> ~/.zshrc
+
+# Start
+source ~/.zshrc
 opencode</code></pre>
 
   <h2>Architecture</h2>
