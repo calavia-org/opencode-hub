@@ -37,6 +37,7 @@ opencode-hub/
 
 | Agent | Description |
 |-------|-------------|
+| `spec-driven` | SPEC-driven development orchestrator |
 | `python-staff` | Backend and automation engineer for Python systems |
 | `typescript-staff` | Senior full-stack engineer for TypeScript/Node projects |
 | `spring-staff` | Enterprise backend specialist for Java + Spring Boot |
@@ -47,6 +48,7 @@ opencode-hub/
 
 | Mode | Description |
 |------|-------------|
+| `spec-driven` | SPEC-driven development workflow |
 | `build` | Default productive development mode |
 | `onboarding` | Repository understanding and entry mode |
 | `refactor` | Safe structural improvement mode |
@@ -58,6 +60,7 @@ opencode-hub/
 
 | Skill | Description |
 |-------|-------------|
+| `spec-driven` | Create and manage specifications |
 | `repo-bootstrap` | Quickly become productive in a new repository |
 | `code-review` | Staff-level code review |
 | `refactor-complexity` | Reduce code complexity without behavior change |
