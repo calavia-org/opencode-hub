@@ -1,7 +1,0 @@
-{
-  "command": "debug",
-  "description": "Investigate a runtime or logic issue",
-  "agent": "architect-generalist",
-  "mode": "debug",
-  "skill": "root-cause-analysis"
-}

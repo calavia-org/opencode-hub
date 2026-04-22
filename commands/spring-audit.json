@@ -1,7 +1,0 @@
-{
-  "command": "spring-audit",
-  "description": "Audit Spring Boot architecture",
-  "agent": "spring-staff",
-  "mode": "review",
-  "skill": "spring-audit"
-}

@@ -1,12 +1,71 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>OpenCode Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calavia OpenCode Hub</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 2rem; line-height: 1.6; }
+    h1 { color: #333; border-bottom: 2px solid #0066cc; padding-bottom: 0.5rem; }
+    h2 { color: #0066cc; margin-top: 2rem; }
+    code { background: #f4f4f4; padding: 0.2rem 0.4rem; border-radius: 3px; }
+    pre { background: #f4f4f4; padding: 1rem; border-radius: 5px; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    th, td { border: 1px solid #ddd; padding: 0.5rem; text-align: left; }
+    th { background: #f4f4f4; }
+    .badge { display: inline-block; background: #0066cc; color: white; padding: 0.2rem 0.5rem; border-radius: 3px; font-size: 0.8rem; }
+  </style>
 </head>
 <body>
-  <h1>OpenCode Hub</h1>
-  <p>Remote configuration endpoint.</p>
+  <h1>Calavia OpenCode Hub</h1>
+  <p>Centralized OpenCode configuration for our organization.</p>
+
+  <h2>Quick Start</h2>
+  <p><strong>Clone and use:</strong></p>
+  <pre><code>git clone https://github.com/calavia/opencode-hub.git
+export OPENCODE_CONFIG_DIR=$(pwd)/opencode-hub</code></pre>
+
+  <p><strong>Or install globally:</strong></p>
+  <pre><code>git clone https://github.com/calavia/opencode-hub.git ~/.config/opencode</code></pre>
+
+  <h2>Agents</h2>
+  <table>
+    <tr><th>Agent</th><th>Description</th></tr>
+    <tr><td><code>python-staff</code></td><td>Backend and automation engineer for Python systems</td></tr>
+    <tr><td><code>typescript-staff</code></td><td>Senior full-stack engineer for TypeScript/Node projects</td></tr>
+    <tr><td><code>spring-staff</code></td><td>Enterprise backend specialist for Java + Spring Boot</td></tr>
+    <tr><td><code>docker-platform</code></td><td>Container and deployment specialist</td></tr>
+    <tr><td><code>architect-generalist</code></td><td>Cross-stack senior architect</td></tr>
+  </table>
+
+  <h2>Modes</h2>
+  <table>
+    <tr><th>Mode</th><th>Description</th></tr>
+    <tr><td><code>build</code></td><td>Default productive development mode</td></tr>
+    <tr><td><code>onboarding</code></td><td>Repository understanding and entry mode</td></tr>
+    <tr><td><code>refactor</code></td><td>Safe structural improvement mode</td></tr>
+    <tr><td><code>incident</code></td><td>Production incident response mode</td></tr>
+    <tr><td><code>debug</code></td><td>Fault isolation and debugging</td></tr>
+    <tr><td><code>review</code></td><td>Code review and PR analysis</td></tr>
+  </table>
+
+  <h2>Skills</h2>
+  <table>
+    <tr><th>Skill</th><th>Description</th></tr>
+    <tr><td><code>repo-bootstrap</code></td><td>Quickly become productive in a new repository</td></tr>
+    <tr><td><code>code-review</code></td><td>Staff-level code review</td></tr>
+    <tr><td><code>refactor-complexity</code></td><td>Reduce code complexity without behavior change</td></tr>
+    <tr><td><code>root-cause-analysis</code></td><td>Find production issue cause quickly</td></tr>
+    <tr><td><code>docker-stack</code></td><td>Review Docker configurations</td></tr>
+  </table>
+
+  <h2>Deploy</h2>
+  <pre><code>npm i -g vercel
+vercel --prod</code></pre>
+
+  <p>Or connect the repository at <a href="https://vercel.com">vercel.com</a></p>
+
+  <hr>
+  <p><small><a href="https://github.com/calavia/opencode-hub">GitHub</a></small></p>
 </body>
 </html>
-

@@ -1,7 +1,0 @@
-{
-  "command": "docker-audit",
-  "description": "Audit container stack health",
-  "agent": "docker-platform",
-  "mode": "review",
-  "skill": "docker-stack"
-}

@@ -1,7 +1,0 @@
-{
-  "command": "incident",
-  "description": "Production incident response",
-  "agent": "docker-platform",
-  "mode": "incident",
-  "skill": "docker-stack"
-}
