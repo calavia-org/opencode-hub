@@ -1,39 +1,14 @@
 # Calavia OpenCode Hub
 
-Centralized OpenCode configuration for our organization, deployed on Vercel.
+Centralized OpenCode configuration for our organization.
+
+Stack: **Java/Kotlin, Python, Go** + **Docker/Portainer/Kubernetes**
 
 ## Quick Start
-
-### Remote Config (Recommended)
 
 ```bash
 export OPENCODE_CONFIG_URL=https://opencode.calavia.org/.well-known/opencode.json
 opencode
-```
-
-### Clone Locally
-
-```bash
-git clone https://github.com/calavia-org/opencode-hub.git
-export OPENCODE_CONFIG_DIR=$(pwd)/opencode-hub
-opencode
-```
-
-## Structure
-
-```
-opencode-hub/
-├── .well-known/opencode.json   # Remote config endpoint
-├── SPEC.template.md        # SPEC template for features
-├── agents/
-│   └── *.md              # Agent definitions
-├── modes/
-│   └── *.md             # Mode definitions
-├── skills/
-│   └── */SKILL.md        # Skill definitions
-├── commands/
-│   └── *.yml            # Command definitions
-└── vercel.json           # Vercel config
 ```
 
 ## Available Agents
@@ -42,10 +17,10 @@ opencode-hub/
 |-------|-------------|
 | `spec-driven` | SPEC-driven development orchestrator |
 | `implementer` | Implementation specialist |
-| `python-staff` | Backend and automation engineer for Python systems |
-| `typescript-staff` | Senior full-stack engineer for TypeScript/Node projects |
-| `spring-staff` | Enterprise backend specialist for Java + Spring Boot |
-| `docker-platform` | Container and deployment specialist |
+| `go-staff` | Go backend engineer |
+| `python-staff` | Python backend engineer |
+| `spring-staff` | Java/Kotlin backend engineer |
+| `docker-platform` | Container/K8s deployment specialist |
 | `architect-generalist` | Cross-stack senior architect |
 
 ## Available Modes
@@ -54,101 +29,45 @@ opencode-hub/
 |------|-------------|
 | `spec-driven` | SPEC-driven development workflow |
 | `build` | Default productive development mode |
-| `onboarding` | Repository understanding and entry mode |
-| `refactor` | Safe structural improvement mode |
-| `incident` | Production incident response mode |
-| `debug` | Fault isolation and debugging |
-| `review` | Code review and PR analysis |
 
 ## Available Skills
 
 | Skill | Description |
 |-------|-------------|
 | `spec-driven` | Create and manage specifications |
-| `repo-bootstrap` | Quickly become productive in a new repository |
-| `code-review` | Staff-level code review |
-| `refactor-complexity` | Reduce code complexity without behavior change |
-| `root-cause-analysis` | Find production issue cause quickly |
-| `docker-stack` | Review Docker configurations |
+| `container-deploy` | Docker, Kubernetes, Helm deployments |
+| `root-cause-analysis` | Debug distributed systems |
+| `repo-bootstrap` | Quick project setup |
 
 ## SPEC-Driven Development
 
-### Workflow
-
-1. **Discover** - Understand the project
-2. **Spec** - Create specification
-3. **Plan** - Break into tasks
-4. **Implement** - Write code
-5. **Validate** - Verify against spec
-6. **Iterate** - Update as needed
-
-### Usage Examples
-
-#### Start a new feature
-
 ```bash
 opencode --agent spec-driven
+Create a spec for user authentication with JWT
 ```
 
-```
-Create a spec for user authentication with email and OAuth
-```
-
-#### Create spec manually
+## Deployment Workflow
 
 ```bash
-opencode /spec
+# Local dev with Docker Compose
+opencode --agent docker-platform
+Audit the docker-compose.yml
+
+# K8s deployment
+opencode --agent docker-platform
+Review the Helm chart
 ```
 
-#### Validate implementation
-
-```bash
-opencode /validate
-```
-
-#### Implement from spec
-
-```bash
-opencode --agent implementer
-```
-
-Read the spec and implement all tasks.
-
-#### Check a specific spec file
-
-```bash
-opencode --agent spec-driven
-```
+## Structure
 
 ```
-Validate implementation against SPEC-user-auth.md
+agents/      # 7 agents
+modes/       # 2 modes
+skills/      # 4 skills
+commands/    # /spec command
+SPEC.template.md
 ```
-
-### SPEC Template
-
-Copy `SPEC.template.md` from this repo to start a new spec:
-
-```bash
-cp SPEC.template.md SPEC-my-feature.md
-```
-
-## Available Commands
-
-| Command | Description |
-|---------|-------------|
-| `/spec` | Create a new specification |
-| `/validate` | Validate against spec |
 
 ## Deploy
 
-The site is automatically deployed via Vercel on push to `main`.
-
-Manual deploy:
-
-```bash
-vercel --prod
-```
-
-## License
-
-MIT
+Deployed on Vercel: https://opencode.calavia.org

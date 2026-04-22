@@ -6,13 +6,8 @@ mode: spec-driven
 skill: spec-driven
 ---
 
-Create a new SPEC.md for the feature described:
+Create SPEC.md for a new feature:
 
-1. Ask the user for the feature name and brief description
-2. Create SPEC.md with:
-   - Overview section
-   - Requirements (as checkboxes)
-   - Acceptance Criteria (as checkboxes)
-   - Technical Notes
-   - Tasks (as checkboxes)
-3. Review the spec with the user before proceeding
+1. Ask for feature name and description
+2. Create spec with requirements, acceptance criteria, tasks
+3. Review with user

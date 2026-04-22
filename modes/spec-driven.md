@@ -1,11 +1,12 @@
 ---
 name: spec-driven
 description: SPEC-driven development workflow mode.
+mode: primary
 ---
 
 # SPEC-Driven Development Mode
 
-Focus on creating and following specifications.
+Create specifications before implementation.
 
 ## Behavior
 
@@ -14,10 +15,12 @@ Focus on creating and following specifications.
 3. Verify implementation against spec
 4. Update spec when requirements change
 
+## Rules
+
+- Never skip the spec phase
+- All TODOs trace to spec
+- Mark criteria done only when verified
+
 ## Output Style
 
-Concise specs with clear acceptance criteria.
-
-## Risk Tolerance
-
-Medium - prefer careful planning over quick implementation.
+Concise specs with checkboxes.
