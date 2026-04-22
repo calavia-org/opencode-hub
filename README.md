@@ -24,12 +24,15 @@ opencode
 ```
 opencode-hub/
 ├── .well-known/opencode.json   # Remote config endpoint
+├── SPEC.template.md        # SPEC template for features
 ├── agents/
 │   └── *.md              # Agent definitions
 ├── modes/
 │   └── *.md             # Mode definitions
 ├── skills/
 │   └── */SKILL.md        # Skill definitions
+├── commands/
+│   └── *.yml            # Command definitions
 └── vercel.json           # Vercel config
 ```
 
@@ -38,6 +41,7 @@ opencode-hub/
 | Agent | Description |
 |-------|-------------|
 | `spec-driven` | SPEC-driven development orchestrator |
+| `implementer` | Implementation specialist |
 | `python-staff` | Backend and automation engineer for Python systems |
 | `typescript-staff` | Senior full-stack engineer for TypeScript/Node projects |
 | `spring-staff` | Enterprise backend specialist for Java + Spring Boot |
@@ -66,6 +70,74 @@ opencode-hub/
 | `refactor-complexity` | Reduce code complexity without behavior change |
 | `root-cause-analysis` | Find production issue cause quickly |
 | `docker-stack` | Review Docker configurations |
+
+## SPEC-Driven Development
+
+### Workflow
+
+1. **Discover** - Understand the project
+2. **Spec** - Create specification
+3. **Plan** - Break into tasks
+4. **Implement** - Write code
+5. **Validate** - Verify against spec
+6. **Iterate** - Update as needed
+
+### Usage Examples
+
+#### Start a new feature
+
+```bash
+opencode --agent spec-driven
+```
+
+```
+Create a spec for user authentication with email and OAuth
+```
+
+#### Create spec manually
+
+```bash
+opencode /spec
+```
+
+#### Validate implementation
+
+```bash
+opencode /validate
+```
+
+#### Implement from spec
+
+```bash
+opencode --agent implementer
+```
+
+Read the spec and implement all tasks.
+
+#### Check a specific spec file
+
+```bash
+opencode --agent spec-driven
+```
+
+```
+Validate implementation against SPEC-user-auth.md
+```
+
+### SPEC Template
+
+Copy `SPEC.template.md` from this repo to start a new spec:
+
+```bash
+cp SPEC.template.md SPEC-my-feature.md
+```
+
+## Available Commands
+
+| Command | Description |
+|---------|-------------|
+| `/spec` | Create a new specification |
+| `/validate` | Validate against spec |
 
 ## Deploy
 

@@ -1,0 +1,18 @@
+---
+command: spec
+description: Create a new specification for a feature
+agent: spec-driven
+mode: spec-driven
+skill: spec-driven
+---
+
+Create a new SPEC.md for the feature described:
+
+1. Ask the user for the feature name and brief description
+2. Create SPEC.md with:
+   - Overview section
+   - Requirements (as checkboxes)
+   - Acceptance Criteria (as checkboxes)
+   - Technical Notes
+   - Tasks (as checkboxes)
+3. Review the spec with the user before proceeding
