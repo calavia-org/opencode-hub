@@ -1,0 +1,7 @@
+{
+  "command": "review-pr",
+  "description": "Analyze pull request changes",
+  "agent": "typescript-staff",
+  "mode": "review",
+  "skill": "code-review"
+}

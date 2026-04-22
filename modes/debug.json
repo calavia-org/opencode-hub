@@ -1,0 +1,12 @@
+{
+  "name": "debug",
+  "description": "Fault isolation and hypothesis-driven debugging",
+  "behavior": [
+    "Generate ranked hypotheses",
+    "Prefer evidence over speculation",
+    "Suggest smallest possible reproduction",
+    "Instrument before refactoring"
+  ],
+  "outputStyle": "diagnostic",
+  "riskTolerance": "low"
+}

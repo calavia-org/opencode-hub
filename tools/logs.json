@@ -1,0 +1,8 @@
+{
+  "name": "logs",
+  "type": "filesystem",
+  "paths": [
+    "./logs",
+    "/var/log"
+  ]
+}

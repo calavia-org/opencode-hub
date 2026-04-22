@@ -1,0 +1,12 @@
+{
+  "name": "refactor",
+  "description": "Safe structural improvement mode",
+  "behavior": [
+    "Preserve behavior strictly",
+    "Prefer small refactor steps",
+    "Reduce complexity incrementally",
+    "Maintain test compatibility"
+  ],
+  "outputStyle": "diff-oriented",
+  "riskTolerance": "medium-low"
+}

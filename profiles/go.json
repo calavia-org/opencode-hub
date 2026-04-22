@@ -1,9 +1,0 @@
-{
-  "stack": "go",
-  "rules": [
-    "Prefer simplicity",
-    "Return explicit errors",
-    "Keep packages cohesive",
-    "Use idiomatic naming"
-  ]
-}

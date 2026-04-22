@@ -1,0 +1,7 @@
+{
+  "command": "reduce-complexity",
+  "description": "Refactor high complexity code safely",
+  "agent": "typescript-staff",
+  "mode": "refactor",
+  "skill": "refactor-complexity"
+}

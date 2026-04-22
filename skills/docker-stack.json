@@ -1,0 +1,11 @@
+{
+  "name": "Docker Stack Review",
+  "focus": [
+    "healthchecks",
+    "restart policy",
+    "image size",
+    "secrets",
+    "volumes",
+    "network exposure"
+  ]
+}

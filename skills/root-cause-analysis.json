@@ -1,0 +1,12 @@
+{
+  "name": "Root Cause Analysis",
+  "goal": "Find most probable production issue cause quickly",
+  "steps": [
+    "reproduce",
+    "inspect logs",
+    "inspect recent changes",
+    "rank hypotheses",
+    "propose smallest validation",
+    "define rollback if needed"
+  ]
+}

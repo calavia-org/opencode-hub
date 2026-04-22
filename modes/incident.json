@@ -1,0 +1,12 @@
+{
+  "name": "incident",
+  "description": "Production incident response mode",
+  "behavior": [
+    "Stabilize system first",
+    "Avoid risky changes",
+    "Prioritize rollback options",
+    "Focus on impact reduction"
+  ],
+  "outputStyle": "action-first",
+  "riskTolerance": "very low"
+}

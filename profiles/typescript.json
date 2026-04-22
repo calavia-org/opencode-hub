@@ -1,9 +1,0 @@
-{
-  "stack": "typescript",
-  "rules": [
-    "Prefer strict typing",
-    "Avoid any",
-    "Use existing lint rules",
-    "Preserve API contracts"
-  ]
-}

@@ -1,32 +1,13 @@
 {
-  "version": 2,
+  "version": 3,
   "name": "Calavia OpenCode Hub",
   "baseUrl": "https://opencode.calavia.org",
-  "defaults": {
-    "editor": "nvim",
-    "shell": "zsh",
-    "style": "minimal-diff"
-  },
-  "instructions": [
-    "Prefer minimal diffs",
-    "Respect existing architecture",
-    "Avoid unnecessary dependencies",
-    "Run tests where practical",
-    "State tradeoffs clearly"
-  ],
-  "profiles": {
-    "typescript": "/profiles/typescript.json",
-    "python": "/profiles/python.json",
-    "go": "/profiles/go.json"
-  },
-  "skills": {
-    "review": "/skills/code-review.json",
-    "debug": "/skills/bug-hunt.json",
-    "bootstrap": "/skills/repo-bootstrap.json",
-    "complexity": "/skills/complexity-reducer.json"
-  },
-  "prompts": {
-    "review": "/prompts/senior-review.md",
-    "refactor": "/prompts/refactor-safe.md"
-  }
+  "defaultAgent": "architect-generalist",
+  "defaultMode": "build",
+  "agents": "/agents",
+  "modes": "/modes",
+  "skills": "/skills",
+  "commands": "/commands",
+  "tools": "/tools",
+  "themes": "/themes"
 }

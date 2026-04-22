@@ -1,16 +1,10 @@
 {
   "name": "Staff Code Review",
-  "goal": "Review changes with production mindset",
   "focus": [
     "correctness",
-    "security",
     "maintainability",
+    "security",
     "performance",
     "operability"
-  ],
-  "output": [
-    "critical issues",
-    "recommended improvements",
-    "nice-to-have suggestions"
   ]
 }

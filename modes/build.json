@@ -1,0 +1,12 @@
+{
+  "name": "build",
+  "description": "Default productive development mode",
+  "behavior": [
+    "Prefer implementation over explanation",
+    "Keep changes minimal and incremental",
+    "Preserve existing architecture unless necessary",
+    "Validate assumptions before refactoring"
+  ],
+  "outputStyle": "concise",
+  "riskTolerance": "medium"
+}

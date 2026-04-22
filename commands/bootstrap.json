@@ -1,0 +1,7 @@
+{
+  "command": "bootstrap",
+  "description": "Initialize understanding of a repository",
+  "agent": "architect-generalist",
+  "mode": "onboarding",
+  "skill": "repo-bootstrap"
+}

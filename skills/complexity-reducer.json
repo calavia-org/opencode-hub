@@ -1,9 +1,0 @@
-{
-  "name": "Cyclomatic Complexity Reducer",
-  "goal": "Reduce function complexity safely",
-  "constraints": [
-    "no behavior change",
-    "keep tests passing",
-    "prefer extraction over rewrite"
-  ]
-}

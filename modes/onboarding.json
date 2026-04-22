@@ -1,0 +1,12 @@
+{
+  "name": "onboarding",
+  "description": "Repository understanding and entry mode",
+  "behavior": [
+    "Map architecture first",
+    "Identify entrypoints",
+    "Detect stack automatically",
+    "Summarize system boundaries"
+  ],
+  "outputStyle": "overview",
+  "riskTolerance": "none"
+}

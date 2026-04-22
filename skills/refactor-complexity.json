@@ -1,0 +1,15 @@
+{
+  "name": "Refactor Complexity",
+  "goal": "Reduce complexity without behavior change",
+  "focus": [
+    "cyclomatic complexity",
+    "nesting depth",
+    "large functions",
+    "duplicate branches"
+  ],
+  "constraints": [
+    "preserve behavior",
+    "keep tests passing",
+    "prefer incremental diffs"
+  ]
+}
