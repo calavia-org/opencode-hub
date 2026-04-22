@@ -8,8 +8,21 @@ Stack: **Java/Kotlin, Python, Go** + **Docker/Portainer/Kubernetes**
 
 ```bash
 export OPENCODE_CONFIG_URL=https://opencode.calavia.org/.well-known/opencode.json
+export GITHUB_TOKEN=ghp_your_token_here
 opencode
 ```
+
+## GitHub MCP
+
+The configuration includes GitHub MCP for repository access. Set your GitHub token:
+
+```bash
+export GITHUB_TOKEN=ghp_your_token_here
+```
+
+Required scopes:
+- `repo` - Full repository access
+- `read:org` - Organization membership
 
 ## Available Agents
 

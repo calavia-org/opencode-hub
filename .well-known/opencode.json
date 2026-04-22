@@ -1,13 +1,22 @@
 {
+  "$schema": "https://opencode.ai/config.json",
   "version": 3,
   "name": "Calavia OpenCode Hub",
   "baseUrl": "https://opencode.calavia.org",
-  "defaultAgent": "architect-generalist",
-  "defaultMode": "build",
+  "defaultAgent": "spec-driven",
+  "defaultMode": "spec-driven",
   "agents": "https://opencode.calavia.org/agents",
   "modes": "https://opencode.calavia.org/modes",
   "skills": "https://opencode.calavia.org/skills",
   "commands": "https://opencode.calavia.org/commands",
-  "tools": "https://opencode.calavia.org/tools",
-  "themes": "https://opencode.calavia.org/themes"
+  "mcp": {
+    "github": {
+      "type": "remote",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "enabled": true,
+      "headers": {
+        "Authorization": "Bearer {env:GITHUB_TOKEN}"
+      }
+    }
+  }
 }
