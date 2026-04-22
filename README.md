@@ -1,20 +1,36 @@
 # Calavia OpenCode Hub
 
-Centralized OpenCode configuration for our organization.
+Centralized OpenCode configuration for our organization, deployed on Vercel.
 
 ## Quick Start
 
-### Option 1: Clone and Use
+### Remote Config (Recommended)
 
 ```bash
-git clone https://github.com/calavia/opencode-hub.git
-export OPENCODE_CONFIG_DIR=$(pwd)/opencode-hub
+export OPENCODE_CONFIG_URL=https://opencode.calavia.org/.well-known/opencode.json
+opencode
 ```
 
-### Option 2: Global Install
+### Clone Locally
 
 ```bash
-git clone https://github.com/calavia/opencode-hub.git ~/.config/opencode
+git clone https://github.com/calavia-org/opencode-hub.git
+export OPENCODE_CONFIG_DIR=$(pwd)/opencode-hub
+opencode
+```
+
+## Structure
+
+```
+opencode-hub/
+├── .well-known/opencode.json   # Remote config endpoint
+├── agents/
+│   └── *.md              # Agent definitions
+├── modes/
+│   └── *.md             # Mode definitions
+├── skills/
+│   └── */SKILL.md        # Skill definitions
+└── vercel.json           # Vercel config
 ```
 
 ## Available Agents
@@ -48,30 +64,14 @@ git clone https://github.com/calavia/opencode-hub.git ~/.config/opencode
 | `root-cause-analysis` | Find production issue cause quickly |
 | `docker-stack` | Review Docker configurations |
 
-## Deploy to Vercel
+## Deploy
+
+The site is automatically deployed via Vercel on push to `main`.
+
+Manual deploy:
 
 ```bash
-npm i -g vercel
 vercel --prod
-```
-
-Or connect the repository at https://vercel.com
-
-## Structure
-
-```
-opencode-hub/
-├── .well-known/
-│   └── opencode          # Remote config endpoint
-├── agents/
-│   └── *.md             # Agent definitions (Markdown + frontmatter)
-├── modes/
-│   └── *.md             # Mode definitions
-├── skills/
-│   └── */SKILL.md       # Skill definitions (standard format)
-├── commands/
-├── tools/
-└── themes/
 ```
 
 ## License
