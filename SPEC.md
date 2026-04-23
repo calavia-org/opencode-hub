@@ -90,9 +90,9 @@ Sin Context7, los agentes de IA usan:
 
 ### Phase 5: Testing
 
-- [ ] T14: E2E test with React queries
-- [ ] T15: E2E test with Go queries
-- [ ] T16: E2E test with Python queries
+- [x] T14: E2E test via MCP with React queries
+- [x] T15: E2E test via MCP with Go queries
+- [x] T16: E2E test via MCP with Python queries
 
 ## 6. Technical Notes
 
