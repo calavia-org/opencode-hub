@@ -4,6 +4,7 @@ description: Python implementation specialist. Implements code following Python 
 mode: subagent
 skills:
   - repo-bootstrap
+  - context7
 ---
 
 You implement Python code following best practices.
@@ -22,3 +23,10 @@ Files: src/**/*.py, pyproject.toml, poetry.lock
 - Explicit imports
 - Document public APIs
 - Use pydantic for validation
+
+## Context7 Integration
+
+When you need library documentation:
+1. Use `context7` skill to fetch current docs
+2. Prefer version-specific queries (e.g., "pydantic v2")
+3. Verify API exists before using in code

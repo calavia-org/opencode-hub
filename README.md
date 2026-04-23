@@ -128,13 +128,52 @@ sequenceDiagram
 | `github-workflow` | GitHub issue/branch/PR automation |
 | `root-cause-analysis` | Debug distributed systems |
 | `repo-bootstrap` | Project setup |
+| `context7` | Up-to-date library docs |
+
+## MCP Configuration
+
+### GitHub MCP (required)
+```bash
+export GITHUB_TOKEN="ghp_..."
+```
+
+### Context7 MCP (optional)
+```bash
+export CONTEXT7_API_KEY="ctx7_..."
+```
+
+Then add to your `opencode.json`:
+```json
+{
+  "mcp": {
+    "github": { "url": "https://api.githubcopilot.com/mcp/" },
+    "context7": { "url": "https://mcp.context7.com/mcp" }
+  }
+}
+```
+
+## Examples
+
+### With Context7
+```
+User: "Create a React useState counter"
+→ Context7 fetches React 19 docs
+→ Returns: useState<number>(0, { method: 'sync' })
+```
+
+### Without Context7
+```
+User: "Create a React useState counter"
+→ Uses training data (possibly outdated)
+→ May return incorrect API
+```
 
 ## Structure
 
 ```
 agents/          # 13 agents
 modes/           # 1 mode
-skills/          # 4 skills
+skills/          # 5 skills
 commands/        # 1 command
 SPEC.template.md
 ```
