@@ -45,6 +45,12 @@ Sin Context7, los agentes de IA usan:
 - [ ] Integrar con `*[lang]-implementer` agents
 - [ ] Ejemplos de uso documentados
 
+### 3.4 Documentation Requirements
+
+- [ ] Actualizar README.md con Context7 usage
+- [ ] Crear flujos reales en documentación
+- [ ] Actualizar index.html con nuevo feature
+
 ## 4. Acceptance Criteria
 
 | ID | Criterion | Test |
@@ -79,6 +85,14 @@ Sin Context7, los agentes de IA usan:
 
 - [ ] T10: Update README with Context7 usage
 - [ ] T11: Create usage examples in docs
+- [ ] T12: Update index.html with Context7 feature
+- [ ] T13: Add real workflows documentation
+
+### Phase 5: Testing
+
+- [ ] T14: E2E test with React queries
+- [ ] T15: E2E test with Go queries
+- [ ] T16: E2E test with Python queries
 
 ## 6. Technical Notes
 
