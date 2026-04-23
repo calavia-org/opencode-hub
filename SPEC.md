@@ -4,7 +4,7 @@
 
 | Field | Value |
 |-------|-------|
-| **Issue** | #TBD |
+| **Issue** | #4 |
 | **Status** | Draft |
 | **Priority** | Medium |
 | **Type** | Feature |
