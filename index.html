@@ -125,7 +125,22 @@ graph TB
     <tr><td><code>github-workflow</code></td><td>GitHub automation</td></tr>
     <tr><td><code>root-cause-analysis</code></td><td>Debug distributed systems</td></tr>
     <tr><td><code>repo-bootstrap</code></td><td>Project setup</td></tr>
+    <tr><td><code>context7</code></td><td>Up-to-date library docs</td></tr>
   </table>
+
+  <h2>MCP Configuration</h2>
+  <pre><code># Required: GitHub
+export GITHUB_TOKEN="ghp_..."
+
+# Optional: Context7
+export CONTEXT7_API_KEY="ctx7_..."</code></pre>
+
+  <h3>With Context7</h3>
+  <p>Get current docs for any library:</p>
+  <ul>
+    <li>"How to use useState in React 19?" → Returns exact syntax</li>
+    <li>"pydantic v2 model validation" → Returns current API</li>
+  </ul>
 
   <script>
     mermaid.initialize({ startOnLoad: true });
