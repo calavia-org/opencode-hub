@@ -1,0 +1,42 @@
+# SPEC Workflow Configuration
+# This file defines the workflow settings for SPEC-driven development
+
+spec_workflow:
+  # Human approval required before merge
+  human_required: true
+  human_approvals_needed: 1
+
+  # Merge settings
+  merge:
+    method: squash              # squash, merge, rebase
+    delete_branch: true
+    auto_merge_after_approval: false  # Bot waits, human approves
+
+  # SPEC handling
+  spec:
+    # Where SPECs are stored (relative to repo root)
+    directory: .specs
+    archive_directory: .specs/archived
+
+    # Auto-archive after merge
+    auto_archive: true
+
+    # Archive via org workflow (preferred) or bot PR (fallback)
+    archive_via: org_workflow  # or "bot_pr", "direct_push"
+
+  # Token configuration
+  tokens:
+    # Bot token for automation (create branches, PRs, merge)
+    bot_token_env: OPENCODE_BOT_TOKEN
+
+    # Human token for approvals
+    human_token_env: HUMAN_TOKEN
+
+# Repository-specific overrides
+# Uncomment and modify as needed
+# repos:
+#   my-repo:
+#     spec:
+#       directory: docs/specs
+#     merge:
+#       method: rebase

@@ -138,42 +138,58 @@ sequenceDiagram
 | `repo-bootstrap` | Project setup |
 | `context7` | Up-to-date library docs |
 
-## MCP Configuration
+## Token Configuration
 
-### GitHub MCP (required)
+The system uses two tokens for proper separation of concerns:
+
+| Token | Variable | Purpose | Can Approve | Can Merge |
+|-------|----------|---------|-------------|-----------|
+| Bot Token | `OPENCODE_BOT_TOKEN` | All automation tasks | ❌ No | ✅ Yes |
+| Human Token | `HUMAN_TOKEN` | Human approval actions | ✅ Yes | ✅ Yes |
+
+### Setup
+
+1. **Bot Token** (`OPENCODE_BOT_TOKEN`):
+   - Create GitHub account for bot (e.g., `opencode-bot`)
+   - Add to organization with write access
+   - Generate Fine-grained PAT with permissions:
+     - Contents: Read and write
+     - Pull requests: Read and write
+     - Issues: Read and write
+     - Commit statuses: Read and write
+     - Workflows: Read and write
+   - Add to organization secrets as `OPENCODE_BOT_TOKEN`
+
+2. **Human Token** (`HUMAN_TOKEN`):
+   - Use your personal GitHub token
+   - Add to environment or secrets as `HUMAN_TOKEN`
+
+### Environment Variables
+
 ```bash
-export GITHUB_TOKEN="ghp_..."
+export OPENCODE_BOT_TOKEN="ghp_..."  # Bot automation
+export HUMAN_TOKEN="ghp_..."         # Human approvals
+export CONTEXT7_API_KEY="ctx7_..."   # Library docs
 ```
 
-### Context7 MCP (required for implementers)
-```bash
-export CONTEXT7_API_KEY="ctx7_..."
-```
+## Workflow
 
-Then add to your `opencode.json`:
-```json
-{
-  "mcp": {
-    "github": { "url": "https://api.githubcopilot.com/mcp/" },
-    "context7": { "url": "https://mcp.context7.com/mcp" }
-  }
-}
-```
+### Human Approval Flow
 
-## Examples
-
-### With Context7
 ```
-User: "Create a React useState counter"
-→ Context7 fetches React 19 docs
-→ Returns: useState<number>(0, { method: 'sync' })
-```
-
-### Without Context7
-```
-User: "Create a React useState counter"
-→ Uses training data (possibly outdated)
-→ May return incorrect API
+Human defines SPEC
+      ↓
+Bot creates SPEC, branch, implements
+      ↓
+Bot opens PR
+      ↓
+Bot WAITS for human approval
+      ↓
+Human approves in GitHub UI
+      ↓
+Bot executes merge
+      ↓
+GitHub Action archives SPEC
 ```
 
 ## SPEC Tracking
