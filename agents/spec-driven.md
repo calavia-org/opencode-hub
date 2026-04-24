@@ -48,8 +48,8 @@ All SPECs are stored in the `/.specs/` directory:
 
 ### Naming Convention
 
-- **Pattern**: `/{issue-number}-{feature-slug}.md`
-- **Examples**: `001-user-auth.md`, `042-api-rate-limiting.md`
+- **Pattern**: `/.specs/{issue-number}-{feature-slug}.md`
+- **Examples**: `/.specs/001-user-auth.md`, `/.specs/042-api-rate-limiting.md`
 
 ### Agent Behaviors
 

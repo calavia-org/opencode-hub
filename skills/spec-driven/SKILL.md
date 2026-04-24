@@ -23,12 +23,12 @@ All SPECs are stored in the `/.specs/` directory with standardized naming:
 
 ### Naming Convention
 
-Pattern: `/{issue-number}-{feature-slug}.md`
+Pattern: `/.specs/{issue-number}-{feature-slug}.md`
 
 Examples:
-- `001-user-authentication.md`
-- `042-api-rate-limiting.md`
-- `100-payment-integration.md`
+- `/.specs/001-user-authentication.md`
+- `/.specs/042-api-rate-limiting.md`
+- `/.specs/100-payment-integration.md`
 
 ### Storage Rules
 
@@ -72,7 +72,7 @@ Create feature branch from issue number:
 github_create_branch(
   owner: "[owner]",
   repo: "[repo-name]",
-  branch: "spec/[issue-number]-[slug]",
+  branch: "spec/{issue-number}-{slug}",
   from_branch: "main"
 )
 ```

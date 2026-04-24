@@ -50,7 +50,7 @@ Why is this needed? What user pain point does it address?
 ## Storage
 
 Place this SPEC file in `/.specs/` directory with naming pattern:
-`/{issue-number}-{feature-slug}.md`
+`/.specs/{issue-number}-{feature-slug}.md`
 
 Example: `/.specs/042-api-rate-limiting.md`
 

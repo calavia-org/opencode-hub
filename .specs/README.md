@@ -22,9 +22,10 @@ Example: `001-user-authentication.md`
 
 ## Workflow
 
-1. Create SPEC → Creates GitHub issue with `spec` label
-2. Implement → Branch: `spec/{issue}-{slug}`
-3. Complete → Archive to `archived/` after PR merge
+1. **Create SPEC** → Manually create a GitHub issue with `spec` and `approved` labels
+2. **Branch** → Create branch `spec/{issue}-{slug}`
+3. **Implement** → Track tasks in SPEC and issue
+4. **Complete** → Archive to `archived/` after PR merge
 
 ## Status States
 

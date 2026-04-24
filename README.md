@@ -178,7 +178,7 @@ User: "Create a React useState counter"
 
 ## SPEC Tracking
 
-All project specifications are tracked in the `/.specs/` directory with full GitHub workflow integration.
+All feature specifications are tracked in the `/.specs/` directory with full GitHub workflow integration.
 
 ### Directory Structure
 
@@ -199,7 +199,7 @@ All project specifications are tracked in the `/.specs/` directory with full Git
 ### Workflow
 
 1. **Create SPEC** → Save to `/.specs/{issue}-{slug}.md`
-2. **GitHub Issue** → Automatically created with `spec` label
+2. **GitHub Issue** → Automatically created with `spec` and `approved` labels
 3. **Feature Branch** → `spec/{issue}-{slug}`
 4. **Implement** → Track tasks in SPEC and issue
 5. **PR** → Contains "Closes #{issue}" reference
@@ -222,8 +222,8 @@ All project specifications are tracked in the `/.specs/` directory with full Git
 # List all SPECs
 cat .specs/README.md
 
-# View active SPECs
-ls .specs/*.md
+# View active SPECs (numeric files only)
+ls .specs/[0-9]*.md
 
 # View archived SPECs
 ls .specs/archived/

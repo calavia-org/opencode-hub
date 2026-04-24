@@ -1,6 +1,6 @@
 ## PR: [Feature Name]
 
-**Closes #{issue-number}**
+**Closes #ISSUE_NUMBER**
 
 ---
 

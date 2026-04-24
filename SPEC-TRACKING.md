@@ -27,17 +27,17 @@ By embedding SPEC tracking into the workflow, we achieve:
 
 ### Core SPEC Infrastructure
 
-- [ ] All features must have a SPEC.md before implementation
-- [ ] SPEC.md follows standardized template (see SPEC.template.md)
+- [ ] All features must have a SPEC in `/.specs/` before implementation
+- [ ] SPEC follows standardized template (see SPEC.template.md)
 - [ ] SPEC status states: Draft, In Review, Approved, In Progress, Completed, Cancelled
-- [ ] SPEC files stored in repository with consistent naming convention
+- [ ] SPEC files stored in `/.specs/` with a consistent naming convention
 
 ### SPEC Storage & Naming Convention
 
 - [ ] **Directory**: SPECs stored in `/.specs/` directory at repository root
-- [ ] **Naming Pattern**: `/{issue-number}-{feature-slug}.md`
-  - Example: `/specs/001-user-authentication.md`
-  - Example: `/specs/042-api-rate-limiting.md`
+- [ ] **Naming Pattern**: `/.specs/{issue-number}-{feature-slug}.md`
+  - Example: `/.specs/001-user-authentication.md`
+  - Example: `/.specs/042-api-rate-limiting.md`
 - [ ] **Index File**: `/.specs/README.md` lists all SPECs with status
 - [ ] **Template**: `SPEC.template.md` at root serves as standard template
 - [ ] **Active SPEC**: `SPEC.md` at root always points to current working SPEC (symlink or index)

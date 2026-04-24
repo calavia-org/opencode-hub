@@ -24,7 +24,7 @@ All GitHub operations are tied to SPECs stored in `/.specs/`:
 
 | GitHub Element | Pattern | Example |
 |---------------|---------|---------|
-| SPEC File | `/{issue}-{slug}.md` | `001-user-auth.md` |
+| SPEC File | `/.specs/{issue}-{slug}.md` | `/.specs/001-user-auth.md` |
 | Branch | `spec/{issue}-{slug}` | `spec/001-user-auth` |
 | Issue Title | `SPEC: [Feature Name]` | `SPEC: User Authentication` |
 
@@ -96,8 +96,10 @@ Closes #[issue-number]
 
 ### Create Issue
 ```bash
-curl -X POST /repos/{owner}/{repo}/issues \
+curl -X POST https://api.github.com/repos/{owner}/{repo}/issues \
   -H "Authorization: Bearer {token}" \
+  -H "Accept: application/vnd.github.v3+json" \
+  -H "Content-Type: application/json" \
   -d '{
     "title": "SPEC: [Feature Name]",
     "body": "[spec-content]",
@@ -107,8 +109,10 @@ curl -X POST /repos/{owner}/{repo}/issues \
 
 ### Create Branch
 ```bash
-curl -X POST /repos/{owner}/{repo}/git/refs \
+curl -X POST https://api.github.com/repos/{owner}/{repo}/git/refs \
   -H "Authorization: Bearer {token}" \
+  -H "Accept: application/vnd.github.v3+json" \
+  -H "Content-Type: application/json" \
   -d '{
     "ref": "refs/heads/spec/{issue}-{slug}",
     "sha": "{main-branch-sha}"
@@ -117,8 +121,10 @@ curl -X POST /repos/{owner}/{repo}/git/refs \
 
 ### Create PR
 ```bash
-curl -X POST /repos/{owner}/{repo}/pulls \
+curl -X POST https://api.github.com/repos/{owner}/{repo}/pulls \
   -H "Authorization: Bearer {token}" \
+  -H "Accept: application/vnd.github.v3+json" \
+  -H "Content-Type: application/json" \
   -d '{
     "title": "Closes #{issue}: [feature]",
     "body": "[changes]\n\nCloses #{issue}\n\nSPEC: /.specs/{issue}-{slug}.md",
@@ -132,8 +138,10 @@ curl -X POST /repos/{owner}/{repo}/pulls \
 After completing tasks, update issue body:
 
 ```bash
-curl -X PATCH /repos/{owner}/{repo}/issues/{issue-number} \
+curl -X PATCH https://api.github.com/repos/{owner}/{repo}/issues/{issue-number} \
   -H "Authorization: Bearer {token}" \
+  -H "Accept: application/vnd.github.v3+json" \
+  -H "Content-Type: application/json" \
   -d '{
     "body": "[updated-body-with-checked-items]"
   }'
