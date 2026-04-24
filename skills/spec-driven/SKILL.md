@@ -1,6 +1,6 @@
 ---
 name: spec-driven
-description: Create and manage specifications for features with full GitHub workflow.
+description: Create and manage specifications for features with full GitHub workflow and .specs/ storage.
 requires:
   - github-workflow
 ---
@@ -8,6 +8,34 @@ requires:
 # SPEC-Driven Development Skill
 
 Create detailed specifications before implementation with complete GitHub workflow.
+
+## SPEC Storage
+
+All SPECs are stored in the `/.specs/` directory with standardized naming:
+
+```
+/.specs/
+├── README.md              # Index of all SPECs
+├── archived/             # Completed/cancelled SPECs
+├── 001-feature-name.md    # Active SPECs
+└── ...
+```
+
+### Naming Convention
+
+Pattern: `/.specs/{issue-number}-{feature-slug}.md`
+
+Examples:
+- `/.specs/001-user-authentication.md`
+- `/.specs/042-api-rate-limiting.md`
+- `/.specs/100-payment-integration.md`
+
+### Storage Rules
+
+1. **Active SPECs**: Stored directly in `/.specs/`
+2. **Archived SPECs**: Moved to `/.specs/archived/` after completion
+3. **Template**: Use `SPEC.template.md` at repository root
+4. **Current Pointer**: `SPEC.md` points to the active working SPEC
 
 ## When to Use
 
@@ -22,7 +50,9 @@ Start this skill when:
 This skill orchestrates the complete development workflow:
 
 ### 1. SPEC Creation
-Create SPEC.md following the template below.
+1. Create SPEC using template in `SPEC.template.md`
+2. Save to `/.specs/{issue-number}-{feature-slug}.md`
+3. Update `/.specs/README.md` index
 
 ### 2. Create GitHub Issue
 After SPEC is approved, create GitHub issue:
@@ -31,25 +61,26 @@ github_create_issue(
   owner: "[owner]",
   repo: "[repo-name]",
   title: "SPEC: [Feature Name]",
-  body: "[spec-content]",
+  body: "[spec-content-from-.specs]",
   labels: ["spec", "approved"]
 )
 ```
 
 ### 3. Create Branch
-Create feature branch:
+Create feature branch from issue number:
 ```
 github_create_branch(
   owner: "[owner]",
   repo: "[repo-name]",
-  branch: "spec/[issue-number]-[slug]",
+  branch: "spec/{issue-number}-{slug}",
   from_branch: "main"
 )
 ```
 
 ### 4. Track Tasks
-- Implement tasks from SPEC.md
-- Update checkbox status in issue
+- Implement tasks from SPEC in `/.specs/`
+- Update checkbox status in GitHub issue
+- Update `/.specs/README.md` with progress
 
 ### 5. Create PR
 When all tasks complete:
@@ -58,11 +89,16 @@ github_create_pull_request(
   owner: "[owner]",
   repo: "[repo-name]",
   title: "Closes #[issue-number]: [feature]",
-  body: "[changes summary]\n\nCloses #[issue-number]",
+  body: "[changes summary]\n\nCloses #[issue-number]\n\nSPEC: /.specs/[issue]-[slug].md",
   head: "spec/[issue-number]-[slug]",
   base: "main"
 )
 ```
+
+### 6. Archive
+After PR merge:
+- Move SPEC to `/.specs/archived/`
+- Update `/.specs/README.md` status
 
 ## Spec Template
 
@@ -84,20 +120,31 @@ Why is this needed? What problem does it solve?
 - [ ] Another criterion
 
 ## Design Decisions
-- Architecture choice and rationale
-- Alternative considered
+| Decision | Rationale | Alternative |
+|----------|----------|------------|
+| Choice A | Reason | Choice B |
 
 ## Tasks
 - [ ] Implementable task
 - [ ] Another task
 
 ## Dependencies
-- External: Library or service
-- Internal: Other features
+**External:** Library or service
+**Internal:** Feature that must be ready first
 
 ## Out of Scope
 - What this feature does NOT include
 ```
+
+## Agent Integration
+
+The spec-driven agent will:
+1. Detect `/.specs/` directory structure
+2. Load SPEC from `/.specs/{issue}-{slug}.md`
+3. Enforce SPEC existence before implementation
+4. Auto-generate branch names from SPEC issue number
+5. Track task completion against SPEC
+6. Maintain `/.specs/README.md` index
 
 ## Rules
 
@@ -109,3 +156,5 @@ Why is this needed? What problem does it solve?
 6. Checkboxes track progress
 7. Criteria must be testable
 8. Update spec when changing requirements
+9. Store all SPECs in `/.specs/` directory
+10. Archive completed SPECs to `/.specs/archived/`
