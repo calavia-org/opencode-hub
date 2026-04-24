@@ -10,15 +10,17 @@ This directory contains all project specifications organized by issue number.
 
 ## Archived SPECs
 
-Completed and cancelled SPECs are moved to `archived/` for reference.
+| # | Feature | Status | Merged |
+|---|---------|--------|--------|
+| 001 | SPEC Tracking System | Completed | 2026-04-24 |
 
 ---
 
 ## Naming Convention
 
-SPECs follow the pattern: `/{issue-number}-{feature-slug}.md`
+SPECs follow the pattern: `/.specs/{issue-number}-{feature-slug}.md`
 
-Example: `001-user-authentication.md`
+Example: `/.specs/001-user-authentication.md`
 
 ## Workflow
 
