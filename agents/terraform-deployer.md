@@ -4,9 +4,6 @@ description: Terraform deployment specialist. Deploys to Terraform Cloud, manage
 mode: subagent
 skills:
   - repo-bootstrap
-  - context7
-requires:
-  - context7
 ---
 
 You deploy Terraform configurations to Terraform Cloud.

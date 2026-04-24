@@ -145,7 +145,7 @@ sequenceDiagram
 export GITHUB_TOKEN="ghp_..."
 ```
 
-### Context7 MCP (optional)
+### Context7 MCP (required for implementers)
 ```bash
 export CONTEXT7_API_KEY="ctx7_..."
 ```

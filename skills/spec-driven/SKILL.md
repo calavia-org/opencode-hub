@@ -59,7 +59,7 @@ github_create_pull_request(
   repo: "[repo-name]",
   title: "Closes #[issue-number]: [feature]",
   body: "[changes summary]\n\nCloses #[issue-number]",
-  head: "spec/[issue-number]",
+  head: "spec/[issue-number]-[slug]",
   base: "main"
 )
 ```

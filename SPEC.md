@@ -1,6 +1,8 @@
-# SPEC.md - Terraform Expert Agents
+# SPEC.md - Terraform Agents & SPEC-Driven Workflow
 
-**Feature**: Add specialized Terraform mode agents for Infrastructure as Code
+**Feature**: 
+1. Add specialized Terraform agents
+2. Update SPEC-driven workflow with full GitHub integration
 **Created**: 2026-04-24
 **Status**: Draft
 
@@ -8,11 +10,21 @@
 
 ## Overview
 
+### Part 1: Terraform Agents
 Add new specialized agents (terraform-implementer, terraform-deployer, terraform-tester, terraform-verifier) to provide full Terraform lifecycle support:
+
 - Write Terraform configurations
 - Deploy to Terraform Cloud for state persistence
 - Connect to GitHub repositories
 - Validate with TFLint and other tools
+
+### Part 2: SPEC-Driven Workflow
+Update spec-driven workflow to include full GitHub automation:
+
+- Issue creation from SPEC
+- Branch creation (spec/{id}-{slug})
+- PR creation that closes issue
+- Integration with github-workflow skill
 
 ---
 
@@ -72,6 +84,8 @@ Add new specialized agents (terraform-implementer, terraform-deployer, terraform
 
 ## Acceptance Criteria
 
+### Part 1: Terraform Agents
+
 1. All 4 Terraform agent files created in `/agents/` directory
 2. Each agent has correct YAML front matter (name, description, mode: subagent)
 3. Agents load without errors in the agent system
@@ -80,6 +94,16 @@ Add new specialized agents (terraform-implementer, terraform-deployer, terraform
 6. terraform-tester runs plan and validate
 7. terraform-verifier runs TFLint and returns results
 8. Integration with context7 skill for documentation lookup
+
+---
+
+### Part 2: SPEC-Driven Workflow
+
+9. spec command includes github-workflow as requirement
+10. Creates GitHub issue from SPEC
+11. Creates branch using spec/{id}-{slug} pattern
+12. Creates PR that closes issue
+13. Consistent branch naming across all docs
 
 ---
 

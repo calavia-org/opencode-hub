@@ -5,8 +5,6 @@ mode: subagent
 skills:
   - repo-bootstrap
   - context7
-requires:
-  - context7
 ---
 
 You implement Go code following best practices.
