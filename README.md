@@ -2,7 +2,7 @@
 
 Centralized OpenCode configuration for our organization.
 
-Stack: **Java/Kotlin, Python, Go** + **Docker/Portainer/Kubernetes**
+Stack: **Java/Kotlin, Python, Go, Terraform** + **Docker/Portainer/Kubernetes**
 
 ## Quick Start
 
@@ -114,6 +114,14 @@ sequenceDiagram
 | `go-verifier` | Validates non-functional |
 | `go-deployer` | Deploys to Docker/K8s |
 
+### Terraform Pipeline
+| Agent | Description |
+|-------|-------------|
+| `terraform-implementer` | Writes Terraform infrastructure code |
+| `terraform-tester` | Tests and security scans |
+| `terraform-verifier` | TFLint, checkov, OPA validation |
+| `terraform-deployer` | Deploys to Terraform Cloud |
+
 ## Available Modes
 
 | Mode | Description |
@@ -137,7 +145,7 @@ sequenceDiagram
 export GITHUB_TOKEN="ghp_..."
 ```
 
-### Context7 MCP (optional)
+### Context7 MCP (required for implementers)
 ```bash
 export CONTEXT7_API_KEY="ctx7_..."
 ```
@@ -171,7 +179,7 @@ User: "Create a React useState counter"
 ## Structure
 
 ```
-agents/          # 13 agents
+agents/          # 17 agents
 modes/           # 1 mode
 skills/          # 5 skills
 commands/        # 1 command
