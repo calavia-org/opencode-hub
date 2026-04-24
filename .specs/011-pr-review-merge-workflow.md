@@ -125,7 +125,8 @@ The system uses two tokens for proper separation of concerns:
 
 ### Organization Workflow (.github repository)
 
-- [ ] Centralized GitHub Actions for org-wide automation
+- [x] Repository-level GitHub Action for SPEC archival (this repo)
+- [ ] Copy to .github org repository for org-wide automation
 - [ ] `spec-archive` workflow: triggers on PR merge in any repo
 - [ ] Archive logic:
   1. Detect merge event with `closed` + `merged: true`
