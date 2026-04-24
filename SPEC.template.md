@@ -21,7 +21,7 @@ Why is this needed? What user pain point does it address?
 ## Design Decisions
 
 | Decision | Rationale | Alternative Considered |
-|---------|----------|-------------------|
+|---------|----------|------------------------|
 | Choice A | Reason | Choice B |
 
 ## Tasks
@@ -44,3 +44,14 @@ Why is this needed? What user pain point does it address?
 ## Open Questions
 
 - Question to resolve during implementation
+
+---
+
+## Storage
+
+Place this SPEC file in `/.specs/` directory with naming pattern:
+`/{issue-number}-{feature-slug}.md`
+
+Example: `/.specs/042-api-rate-limiting.md`
+
+After completion, archive to `/.specs/archived/`.
