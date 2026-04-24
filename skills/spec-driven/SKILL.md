@@ -28,6 +28,8 @@ Create SPEC.md following the template below.
 After SPEC is approved, create GitHub issue:
 ```
 github_create_issue(
+  owner: "[owner]",
+  repo: "[repo-name]",
   title: "SPEC: [Feature Name]",
   body: "[spec-content]",
   labels: ["spec", "approved"]
@@ -37,7 +39,12 @@ github_create_issue(
 ### 3. Create Branch
 Create feature branch:
 ```
-git checkout -b feature/[issue-number]-[slug]
+github_create_branch(
+  owner: "[owner]",
+  repo: "[repo-name]",
+  branch: "spec/[issue-number]-[slug]",
+  from_branch: "main"
+)
 ```
 
 ### 4. Track Tasks
@@ -48,9 +55,11 @@ git checkout -b feature/[issue-number]-[slug]
 When all tasks complete:
 ```
 github_create_pull_request(
+  owner: "[owner]",
+  repo: "[repo-name]",
   title: "Closes #[issue-number]: [feature]",
-  body: "[changes summary]",
-  head: "feature/[issue-number]",
+  body: "[changes summary]\n\nCloses #[issue-number]",
+  head: "spec/[issue-number]",
   base: "main"
 )
 ```

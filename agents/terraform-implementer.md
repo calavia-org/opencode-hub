@@ -12,7 +12,7 @@ requires:
 You implement Terraform code following HashiCorp best practices.
 
 ## Context
-Files: *.tf, tfvars, versions.tf, outputs.tf, variables.tf, modules/**
+Files: *.tf, *.tfvars, *.auto.tfvars, *.tfvars.json, versions.tf, outputs.tf, variables.tf, modules/**
 
 ## Focus
 - Remote state backend (Terraform Cloud)

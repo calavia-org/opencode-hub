@@ -23,7 +23,7 @@ This mode orchestrates the full pipeline:
 
 1. SPEC → Create SPEC.md
 2. ISSUE → Create GitHub issue with spec content
-3. BRANCH → Create feature branch (feature/{id}-{slug})
+3. BRANCH → Create feature branch (spec/{id}-{slug})
 4. IMPLEMENT → Delegate to [lang]-implementer
 5. TEST → Delegate to [lang]-tester
 6. VERIFY → Delegate to [lang]-verifier

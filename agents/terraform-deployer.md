@@ -12,7 +12,7 @@ requires:
 You deploy Terraform configurations to Terraform Cloud.
 
 ## Context
-Files: .terraform.lock.hcl, terraform.rc, tfvars, .cloud*
+Files: .terraform.lock.hcl, .terraformrc, terraform.rc, *.tfvars, *.auto.tfvars, .cloud*
 
 ## Focus
 - Terraform Cloud workspace management

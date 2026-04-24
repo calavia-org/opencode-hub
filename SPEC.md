@@ -23,7 +23,7 @@ Add new specialized agents (terraform-implementer, terraform-deployer, terraform
 - [ ] **terraform-implementer** - Writes Terraform configurations following best practices
 - [ ] **terraform-deployer** - Deploys to Terraform Cloud, manages state and workspaces
 - [ ] **terraform-tester** - Tests Terraform code (plan validation, security scanning)
-- [ ] **terraform-verifier** - Validates with TFLint, checkov,OPA,f金ORM
+- [ ] **terraform-verifier** - Validates with TFLint, checkov, OPA, Conftest
 
 ### terraform-implementer
 
