@@ -37,7 +37,7 @@ github_create_issue(
 ### 3. Create Branch
 Create feature branch:
 ```
-git checkout -b feature/[issue-number]-[slug]
+git checkout -b spec/[issue-number]-[slug]
 ```
 
 ### 4. Track Tasks
@@ -50,7 +50,7 @@ When all tasks complete:
 github_create_pull_request(
   title: "Closes #[issue-number]: [feature]",
   body: "[changes summary]",
-  head: "feature/[issue-number]",
+  head: "spec/[issue-number]-[slug]",
   base: "main"
 )
 ```
