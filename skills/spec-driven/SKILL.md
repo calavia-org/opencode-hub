@@ -44,11 +44,11 @@ Each SPEC should include YAML frontmatter for metadata:
 ```yaml
 ---
 name: feature-slug
-issue: 001
+issue: "001"
 status: draft
-technology: python
-agent: python-implementer
-created: 2026-04-25
+technology: "detected"
+agent: "inferred + approved"
+created: YYYY-MM-DD
 ---
 ```
 

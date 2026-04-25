@@ -1,10 +1,10 @@
 ---
 name: feature-slug
-issue: 000
+issue: "001"
 status: draft
-technology: [detected]
-agent: [inferred + approved]
-created: 2026-04-25
+technology: "detected"
+agent: "inferred + approved"
+created: YYYY-MM-DD
 ---
 
 # [Feature Name]

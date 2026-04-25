@@ -1,6 +1,6 @@
 ---
 name: enhance-spec-driven-agent
-issue: 19
+issue: "019"
 status: in_progress
 technology: javascript
 agent: javascript-implementer
@@ -84,13 +84,13 @@ For repositories with multiple technologies (monorepos), the technology to detec
 - [x] Update `SPEC.template.md` with YAML frontmatter (agent, technology)
 - [x] Add agent tracking to `.specs/README.md`
 - [x] Document config override for technology detection
-- [ ] Create pull request for enhanced spec-driven skill
+- [x] Create pull request for enhanced spec-driven skill
 
 ## Dependencies
 
 **External:**
-- GitHub MCP integration
-- `gh` CLI installed
+- GitHub MCP integration (uses `gh` CLI via Bash tool for operations)
+- `gh` CLI installed (required by MCP integration)
 
 **Internal:**
 - None (enhances existing infrastructure)
@@ -105,4 +105,4 @@ For repositories with multiple technologies (monorepos), the technology to detec
 
 Detection is scoped per-SPEC and re-run on each session. No caching needed for MVP.
 Confidence level not needed - pattern matching is deterministic.
-Custom mappings can be added via `.opencode/config.yml` in future iteration.
+Custom mappings can be added via `.opencode/config.yml`.
