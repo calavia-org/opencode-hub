@@ -1,4 +1,13 @@
-# Feature Name
+---
+name: feature-slug
+issue: "001"
+status: draft
+technology: "detected"
+agent: "inferred + approved"
+created: YYYY-MM-DD
+---
+
+# [Feature Name]
 
 ## Overview
 
@@ -55,3 +64,10 @@ Place this SPEC file in `/.specs/` directory with naming pattern:
 Example: `/.specs/042-api-rate-limiting.md`
 
 After completion, archive to `/.specs/archived/`.
+
+## Agent Assignment
+
+The `agent:` field in frontmatter shows which specialized agent will handle implementation.
+This is inferred from repository technology and approved by the user.
+
+To change: `/change-agent [agent-name]`
