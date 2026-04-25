@@ -6,12 +6,13 @@ This directory contains all project specifications organized by issue number.
 
 | # | Feature | Status | Created | Branch |
 |---|---------|--------|---------|--------|
-| 013 | Expert Config Implementer | Draft | 2026-04-25 | spec/013-expert-config-implementer |
+| - | - | - | - | - |
 
 ## Archived SPECs
 
 | # | Feature | Status | Merged |
 |---|---------|--------|--------|
+| 013 | Expert Config Implementer | Completed | 2026-04-25 |
 | 001 | SPEC Tracking System | Completed | 2026-04-24 |
 
 ---
