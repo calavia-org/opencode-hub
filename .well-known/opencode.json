@@ -40,12 +40,5 @@
         "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
       }
     }
-  },
-  "auth": {
-    "https://github.com": {
-      "type": "wellknown",
-      "clientId": "YOUR_CLIENT_ID",
-      "clientSecret": "YOUR_CLIENT_SECRET"
-    }
   }
 }
