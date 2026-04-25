@@ -6,7 +6,7 @@ This directory contains all project specifications organized by issue number.
 
 | # | Feature | Status | Created | Branch |
 |---|---------|--------|---------|--------|
-| - | - | - | - | - |
+| 013 | Expert Config Implementer | Draft | 2026-04-25 | spec/013-expert-config-implementer |
 
 ## Archived SPECs
 
