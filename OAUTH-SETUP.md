@@ -1,85 +1,45 @@
 # GitHub App OAuth Setup
 
-This guide covers how to set up a custom GitHub App to restrict access to members of the `calavia-org` organization.
+This guide covers how to set up GitHub OAuth for the `calavia-org` organization.
 
-## Why Use a Custom GitHub App?
+## Current Limitation
 
-- **Organization restriction**: Only `calavia-org` members can authenticate
-- **Custom OAuth flow**: Your own OAuth app, not OpenCode's default
-- **Token control**: Full control over token permissions
+OpenCode's `auth login` command uses the built-in GitHub OAuth App (by Anomaly). You **cannot** customize the OAuth App client ID via config.
 
-## Step 1: Create a GitHub OAuth App
+To restrict access to `calavia-org` members, use the **Organization OAuth App Policy**.
 
-1. Go to GitHub **Settings** → **Developer settings** → **OAuth Apps** → **New OAuth App**
-   - Or visit: https://github.com/settings/developers
+## Option 1: Organization Approval (Recommended)
 
-2. Fill in the details:
+This restricts access to only approved members.
 
-   | Field | Value |
-   |-------|-------|
-   | Application name | Calavia OpenCode |
-   | Homepage URL | https://opencode.calavia.org |
-   | Authorization callback URL | `http://127.0.0.1:19876/mcp/oauth/callback` |
+### Step 1: Ensure OAuth App is Owned by Organization
 
-3. Click **Register application**
+Transfer the Calavia OpenCode OAuth App to your organization (if not done already).
 
-4. Note the:
-   - **Client ID** (e.g., `Iv1.xxxxxxxxxxxxxxx`)
+### Step 2: Enable Organization Restrictions
 
-5. Generate a **Client secret**:
-   - Click **Generate a new client secret**
-   - Note the secret value (only shown once)
+1. Go to: https://github.com/organizations/calavia-org/settings/oauth_application_policy
+2. Click **Restrict third-party application access**
+3. Now users must request approval to use OAuth apps
 
-## Step 2: Restrict to Organization
+### Step 3: First Authentication Flow
 
-After creating the OAuth App:
+1. A member runs: `opencode auth login` (select GitHub)
+2. Authorize with their GitHub account
+3. A request appears in org settings
+4. You approve the app for the organization
 
-1. Go to your OAuth App settings
-2. Under **Organization access**, select:
-   - "Restrict access to certain organizations"
-   - Choose `calavia-org`
+### Step 4: Configure Member Access
 
-This ensures only organization members can authorize.
+In org settings, configure:
+- **Members and outside collaborators**: Can request access
+- Or restrict to **Members only** / **Disable app access requests**
 
-## Step 3: Configure OpenCode
+## Option 2: Auth0 as Intermediary
 
-Add the auth configuration to your `opencode.json`:
+If you need full control over the OAuth flow:
 
-```json
-{
-  "$schema": "https://opencode.ai/config.json",
-  "auth": {
-    "https://github.com": {
-      "type": "wellknown",
-      "clientId": "YOUR_CLIENT_ID",
-      "clientSecret": "YOUR_CLIENT_SECRET"
-    }
-  }
-}
-```
-
-Replace:
-- `YOUR_CLIENT_ID` with your OAuth App's Client ID
-- `YOUR_CLIENT_SECRET` with the client secret
-
-## Step 4: Authenticate
-
-Run the authentication command:
-
-```bash
-opencode auth login https://github.com
-```
-
-This will:
-1. Redirect to GitHub OAuth authorization page
-2. Only calavia-org members can authorize
-3. After approval, tokens are stored in `~/.local/share/opencode/auth.json`
-
-## Alternative: Using Auth0 for Organization Control
-
-If you need more complex organization mapping (not just GitHub org), use Auth0:
-
-### Step 1: Create Auth0 Tenant
+### Step 1: Create Auth0 Account
 
 1. Go to https://auth0.com and sign up
 2. Create a new tenant
@@ -95,70 +55,37 @@ If you need more complex organization mapping (not just GitHub org), use Auth0:
 
 ### Step 3: Configure GitHub Connection
 
-1. In Auth0 Dashboard: **Authentication** → **Social**
-2. Click **GitHub** and enable it
-3. Configure with your GitHub OAuth App credentials
+1. In Auth0: **Authentication** → **Social**
+2. Enable GitHub and configure with your GitHub OAuth App credentials
 
 ### Step 4: Restrict Organization
 
 In Auth0 or GitHub settings, restrict to `calavia-org` members.
 
-### Step 5: Configure OpenCode
-
-```json
-{
-  "$schema": "https://opencode.ai/config.json",
-  "auth": {
-    "https://your-tenant.auth0.com": {
-      "type": "wellknown",
-      "clientId": "YOUR_AUTH0_CLIENT_ID",
-      "clientSecret": "YOUR_AUTH0_CLIENT_SECRET"
-    }
-  }
-}
-```
-
-## Environment Variables
-
-You can also use environment variables to avoid hardcoding secrets:
-
-```json
-{
-  "$schema": "https://opencode.ai/config.json",
-  "auth": {
-    "https://github.com": {
-      "type": "wellknown",
-      "clientId": "$OPENCODE_CLIENT_ID",
-      "clientSecret": "$OPENCODE_CLIENT_SECRET"
-    }
-  }
-}
-```
-
-Then in your shell:
+### Step 5: Use Auth0 for Login
 
 ```bash
-export OPENCODE_CLIENT_ID="Iv1.xxxxxxxxxxxxxxx"
-export OPENCODE_CLIENT_SECRET="your-client-secret"
+opencode auth login https://your-tenant.auth0.com
 ```
 
-## Troubleshooting
+## Environment Variables (for MCP)
 
-### "Organization access restricted" Error
+For MCP GitHub access (not login), use environment variables:
 
-Make sure your GitHub account is a member of `calavia-org`.
+```bash
+export GITHUB_TOKEN="ghp_YourTokenHere"
+```
 
-### "Invalid client" Error
+For bot/human separation (see MCP-SETUP.md):
 
-Verify the Client ID and Client Secret are correct.
-
-### Token Not Stored
-
-Check permissions: `~/.local/share/opencode/auth.json` should exist after auth.
+```bash
+export OPENCODE_BOT_TOKEN="ghp_YourBotToken"
+export HUMAN_TOKEN="ghp_YourHumanToken"
+```
 
 ## Security Notes
 
-- Never commit client secrets to version control
+- Never commit tokens to version control
 - Use environment variables in production
-- Rotate secrets periodically
-- Restrict OAuth App to minimum required scopes
+- Rotate tokens periodically
+- Restrict at organization level for security
