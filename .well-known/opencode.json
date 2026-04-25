@@ -10,12 +10,26 @@
   "skills": "https://opencode.calavia.org/skills",
   "commands": "https://opencode.calavia.org/commands",
   "mcp": {
-    "github": {
+    "github_bot": {
       "type": "remote",
       "url": "https://api.githubcopilot.com/mcp/",
       "enabled": true,
-      "headers": {
-        "Authorization": "Bearer {env:GITHUB_TOKEN}"
+      "description": "Bot automation - creates branches, PRs, merges after human approval",
+      "requestInit": {
+        "headers": {
+          "Authorization": "Bearer {env:OPENCODE_BOT_TOKEN}"
+        }
+      }
+    },
+    "github_human": {
+      "type": "remote",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "enabled": true,
+      "description": "Human actions - approves PRs, merges",
+      "requestInit": {
+        "headers": {
+          "Authorization": "Bearer {env:HUMAN_TOKEN}"
+        }
       }
     },
     "context7": {
