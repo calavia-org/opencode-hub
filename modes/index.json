@@ -1,0 +1,5 @@
+{
+  "modes": [
+    { "name": "spec-driven", "description": "SPEC-driven development workflow" }
+  ]
+}
