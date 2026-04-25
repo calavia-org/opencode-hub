@@ -6,7 +6,6 @@ This directory contains all project specifications organized by issue number.
 
 | # | Feature | Agent | Status | Created | Branch |
 |---|---------|-------|--------|---------|--------|
-| 019 | Enhance Spec-Driven Agent | javascript-implementer | In Progress | 2026-04-25 | [spec/019-enhance-spec-driven-agent](https://github.com/calavia-org/opencode-hub/tree/spec/019-enhance-spec-driven-agent) |
 | 011 | PR Review Merge Workflow | - | - | - | - |
 | 012 | Remote Config Loader | - | - | - | - |
 
@@ -14,6 +13,7 @@ This directory contains all project specifications organized by issue number.
 
 | # | Feature | Agent | Status | Merged |
 |---|---------|-------|--------|--------|
+| 019 | Enhance Spec-Driven Agent | javascript-implementer | Completed | 2026-04-25 |
 | 013 | Expert Config Implementer | - | Completed | 2026-04-25 |
 | 001 | SPEC Tracking System | - | Completed | 2026-04-24 |
 
