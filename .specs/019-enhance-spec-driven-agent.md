@@ -62,6 +62,7 @@ The spec-driven agent needs improvements to:
 | `pom.xml`, `build.gradle`, `*.java` | java-implementer |
 | `*.tf` | terraform-implementer |
 | `Cargo.toml`, `*.rs` | rust-implementer |
+| `SPEC.md`, `SKILL.md`, `agents/` | opencode-implementer |
 | Mixed/multiple | See Multi-Repo Handling |
 
 ### Multi-Repo Handling

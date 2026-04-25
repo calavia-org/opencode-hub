@@ -40,6 +40,17 @@ When creating a new SPEC:
 3. User approves or overrides with `/change-agent [name]`
 4. Agent recorded in `agent:` frontmatter field
 
+### Technology → Agent Mapping
+
+| Pattern | Technology | Agent |
+|---------|------------|-------|
+| `*.py`, `requirements.txt` | Python | python-implementer |
+| `*.go`, `go.mod` | Go | go-implementer |
+| `*.java`, `pom.xml` | Java | java-implementer |
+| `*.tf` | Terraform | terraform-implementer |
+| `*.ts`, `package.json` | JavaScript | javascript-implementer |
+| `SPEC.md`, `SKILL.md`, `agents/` | OpenCode/Spec | opencode-implementer |
+
 ## Status States
 
 - **Draft**: Initial creation, awaiting approval
