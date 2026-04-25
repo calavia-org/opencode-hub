@@ -20,23 +20,36 @@
     .pipeline { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
     .step { background: #e3f2fd; padding: 0.5rem 1rem; border-radius: 5px; }
     .arrow { color: #0066cc; font-weight: bold; }
+    .warning { background: #fff3cd; border: 1px solid #ffc107; padding: 1rem; border-radius: 5px; margin: 1rem 0; }
   </style>
 </head>
 <body>
-  <h1>Calavia OpenCode Hub <span class="badge">v3</span></h1>
-  <p>Centralized OpenCode configuration. Stack: Java/Kotlin, Python, Go + Docker/Portainer/K8s</p>
+  <h1>Calavia OpenCode Hub <span class="badge">v4</span></h1>
+  <p>Centralized OpenCode configuration for <code>calavia-org</code> members.</p>
+
+  <div class="warning">
+    <strong>Access Restricted:</strong> This hub is only available to members of the <code>calavia-org</code> organization.
+    Follow the <a href="https://opencode.calavia.org/OAUTH-SETUP.md">OAuth Setup Guide</a> to configure access.
+  </div>
 
   <h2>Quick Start</h2>
-  <pre><code># One-time setup
+  <pre><code># One-time setup (clones repo to ~/.config/opencode)
 curl -sL https://opencode.calavia.org/setup.sh | bash
 
-# Add to profile
-echo 'export OPENCODE_CONFIG_DIR=~/.config/opencode' >> ~/.zshrc
-echo 'export GITHUB_TOKEN=ghp_your_token_here' >> ~/.zshrc
+# Authenticate (required for org-restricted access)
+opencode auth login https://github.com
 
 # Start
-source ~/.zshrc
 opencode</code></pre>
+
+  <h2>Authentication</h2>
+  <p>This hub uses GitHub OAuth for authentication. Only <code>calavia-org</code> organization members can access.</p>
+
+  <ol>
+    <li><strong>Create GitHub OAuth App</strong> (see <a href="https://opencode.calavia.org/OAUTH-SETUP.md">OAuth Setup Guide</a>)</li>
+    <li><strong>Configure OpenCode</strong> with your OAuth credentials</li>
+    <li><strong>Authenticate</strong>: <code>opencode auth login https://github.com</code></li>
+  </ol>
 
   <h2>Architecture</h2>
   <pre class="mermaid">
@@ -138,10 +151,14 @@ graph TB
   </table>
 
   <h2>MCP Configuration</h2>
-  <pre><code># Required: GitHub
-export GITHUB_TOKEN="ghp_..."
+  <p>After OAuth authentication, add MCP tokens for automation (see <a href="https://opencode.calavia.org/MCP-SETUP.md">MCP Setup Guide</a>):</p>
+  <pre><code># Bot token (for automation)
+export OPENCODE_BOT_TOKEN="ghp_..."
 
-# Optional: Context7
+# Human token (for approvals)
+export HUMAN_TOKEN="ghp_..."
+
+# Context7 for docs
 export CONTEXT7_API_KEY="ctx7_..."</code></pre>
 
   <h3>With Context7</h3>
@@ -149,6 +166,12 @@ export CONTEXT7_API_KEY="ctx7_..."</code></pre>
   <ul>
     <li>"How to use useState in React 19?" → Returns exact syntax</li>
     <li>"pydantic v2 model validation" → Returns current API</li>
+  </ul>
+
+  <h2>Documentation</h2>
+  <ul>
+    <li><a href="https://opencode.calavia.org/OAUTH-SETUP.md">OAuth Setup Guide</a> - Authentication configuration</li>
+    <li><a href="https://opencode.calavia.org/MCP-SETUP.md">MCP Setup Guide</a> - MCP token configuration</li>
   </ul>
 
   <script>

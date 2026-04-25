@@ -1,4 +1,6 @@
-# GitHub MCP Configuration Guide
+# MCP Configuration Guide
+
+This hub uses OAuth for authentication (see [OAuth Setup Guide](OAUTH-SETUP.md)). MCP tokens are managed separately for automation.
 
 ## Two-Token System
 
@@ -9,15 +11,54 @@ This configuration enables proper separation between bot automation and human ap
 | `github_bot` | `OPENCODE_BOT_TOKEN` | I use this for automation | No |
 | `github_human` | `HUMAN_TOKEN` | Human uses this for approvals | Yes |
 
+## Prerequisites
+
+First, complete OAuth authentication:
+
+```bash
+opencode auth login https://github.com
+```
+
+See [OAuth Setup Guide](OAUTH-SETUP.md) for full instructions.
+
+## Generate MCP Tokens
+
+### Bot Token (OPENCODE_BOT_TOKEN)
+
+1. Create a GitHub Fine-grained PAT:
+   - Go to GitHub **Settings** → **Developer settings** → **Personal access tokens** → **Fine-grained tokens**
+   - Generate new token with:
+     - Repository access: All repositories
+     - Permissions:
+       - Contents: Read and write
+       - Pull requests: Read and write
+       - Issues: Read and write
+       - Commit statuses: Read and write
+       - Workflows: Read and write
+
+2. Add to environment:
+   ```bash
+   export OPENCODE_BOT_TOKEN="ghp_YourTokenHere"
+   ```
+
+### Human Token (HUMAN_TOKEN)
+
+Use your personal GitHub token with full permissions:
+
+```bash
+export HUMAN_TOKEN="ghp_YourPersonalToken"
+```
+
 ## Environment Setup
 
 Add to your shell profile (`~/.zshrc`):
 
 ```bash
-# Bot token (for me - automation)
-export OPENCODE_BOT_TOKEN="YOUR_BOT_TOKEN_HERE"
+# OAuth authentication (automatic via opencode auth login)
+# Your OAuth token is stored in ~/.local/share/opencode/auth.json
 
-# Human token (for you - approvals)
+# MCP tokens (for bot/human separation)
+export OPENCODE_BOT_TOKEN="YOUR_BOT_TOKEN_HERE"
 export HUMAN_TOKEN="YOUR_HUMAN_TOKEN_HERE"
 
 # Context7 for docs
@@ -25,11 +66,14 @@ export CONTEXT7_API_KEY="YOUR_CONTEXT7_KEY"
 ```
 
 Apply changes:
+
 ```bash
 source ~/.zshrc
 ```
 
 ## MCP Configuration (opencode.json)
+
+The MCP servers are pre-configed in `.well-known/opencode.json`:
 
 ```json
 {
@@ -101,7 +145,8 @@ curl -s -X POST https://api.githubcopilot.com/mcp/ \
 
 ## Checklist
 
+- [ ] Completed OAuth authentication (`opencode auth login`)
 - [ ] OPENCODE_BOT_TOKEN exported
 - [ ] HUMAN_TOKEN exported
-- [ ] Both MCPs responding to tools/list
-- [ ] I know which MCP to use for each action
+- [ ] CONTEXT7_API_KEY exported
+- [ ] Both GitHub MCPs responding to tools/list

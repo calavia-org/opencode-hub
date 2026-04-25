@@ -28,11 +28,21 @@ echo "Creating symlinks..."
 [ -d "$CONFIG_DIR/commands" ] && ln -sf "$CONFIG_DIR/commands" ~/.config/opencode/commands 2>/dev/null || true
 
 echo ""
+echo "=============================================="
 echo "Setup complete!"
+echo "=============================================="
 echo ""
-echo "Add to your shell profile:"
+echo "Next steps:"
 echo ""
-echo 'export OPENCODE_CONFIG_DIR=~/.config/opencode'
-echo 'export GITHUB_TOKEN=ghp_your_token_here'
+echo "1. Configure OAuth authentication:"
+echo "   See $CONFIG_DIR/OAUTH-SETUP.md for full instructions"
 echo ""
-echo "Then run: opencode"
+echo "2. Authenticate with GitHub:"
+echo "   opencode auth login https://github.com"
+echo ""
+echo "3. Start OpenCode:"
+echo "   opencode"
+echo ""
+echo "Tip: Add to your shell profile for convenience:"
+echo ""
+echo '   echo "source ~/.zshrc" >> ~/.zshrc'

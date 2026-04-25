@@ -1,23 +1,39 @@
 # Calavia OpenCode Hub
 
-Centralized OpenCode configuration for our organization.
+Centralized OpenCode configuration for `calavia-org` members.
 
 Stack: **Java/Kotlin, Python, Go, Terraform** + **Docker/Portainer/Kubernetes**
 
 ## Quick Start
 
 ```bash
-# One-time setup
+# One-time setup (clones repo to ~/.config/opencode)
 curl -sL https://opencode.calavia.org/setup.sh | bash
 
-# Add to your profile
-echo 'export OPENCODE_CONFIG_DIR=~/.config/opencode' >> ~/.zshrc
-echo 'export GITHUB_TOKEN=ghp_your_token_here' >> ~/.zshrc
+# Authenticate (required for org-restricted access)
+opencode auth login https://github.com
 
 # Start
-source ~/.zshrc
 opencode
 ```
+
+## Authentication
+
+> **Important**: This hub is restricted to `calavia-org` organization members only.
+
+Authentication is via GitHub OAuth. Follow the [OAuth Setup Guide](OAUTH-SETUP.md) to configure access.
+
+### Setup Steps
+
+1. **Create or use existing GitHub App** (see [OAuth Setup Guide](OAUTH-SETUP.md))
+2. **Configure OpenCode** with your OAuth credentials
+3. **Authenticate**: `opencode auth login https://github.com`
+
+### Tokens
+
+The system uses GitHub OAuth tokens for authentication. No manual token configuration required.
+
+For MCP automation, see [MCP Setup Guide](MCP-SETUP.md).
 
 ## Architecture
 
@@ -140,37 +156,7 @@ sequenceDiagram
 
 ## Token Configuration
 
-The system uses two tokens for proper separation of concerns:
-
-| Token | Variable | Purpose | Can Approve | Can Merge |
-|-------|----------|---------|-------------|-----------|
-| Bot Token | `OPENCODE_BOT_TOKEN` | All automation tasks | ❌ No | ✅ Yes |
-| Human Token | `HUMAN_TOKEN` | Human approval actions | ✅ Yes | ✅ Yes |
-
-### Setup
-
-1. **Bot Token** (`OPENCODE_BOT_TOKEN`):
-   - Create GitHub account for bot (e.g., `opencode-bot`)
-   - Add to organization with write access
-   - Generate Fine-grained PAT with permissions:
-     - Contents: Read and write
-     - Pull requests: Read and write
-     - Issues: Read and write
-     - Commit statuses: Read and write
-     - Workflows: Read and write
-   - Add to organization secrets as `OPENCODE_BOT_TOKEN`
-
-2. **Human Token** (`HUMAN_TOKEN`):
-   - Use your personal GitHub token
-   - Add to environment or secrets as `HUMAN_TOKEN`
-
-### Environment Variables
-
-```bash
-export OPENCODE_BOT_TOKEN="ghp_..."  # Bot automation
-export HUMAN_TOKEN="ghp_..."         # Human approvals
-export CONTEXT7_API_KEY="ctx7_..."   # Library docs
-```
+This hub uses [OAuth authentication](OAUTH-SETUP.md) for automatic token management. For MCP automation tokens, see [MCP Setup Guide](MCP-SETUP.md).
 
 ## Workflow
 
@@ -255,6 +241,8 @@ commands/        # 1 command
 .specs/          # SPEC tracking directory
 .github/         # PR template
 SPEC.template.md
+OAUTH-SETUP.md   # Authentication guide
+MCP-SETUP.md     # MCP configuration guide
 ```
 
 ## Deploy
