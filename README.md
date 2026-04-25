@@ -137,6 +137,7 @@ sequenceDiagram
 | `root-cause-analysis` | Debug distributed systems |
 | `repo-bootstrap` | Project setup |
 | `context7` | Up-to-date library docs |
+| `expert-config` | Config validation and optimization |
 
 ## Token Configuration
 
@@ -250,7 +251,7 @@ ls .specs/archived/
 ```
 agents/          # 17 agents
 modes/           # 1 mode
-skills/          # 5 skills
+skills/          # 6 skills
 commands/        # 1 command
 .specs/          # SPEC tracking directory
 .github/         # PR template

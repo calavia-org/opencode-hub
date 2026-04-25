@@ -24,6 +24,11 @@
       "name": "repo-bootstrap",
       "description": "Project setup",
       "files": ["SKILL.md"]
+    },
+    {
+      "name": "expert-config",
+      "description": "Opencode config validation and optimization",
+      "files": ["SKILL.md"]
     }
   ]
 }
