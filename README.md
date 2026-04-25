@@ -10,12 +10,41 @@ Stack: **Java/Kotlin, Python, Go, Terraform** + **Docker/Portainer/Kubernetes**
 # One-time setup (clones repo to ~/.config/opencode)
 curl -sL https://opencode.calavia.org/setup.sh | bash
 
-# Authenticate (required for org-restricted access)
-opencode auth login https://github.com
+# Add Vercel AI Gateway key
+export VERCEL_AI_GATEWAY_KEY="vck_YourKey"
+
+# Authenticate (required for MCP)
+opencode auth login
 
 # Start
 opencode
 ```
+
+## Vercel AI Gateway
+
+This hub uses **Vercel AI Gateway** as the model provider. See [Vercel Setup Guide](VERCEL-SETUP.md) for configuration details.
+
+### Getting Your API Key
+
+1. Go to [Vercel Dashboard](https://vercel.com/dashboard)
+2. Select your project → **AI Gateway** → **API Keys**
+3. Create key and add to environment:
+   ```bash
+   export VERCEL_AI_GATEWAY_KEY="vck_..."
+   ```
+
+## Available Models
+
+| Model | Provider | Description |
+|-------|----------|-------------|
+| `vercel/anthropic/claude-sonnet-4-20250514` | Anthropic | Claude Sonnet 4.6 (default) |
+| `vercel/anthropic/claude-haiku-4-20250514` | Anthropic | Claude Haiku 4.5 |
+| `vercel/openai/gpt-5.4` | OpenAI | GPT-5.4 |
+| `vercel/openai/gpt-5-mini` | OpenAI | GPT-5 Mini |
+| `vercel/google/gemini-2.5-flash` | Google | Gemini 2.5 Flash |
+| `vercel/google/gemini-2.5-pro` | Google | Gemini 2.5 Pro |
+| `vercel/xai/grok-3` | xAI | Grok 3 |
+| `vercel/xai/grok-3-mini` | xAI | Grok 3 Mini |
 
 ## Authentication
 
