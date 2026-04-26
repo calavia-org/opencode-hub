@@ -29,54 +29,31 @@ Apply changes:
 source ~/.zshrc
 ```
 
-## MCP Configuration (opencode.json)
+## MCP Configuration
 
-```json
-{
-  "mcp": {
-    "github_bot": {
-      "type": "remote",
-      "url": "https://api.githubcopilot.com/mcp/",
-      "enabled": true,
-      "description": "Bot automation - creates branches, PRs, merges",
-      "requestInit": {
-        "headers": {
-          "Authorization": "Bearer {env:OPENCODE_BOT_TOKEN}"
-        }
-      }
-    },
-    "github_human": {
-      "type": "remote",
-      "url": "https://api.githubcopilot.com/mcp/",
-      "enabled": true,
-      "description": "Human actions - approves PRs, merges",
-      "requestInit": {
-        "headers": {
-          "Authorization": "Bearer {env:HUMAN_TOKEN}"
-        }
-      }
-    },
-    "context7": {
-      "type": "remote",
-      "url": "https://mcp.context7.com/mcp",
-      "enabled": true,
-      "headers": {
-        "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
-      }
-    }
-  }
-}
+> **Important:** OpenCode config schema does NOT support custom MCP servers. MCP is auto-enabled when provider API keys are present in environment variables.
+
+| Provider | Token Required | Auto-Enables |
+|----------|--------------|-------------|
+| GitHub | `GITHUB_TOKEN`, `OPENCODE_BOT_TOKEN`, or `HUMAN_TOKEN` | ✅ |
+| Context7 | `CONTEXT7_API_KEY` | ✅ |
+
+### Verification
+
+```bash
+# Check loaded MCP servers
+opencode mcp list
 ```
 
-## How I Use These Connections
+## How MCP Servers Are Used
 
-### When Creating PRs, Branches, Issues
-- Use: `github_bot` (OPENCODE_BOT_TOKEN)
-- I create: branches, SPECs, PRs, commits
+### When I Create PRs, Branches, Issues
+- Use: `OPENCODE_BOT_TOKEN` environment variable
+- I create: branches, SPECs, PRs, commits, merge after approval
 
 ### When Human Needs to Approve or Merge
-- Use: `github_human` (HUMAN_TOKEN)
-- You approve: in GitHub UI or command
+- Use: `HUMAN_TOKEN` environment variable
+- You approve: in GitHub UI
 - I wait for: your approval
 
 ### When Context7 Fetches Docs
@@ -101,7 +78,6 @@ curl -s -X POST https://api.githubcopilot.com/mcp/ \
 
 ## Checklist
 
-- [ ] OPENCODE_BOT_TOKEN exported
-- [ ] HUMAN_TOKEN exported
-- [ ] Both MCPs responding to tools/list
-- [ ] I know which MCP to use for each action
+- [ ] `OPENCODE_BOT_TOKEN` exported (for bot automation)
+- [ ] `HUMAN_TOKEN` exported (for human approvals)
+- [ ] Run `opencode mcp list` to verify MCP servers loaded

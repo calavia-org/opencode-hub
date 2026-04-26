@@ -143,33 +143,22 @@ curl -H "Authorization: token $HUMAN_TOKEN" \
 
 ## MCP Configuration
 
-### GitHub MCP Server
+> **Note:** The OpenCode config schema does NOT support custom MCP servers. MCP is auto-enabled when provider API keys are present.
 
-The system uses GitHub's official MCP server at `https://api.githubcopilot.com/mcp/` for all GitHub actions.
-
-```json
-{
-  "mcp": {
-    "github_bot": {
-      "url": "https://api.githubcopilot.com/mcp/",
-      "headers": {
-        "Authorization": "Bearer {env:OPENCODE_BOT_TOKEN}"
-      }
-    },
-    "github_human": {
-      "url": "https://api.githubcopilot.com/mcp/",
-      "headers": {
-        "Authorization": "Bearer {env:HUMAN_TOKEN}"
-      }
-    }
-  }
-}
-```
+| Provider | Environment Variable | Auto-Enables MCP |
+|----------|---------------------|------------------|
+| GitHub | `GITHUB_TOKEN`, `OPENCODE_BOT_TOKEN`, or `HUMAN_TOKEN` | `github` |
+| Context7 | `CONTEXT7_API_KEY` | `context7` |
 
 ### Testing MCP Connection
 
+> Use OpenCode's `mcp list` command to verify MCP servers are active.
+
 ```bash
-# Test GitHub MCP with bot token
+# Check loaded MCP servers
+opencode mcp list
+
+# Test GitHub MCP endpoint (direct API - for verification only)
 curl -s -X POST https://api.githubcopilot.com/mcp/ \
   -H "Authorization: Bearer $OPENCODE_BOT_TOKEN" \
   -H "Content-Type: application/json" \
@@ -185,7 +174,7 @@ curl -s -X POST https://api.githubcopilot.com/mcp/ \
 | `create_pull_request` | Bot | Create PRs |
 | `add_comment_to_pending_review` | Human | Add review comments |
 | `approve_pull_request` | Human | Approve PRs |
-| `merge_pull_request` | Human | Merge PRs |
+| `merge_pull_request` | Bot (after approval) | Merge PRs |
 
 ---
 
