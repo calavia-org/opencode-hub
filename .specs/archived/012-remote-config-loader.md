@@ -134,6 +134,23 @@ This suggests either:
 
 No option found in Context7 docs to configure explicit well-known URL per-provider. The automatic loading only works with specific providers that have well-known endpoints configured on their end.
 
+### Next: Custom GitHub OAuth App
+
+Investigating: Create custom GitHub OAuth App to trigger remote config loading.
+
+**Required GitHub OAuth App Settings:**
+1. Homepage URL: `https://opencode.calavia.org`
+2. Callback URL: `https://opencode.calavia.org/.well-known/opencode.json` (or custom OAuth endpoint)
+3. Request scopes: `read:org`, `repo`, `user`
+
+**Flow:**
+1. Create GitHub OAuth App in organization settings
+2. Configure with homepage pointing to remote config
+3. User authorizes via OAuth
+4. On auth, OpenCode fetches `.well-known/opencode` from the provider's configured URL
+
+**Current Gap:** Need to find how to tell OpenCode which well-known URL to fetch after OAuth.
+
 ### Conclusion
 
 | What | Status |
