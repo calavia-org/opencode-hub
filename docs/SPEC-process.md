@@ -44,10 +44,10 @@ This workflow uses **MCP (Model Context Protocol)** for ALL GitHub interactions.
 
 | Token | Variable | Required Scopes |
 |-------|----------|-----------------|
-| Bot | `OPENCODE_BOT_TOKEN` | `repo`, `read:org` |
-| Human | `HUMAN_TOKEN` | `repo`, `read:org` |
+| Bot | `OPENCODE_BOT_TOKEN` | Classic token with `repo` scope |
+| Human | `HUMAN_TOKEN` | Classic token with `repo` scope |
 
-> **Important:** Fine-Grained tokens often lack `read:org`. Use Classic tokens for MCP to work reliably.
+**Note:** OAuth (GitHub Copilot App) is NOT required for remote config loading. Any provider API key triggers well-known loading.
 
 ### Token Verification (Required Before Each Step)
 
