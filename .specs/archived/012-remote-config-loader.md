@@ -134,22 +134,25 @@ This suggests either:
 
 No option found in Context7 docs to configure explicit well-known URL per-provider. The automatic loading only works with specific providers that have well-known endpoints configured on their end.
 
-### Next: Custom GitHub OAuth App
+### Context7 Schema Search Results
 
-Investigating: Create custom GitHub OAuth App to trigger remote config loading.
+Found in config schema:```json
+"skills": {  "urls": ["https://example.com/.well-known/skills/"]  // Works!
+}
+```
 
-**Required GitHub OAuth App Settings:**
-1. Homepage URL: `https://opencode.calavia.org`
-2. Callback URL: `https://opencode.calavia.org/.well-known/opencode.json` (or custom OAuth endpoint)
-3. Request scopes: `read:org`, `repo`, `user`
+**Key Finding:** Skills support loading from URLs via `.well-known/skills/` endpoint. But full config (`agents`, `mcp`, etc.) requires organization-level configuration.### Why Remote Config Doesn't Work
 
-**Flow:**
-1. Create GitHub OAuth App in organization settings
-2. Configure with homepage pointing to remote config
-3. User authorizes via OAuth
-4. On auth, OpenCode fetches `.well-known/opencode` from the provider's configured URL
+OpenCode remote config design:- **Intended for:** Organizations (GitHub Copilot for Business, Enterprise)- **Mechanism:** User authenticates via org's provider → org provides well-known endpoint- **Reality:** Regular GitHub OAuth apps don't trigger this load
 
-**Current Gap:** Need to find how to tell OpenCode which well-known URL to fetch after OAuth.
+Skills work via URL because they have explicit `skills.urls` config option.
+Full config (agents, MCP) requires-org-hosted well-known endpoint - not available.
+
+### Correct Next Steps
+
+**Option A:** Skills only - already works via skills.urls config
+**Option B:** Create new SPEC for skills URL loading as proof of concept
+**Option C:** Accept gap - remote config requires enterprise features
 
 ### Conclusion
 
