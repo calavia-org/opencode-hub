@@ -5,6 +5,11 @@ description: GitHub automation for SPEC-driven development workflow with .specs/
 
 # GitHub Workflow Skill
 
+> ⚡ **Load at start**: This skill enforces [GitHub Workflow Rules](docs/github-workflow-rules.md)
+> - MCP-only for GitHub API (no gh CLI, curl)
+> - Token separation (BOT vs HUMAN)
+> - MCP failure stops execution
+
 Automate SPEC-driven development using GitHub issues, branches, and PRs, with full integration into the `/.specs/` directory structure.
 
 ## SPEC Storage Integration

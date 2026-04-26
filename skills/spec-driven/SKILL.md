@@ -3,9 +3,15 @@ name: spec-driven
 description: Create and manage specifications for features with full GitHub workflow and .specs/ storage.
 requires:
   - github-workflow
+  - github-workflow-rules
 ---
 
 # SPEC-Driven Development Skill
+
+> ⚡ **Load at start**: This skill enforces [GitHub Workflow Rules](docs/github-workflow-rules.md)
+> - MCP-only for GitHub API (no gh CLI, curl)
+> - Token separation (BOT vs HUMAN)
+> - MCP failure stops execution
 
 Create detailed specifications before implementation with complete GitHub workflow.
 
