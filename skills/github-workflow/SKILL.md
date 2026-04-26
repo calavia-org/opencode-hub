@@ -92,59 +92,42 @@ Closes #[issue-number]
 1. Move SPEC to `/.specs/archived/`
 2. Update `/.specs/README.md` status
 
-## GitHub API Operations
+## GitHub API Operations (MCP Required)
+
+> ⚠️ **Rule**: All GitHub API operations MUST use MCP tools. 
+> gh CLI and curl are forbidden per SPEC #031.
 
 ### Create Issue
 ```bash
-curl -X POST https://api.github.com/repos/{owner}/{repo}/issues \
-  -H "Authorization: Bearer {token}" \
-  -H "Accept: application/vnd.github.v3+json" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "title": "SPEC: [Feature Name]",
-    "body": "[spec-content]",
-    "labels": ["spec", "approved"]
-  }'
+# Use MCP - curl is forbidden
+mcp_github create-issue \
+  --title "SPEC: [Feature Name]" \
+  --body "[spec-content]" \
+  --labels "spec,approved"
 ```
 
 ### Create Branch
 ```bash
-curl -X POST https://api.github.com/repos/{owner}/{repo}/git/refs \
-  -H "Authorization: Bearer {token}" \
-  -H "Accept: application/vnd.github.v3+json" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "ref": "refs/heads/spec/{issue}-{slug}",
-    "sha": "{main-branch-sha}"
-  }'
+# Use git directly for branch creation (not API)
+git checkout -b "spec/{issue}-{slug}"
 ```
 
 ### Create PR
 ```bash
-curl -X POST https://api.github.com/repos/{owner}/{repo}/pulls \
-  -H "Authorization: Bearer {token}" \
-  -H "Accept: application/vnd.github.v3+json" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "title": "Closes #{issue}: [feature]",
-    "body": "[changes]\n\nCloses #{issue}\n\nSPEC: /.specs/{issue}-{slug}.md",
-    "head": "spec/{issue}-{slug}",
-    "base": "main"
-  }'
+# Use MCP - curl is forbidden
+mcp_github create-pull-request \
+  --title "Closes #{issue}: [feature]" \
+  --body "[changes]" \
+  --head "spec/{issue}-{slug}" \
+  --base "main"
 ```
 
-## Update Issue Checkboxes
-
-After completing tasks, update issue body:
-
+### Update Issue Checkboxes
 ```bash
-curl -X PATCH https://api.github.com/repos/{owner}/{repo}/issues/{issue-number} \
-  -H "Authorization: Bearer {token}" \
-  -H "Accept: application/vnd.github.v3+json" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "body": "[updated-body-with-checked-items]"
-  }'
+# Use MCP
+mcp_github update-issue \
+  --issue-number {issue} \
+  --body "[updated-body-with-checked-items]"
 ```
 
 ## Index Maintenance

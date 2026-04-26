@@ -135,10 +135,11 @@ This skill orchestrates the complete development workflow:
 5. Update `/.specs/README.md` index
 
 ### 2. Create GitHub Issue
-After SPEC is approved, create GitHub issue using MCP via `gh` CLI:
+After SPEC is approved, create GitHub issue using MCP tool:
 
 ```bash
-gh issue create \
+# Use MCP tool - gh CLI is forbidden for API calls
+mcp_github create-issue \
   --title "SPEC: [Feature Name]" \
   --body "[spec-content-from-.specs]" \
   --label "spec" --label "approved"
@@ -160,7 +161,8 @@ git checkout -b spec/{issue-number}-{slug}
 When all tasks complete:
 
 ```bash
-gh pr create \
+# Use MCP tool - gh CLI is forbidden
+mcp_github create-pull-request \
   --title "Closes #[issue]: [feature]" \
   --body "[changes]\n\nCloses #[issue]\n\nSPEC: /.specs/[issue]-[slug].md" \
   --head "spec/[issue]-[slug]" --base "main"
