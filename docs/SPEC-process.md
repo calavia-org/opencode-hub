@@ -49,6 +49,46 @@ This workflow uses **MCP (Model Context Protocol)** for ALL GitHub interactions.
 
 > **Important:** Fine-Grained tokens often lack `read:org`. Use Classic tokens for MCP to work reliably.
 
+### Token Verification (Required Before Each Step)
+
+Before any GitHub action, verify the token has required capabilities. If verification fails, STOP and fix the token before proceeding.
+
+#### Verification Commands
+
+```bash
+# Test MCP connection with bot token
+curl -s -X POST https://api.githubcopilot.com/mcp/ \
+  -H "Authorization: Bearer $OPENCODE_BOT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -H "Accept: text/event-stream, application/json" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
+
+# Test MCP connection with human token
+curl -s -X POST https://api.githubcopilot.com/mcp/ \
+  -H "Authorization: Bearer $HUMAN_TOKEN" \
+  -H "Content-Type: application/json" \
+  -H "Accept: text/event-stream, application/json" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
+```
+
+#### Verification Checklist
+
+| Step | Token | Check | If Fails |
+|------|-------|-------|----------|
+| Create Issue | `OPENCODE_BOT_TOKEN` | MCP returns tools list | STOP - Fix bot token |
+| Create PR | `OPENCODE_BOT_TOKEN` | MCP returns tools list | STOP - Fix bot token |
+| Review PR | `HUMAN_TOKEN` | MCP returns tools list | STOP - Fix human token |
+| Approve PR | `HUMAN_TOKEN` | MCP returns tools list | STOP - Fix human token |
+| Merge PR | `HUMAN_TOKEN` | MCP returns tools list | STOP - Fix human token |
+
+#### If Verification Fails
+
+1. **401 Unauthorized** - Token invalid or expired → Regenerate token
+2. **403 Forbidden** - Missing scopes → Update token scopes to include `repo`, `read:org`
+3. **Empty response** - MCP server down → Wait or use fallback (NOT recommended)
+
+> **Rule:** Never proceed with GitHub actions if token verification fails. Fix the token first.
+
 ## Overview
 
 ```
