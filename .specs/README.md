@@ -14,8 +14,8 @@ This directory contains all project specifications organized by issue number.
 
 | # | Feature | Agent | Status | Merged |
 |---|---------|-------|--------|--------|
-| 019 | Enhance Spec-Driven Agent | javascript-implementer | Completed | 2026-04-25 |
-| 013 | Expert Config Implementer | - | Completed | 2026-04-25 |
+| 019 | Enhance Spec-Driven Agent | opencode-implementer | Completed | 2026-04-25 |
+| 013 | Expert Config Implementer | opencode-implementer | Completed | 2026-04-25 |
 | 001 | SPEC Tracking System | - | Completed | 2026-04-24 |
 
 ---
