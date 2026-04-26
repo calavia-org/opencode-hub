@@ -95,7 +95,30 @@ Or add as GitHub Secret:
 
 ---
 
-## Testing the Setup
+## Alternative: Use Classic Token (Recommended)
+
+If Fine-Grained tokens cause issues, use a **Classic token** instead:
+
+1. Go to **Settings** → **Developer settings** → **Personal access tokens** → **Tokens (classic)**
+2. Click **Generate new token**
+3. Select scopes:
+   - `repo` (Full control of private repositories)
+   - `read:org` (Read org and team membership) ← Required for gh CLI
+
+### Using Tokens with GitHub CLI
+
+```bash
+# Using bot token (requires read:org in Classic token)
+export GITHUB_TOKEN="$OPENCODE_BOT_TOKEN"
+
+# Using human token (has full permissions)
+export GITHUB_TOKEN="$HUMAN_TOKEN"
+
+# Verify
+gh auth status
+```
+
+> **Note:** If you get `error validating token: missing required scope 'read:org'`, use your HUMAN_TOKEN instead of the Fine-Grained OPENCODE_BOT_TOKEN.
 
 ### Verify Bot Token
 
