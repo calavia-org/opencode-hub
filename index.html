@@ -20,9 +20,19 @@
     .pipeline { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
     .step { background: #e3f2fd; padding: 0.5rem 1rem; border-radius: 5px; }
     .arrow { color: #0066cc; font-weight: bold; }
+    .nav { display: flex; gap: 1rem; margin-bottom: 1rem; }
+    .nav a { color: #0066cc; text-decoration: none; }
+    .nav a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
+  <div class="nav">
+    <a href="/">Home</a>
+    <a href="/docs/SPEC-process.md">SPEC Process</a>
+    <a href="/docs/workflows.md">Workflows</a>
+    <a href="/docs/tokens.md">Tokens</a>
+  </div>
+
   <h1>Calavia OpenCode Hub <span class="badge">v3</span></h1>
   <p>Centralized OpenCode configuration. Stack: Java/Kotlin, Python, Go + Docker/Portainer/K8s</p>
 
@@ -37,6 +47,48 @@ echo 'export GITHUB_TOKEN=ghp_your_token_here' >> ~/.zshrc
 # Start
 source ~/.zshrc
 opencode</code></pre>
+
+  <h2>SPEC-Driven Development</h2>
+  <p>This project uses a SPEC-first development methodology. Every feature starts with a specification document.</p>
+
+  <pre class="mermaid">
+graph LR
+    A[Define Feature] --> B[Create SPEC]
+    B --> C[GitHub Issue]
+    C --> D[Feature Branch]
+    D --> E[Implement]
+    E --> F[Pull Request]
+    F --> G[Review & Merge]
+    G --> H[Archive SPEC]
+  </pre>
+
+  <h3>Why SPEC First?</h3>
+  <ul>
+    <li><strong>Clear requirements</strong> - No scope creep</li>
+    <li><strong>Testable criteria</strong> - Know when done</li>
+    <li><strong>Full tracking</strong> - Progress visible</li>
+  </ul>
+
+  <h3>Full Workflow</h3>
+  <div class="pipeline">
+    <span class="step">1. SPEC</span>
+    <span class="arrow">→</span>
+    <span class="step">2. Issue</span>
+    <span class="arrow">→</span>
+    <span class="step">3. Branch</span>
+    <span class="arrow">→</span>
+    <span class="step">4. Implement</span>
+    <span class="arrow">→</span>
+    <span class="step">5. Test</span>
+    <span class="arrow">→</span>
+    <span class="step">6. Verify</span>
+    <span class="arrow">→</span>
+    <span class="step">7. Deploy</span>
+    <span class="arrow">→</span>
+    <span class="step">8. PR</span>
+  </div>
+
+  <p>See <a href="docs/SPEC-process.html">SPEC Process Documentation</a> for full details.</p>
 
   <h2>Architecture</h2>
   <pre class="mermaid">
@@ -63,25 +115,6 @@ graph TB
     Deploy -->|Creates| PR
     PR -->|Closes| Issue
   </pre>
-
-  <h2>Pipeline Flow</h2>
-  <div class="pipeline">
-    <span class="step">1. SPEC</span>
-    <span class="arrow">→</span>
-    <span class="step">2. Issue</span>
-    <span class="arrow">→</span>
-    <span class="step">3. Branch</span>
-    <span class="arrow">→</span>
-    <span class="step">4. Implement</span>
-    <span class="arrow">→</span>
-    <span class="step">5. Test</span>
-    <span class="arrow">→</span>
-    <span class="step">6. Verify</span>
-    <span class="arrow">→</span>
-    <span class="step">7. Deploy</span>
-    <span class="arrow">→</span>
-    <span class="step">8. PR</span>
-  </div>
 
   <h2>Agents</h2>
 
@@ -138,19 +171,26 @@ graph TB
     <tr><td><code>expert-config</code></td><td>Config validation and optimization</td></tr>
   </table>
 
-  <h2>MCP Configuration</h2>
-  <pre><code># Required: GitHub
+  <h2>Token Configuration</h2>
+  <p>See <a href="docs/tokens.html">Token Setup Guide</a> for detailed configuration.</p>
+
+  <pre><code># Required: GitHub token
 export GITHUB_TOKEN="ghp_..."
+
+# Recommended: Two-token setup
+export OPENCODE_BOT_TOKEN="ghp_..."  # Bot automation
+export HUMAN_TOKEN="ghp_..."         # Human approvals
 
 # Optional: Context7
 export CONTEXT7_API_KEY="ctx7_..."</code></pre>
 
-  <h3>With Context7</h3>
-  <p>Get current docs for any library:</p>
+  <h3>With Bot + Human Tokens</h3>
+  <p>The system supports two tokens for proper separation:</p>
   <ul>
-    <li>"How to use useState in React 19?" → Returns exact syntax</li>
-    <li>"pydantic v2 model validation" → Returns current API</li>
+    <li><strong>Bot Token</strong>: Creates issues, branches, commits, PRs</li>
+    <li><strong>Human Token</strong>: Approves and merges PRs</li>
   </ul>
+  <p>See <a href="docs/tokens.html">Token Setup</a> for full guide.</p>
 
   <script>
     mermaid.initialize({ startOnLoad: true });

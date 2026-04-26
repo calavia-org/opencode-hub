@@ -8,6 +8,7 @@ This directory contains all project specifications organized by issue number.
 |---|---------|-------|--------|---------|--------|
 | 011 | PR Review Merge Workflow | - | - | - | - |
 | 012 | Remote Config Loader | - | - | - | - |
+| 023 | Fix Documents | opencode-implementer | approved | 2026-04-26 | spec/020-fix-documents |
 
 ## Archived SPECs
 
