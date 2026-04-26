@@ -95,7 +95,30 @@ Or add as GitHub Secret:
 
 ---
 
-## Testing the Setup
+## Alternative: Use Classic Token (Recommended)
+
+If Fine-Grained tokens cause issues, use a **Classic token** instead:
+
+1. Go to **Settings** → **Developer settings** → **Personal access tokens** → **Tokens (classic)**
+2. Click **Generate new token**
+3. Select scopes:
+   - `repo` (Full control of private repositories)
+   - `read:org` (Read org and team membership) ← Required for gh CLI
+
+### Using Tokens with GitHub CLI
+
+```bash
+# Using bot token (requires read:org in Classic token)
+export GITHUB_TOKEN="$OPENCODE_BOT_TOKEN"
+
+# Using human token (has full permissions)
+export GITHUB_TOKEN="$HUMAN_TOKEN"
+
+# Verify
+gh auth status
+```
+
+> **Note:** If you get `error validating token: missing required scope 'read:org'`, use your HUMAN_TOKEN instead of the Fine-Grained OPENCODE_BOT_TOKEN.
 
 ### Verify Bot Token
 
@@ -115,6 +138,54 @@ curl -H "Authorization: token $HUMAN_TOKEN" \
   -H "Accept: application/vnd.github.v3+json" \
   https://api.github.com/user
 ```
+
+---
+
+## MCP Configuration
+
+### GitHub MCP Server
+
+The system uses GitHub's official MCP server at `https://api.githubcopilot.com/mcp/` for all GitHub actions.
+
+```json
+{
+  "mcp": {
+    "github_bot": {
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer {env:OPENCODE_BOT_TOKEN}"
+      }
+    },
+    "github_human": {
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer {env:HUMAN_TOKEN}"
+      }
+    }
+  }
+}
+```
+
+### Testing MCP Connection
+
+```bash
+# Test GitHub MCP with bot token
+curl -s -X POST https://api.githubcopilot.com/mcp/ \
+  -H "Authorization: Bearer $OPENCODE_BOT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -H "Accept: text/event-stream, application/json" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
+```
+
+### Available MCP Tools
+
+| Tool | Used By | Purpose |
+|------|---------|---------|
+| `create_issue` | Bot | Create issues |
+| `create_pull_request` | Bot | Create PRs |
+| `add_comment_to_pending_review` | Human | Add review comments |
+| `approve_pull_request` | Human | Approve PRs |
+| `merge_pull_request` | Human | Merge PRs |
 
 ---
 

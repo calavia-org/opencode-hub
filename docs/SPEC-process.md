@@ -2,6 +2,93 @@
 
 The SPEC-driven development process is a structured workflow that ensures every feature is properly specified before implementation.
 
+## Token Requirements for GitHub Actions
+
+This workflow uses **MCP (Model Context Protocol)** for ALL GitHub interactions. Direct API calls should NOT be used.
+
+| Step | Token to Use | MCP Server | Action |
+|------|-------------|-----------|----------|
+| Create Issue | `OPENCODE_BOT_TOKEN` | `github_bot` | `create_issue` |
+| Create Branch | SSH Key | Git (local) | `git checkout -b` |
+| Commit | SSH Key | Git (local) | `git commit` |
+| Push | SSH Key | Git (local) | `git push` |
+| Create PR | `OPENCODE_BOT_TOKEN` | `github_bot` | `create_pull_request` |
+| Review PR | `HUMAN_TOKEN` | `github_human` | `add_comment_to_pending_review` |
+| Approve PR | `HUMAN_TOKEN` | `github_human` | `approve_pull_request` |
+| Merge PR | `HUMAN_TOKEN` | `github_human` | `merge_pull_request` |
+
+### MCP Configuration
+
+```json
+{
+  "mcp": {
+    "github_bot": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer {env:OPENCODE_BOT_TOKEN}"
+      }
+    },
+    "github_human": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer {env:HUMAN_TOKEN}"
+      }
+    }
+  }
+}
+```
+
+### Token Setup
+
+| Token | Variable | Required Scopes |
+|-------|----------|-----------------|
+| Bot | `OPENCODE_BOT_TOKEN` | Classic token with `repo` scope |
+| Human | `HUMAN_TOKEN` | Classic token with `repo` scope |
+
+**Note:** OAuth (GitHub Copilot App) is NOT required for remote config loading. Any provider API key triggers well-known loading.
+
+### Token Verification (Required Before Each Step)
+
+Before any GitHub action, verify the token has required capabilities. If verification fails, STOP and fix the token before proceeding.
+
+#### Verification Commands
+
+```bash
+# Test MCP connection with bot token
+curl -s -X POST https://api.githubcopilot.com/mcp/ \
+  -H "Authorization: Bearer $OPENCODE_BOT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -H "Accept: text/event-stream, application/json" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
+
+# Test MCP connection with human token
+curl -s -X POST https://api.githubcopilot.com/mcp/ \
+  -H "Authorization: Bearer $HUMAN_TOKEN" \
+  -H "Content-Type: application/json" \
+  -H "Accept: text/event-stream, application/json" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
+```
+
+#### Verification Checklist
+
+| Step | Token | Check | If Fails |
+|------|-------|-------|----------|
+| Create Issue | `OPENCODE_BOT_TOKEN` | MCP returns tools list | STOP - Fix bot token |
+| Create PR | `OPENCODE_BOT_TOKEN` | MCP returns tools list | STOP - Fix bot token |
+| Review PR | `HUMAN_TOKEN` | MCP returns tools list | STOP - Fix human token |
+| Approve PR | `HUMAN_TOKEN` | MCP returns tools list | STOP - Fix human token |
+| Merge PR | `HUMAN_TOKEN` | MCP returns tools list | STOP - Fix human token |
+
+#### If Verification Fails
+
+1. **401 Unauthorized** - Token invalid or expired → Regenerate token
+2. **403 Forbidden** - Missing scopes → Update token scopes to include `repo`, `read:org`
+3. **Empty response** - MCP server down → Wait or use fallback (NOT recommended)
+
+> **Rule:** Never proceed with GitHub actions if token verification fails. Fix the token first.
+
 ## Overview
 
 ```
@@ -63,6 +150,36 @@ Example: `spec/023-fix-documents`
 Tasks tracked in both:
 - SPEC.md (checkboxes)
 - GitHub issue (checkbox comments)
+
+### 5.1. Update Documentation (ALWAYS Required - Any Repository)
+
+**RULE:** After implementation, ALWAYS update documentation BEFORE creating PR. This applies to ALL repositories using SPEC-driven workflow:
+
+- [ ] Update repo's `docs/` folder with new workflows, processes, or findings
+- [ ] Update `SPEC-process.md` if workflow changed
+- [ ] Update `tokens.md` if token requirements changed
+- [ ] Update any repository-specific documentation
+
+> **Important:** Documentation updates are part of the implementation. Never skip this step - applies to every repo.
+
+### 5.2. Reviewer Agent: Check Copilot Comments (ALWAYS Required)
+
+**RULE:** After code is committed but BEFORE PR is created/merged, reviewer agents MUST:
+
+1. **Fetch GitHub Copilot comments** on the PR/changes
+2. **Evaluate each comment** to determine if it should be honored:
+   - Required changes → Address and fix
+   - Suggestions → Consider and apply if valuable
+   - Questions → Answer before merging
+3. **If in doubt** → Ask the user before proceeding
+
+```bash
+# Fetch Copilot review comments
+gh pr view [PR_NUMBER] --comments
+gh api repos/[owner]/[repo]/pulls/[number]/comments
+```
+
+> **Important:** Copilot feedback must be reviewed before merging. Never ignore Copilot comments.
 
 ### 6. Pull Request
 
