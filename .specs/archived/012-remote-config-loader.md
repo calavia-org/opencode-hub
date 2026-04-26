@@ -126,9 +126,24 @@ This suggests either:
 
 ### Remaining Work
 
-1. Test with API key provider (Anthropic/OpenAI) instead of OAuth
-2. Or find how to configure provider with explicit well-known URL
-3. Or file bug/report with OpenCode team
+1. Test with API key provider (Anthropic/OpenAI) instead of OAuth - TRIED: No effect
+2. Test with manual remote config in opencode.json - TRIED: No effect
+3. Report to OpenCode team
+
+### Explicit Well-known URL Configuration
+
+No option found in Context7 docs to configure explicit well-known URL per-provider. The automatic loading only works with specific providers that have well-known endpoints configured on their end.
+
+### Conclusion
+
+| What | Status |
+|------|--------|
+| Remote URL accessible | ✅ 200 OK |
+| OpenCode auto-loads | ❌ Not working |
+| Provider triggers | ❌ No effect |
+| Manual config | ❌ Not working |
+
+This is a **gap in OpenCode** - remote config exists but isn't being loaded. Need to report to OpenCode team or find the correct configuration.
 
 ## Test Results
 
