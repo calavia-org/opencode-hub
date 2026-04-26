@@ -166,13 +166,36 @@ echo "Creating global configuration..."
 cat > "$GLOBAL_CONFIG" << 'EOF'
 {
   "$schema": "https://opencode.ai/config.json",
-  "skills": {
-    "paths": ["~/.config/opencode/skills"]
+  "mcp": {
+    "github_bot": {
+      "type": "remote",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "enabled": false,
+      "headers": {
+        "Authorization": "Bearer {env:OPENCODE_BOT_TOKEN}"
+      }
+    },
+    "github_human": {
+      "type": "remote",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "enabled": false,
+      "headers": {
+        "Authorization": "Bearer {env:HUMAN_TOKEN}"
+      }
+    },
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "enabled": false,
+      "headers": {
+        "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
+      }
+    }
   }
 }
 EOF
 
-echo "✓ Global config created (MCP auto-enabled via provider API keys)"
+echo "✓ Global MCP config created"
 
 # Create README with setup instructions
 echo ""
@@ -193,6 +216,10 @@ echo "  export HUMAN_TOKEN=ghp_..."
 echo ""
 echo "  # Context7 (for documentation lookup)"
 echo "  export CONTEXT7_API_KEY=ctx7_..."
+echo ""
+echo "To enable MCP servers, create ~/.opencode.json:"
+echo ""
+echo '  {"mcp":{"github_bot":{"enabled":true}}}'
 echo ""
 echo "Then run: opencode"
 echo ""

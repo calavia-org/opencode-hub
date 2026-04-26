@@ -15,25 +15,39 @@ This workflow uses **MCP (Model Context Protocol)** for ALL GitHub interactions.
 | Create PR | `OPENCODE_BOT_TOKEN` | `github_bot` | `create_pull_request` |
 | Review PR | `HUMAN_TOKEN` | `github_human` | `add_comment_to_pending_review` |
 | Approve PR | `HUMAN_TOKEN` | `github_human` | `approve_pull_request` |
-| Merge PR | `OPENCODE_BOT_TOKEN` | `github_bot` | `merge_pull_request` |
+| Merge PR | `HUMAN_TOKEN` | `github_human` | `merge_pull_request` |
 
 ### MCP Configuration
 
-> **Note:** The OpenCode config schema does NOT support custom MCP servers in `opencode.json`. MCP configuration is managed internally by OpenCode based on provider API keys. Do NOT include `mcp` in config files.
-
-- For GitHub MCP: OpenCode auto-enables when `GITHUB_TOKEN`, `OPENCODE_BOT_TOKEN`, or `HUMAN_TOKEN` is set
-- For Context7 MCP: OpenCode auto-enables when `CONTEXT7_API_KEY` is set
-
-See [MCP-SETUP.md](./MCP-SETUP.md) for verification steps.
+```json
+{
+  "mcp": {
+    "github_bot": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer {env:OPENCODE_BOT_TOKEN}"
+      }
+    },
+    "github_human": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer {env:HUMAN_TOKEN}"
+      }
+    }
+  }
+}
+```
 
 ### Token Setup
 
-| Token | Variable | Classic PAT | Fine-Grained PAT |
-|-------|----------|-------------|-----------------|
-| Bot | `OPENCODE_BOT_TOKEN` | Scopes: `repo`, `read:org` | Repository access + Issues/PR permissions |
-| Human | `HUMAN_TOKEN` | Scopes: `repo`, `read:org` | Repository access + Review permissions |
+| Token | Variable | Required Scopes |
+|-------|----------|-----------------|
+| Bot | `OPENCODE_BOT_TOKEN` | Classic token with `repo` scope |
+| Human | `HUMAN_TOKEN` | Classic token with `repo` scope |
 
-> **Note:** Fine-grained tokens don't use Classic scopes. Configure repository access and permissions explicitly. Use Classic tokens when you need predictable `repo`/`read:org` behavior with MCP.
+**Note:** OAuth (GitHub Copilot App) is NOT required for remote config loading. Any provider API key triggers well-known loading.
 
 ### Token Verification (Required Before Each Step)
 

@@ -112,7 +112,7 @@ sequenceDiagram
 | Create PR | `OPENCODE_BOT_TOKEN` | github_bot | `create_pull_request` |
 | Review PR | `HUMAN_TOKEN` | github_human | `add_comment_to_pending_review` |
 | Approve | `HUMAN_TOKEN` | github_human | `approve_pull_request` |
-| Merge | `OPENCODE_BOT_TOKEN` | github_bot | `merge_pull_request` |
+| Merge | `HUMAN_TOKEN` | github_human | `merge_pull_request` |
 
 > **Important:** Never use direct API calls (curl) for GitHub actions. Always use MCP.
 

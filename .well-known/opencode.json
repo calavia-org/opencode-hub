@@ -5,7 +5,40 @@
   "baseUrl": "https://opencode.calavia.org",
   "defaultAgent": "spec-driven",
   "defaultMode": "spec-driven",
-  "skills": {
-    "paths": ["~/.config/opencode/skills"]
+  "agents": "https://opencode.calavia.org/agents",
+  "modes": "https://opencode.calavia.org/modes",
+  "skills": "https://opencode.calavia.org/skills",
+  "commands": "https://opencode.calavia.org/commands",
+  "mcp": {
+    "github_bot": {
+      "type": "remote",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "enabled": true,
+      "description": "Bot automation - creates branches, PRs, merges after human approval",
+      "requestInit": {
+        "headers": {
+          "Authorization": "Bearer {env:OPENCODE_BOT_TOKEN}"
+        }
+      }
+    },
+    "github_human": {
+      "type": "remote",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "enabled": true,
+      "description": "Human actions - approves PRs, merges",
+      "requestInit": {
+        "headers": {
+          "Authorization": "Bearer {env:HUMAN_TOKEN}"
+        }
+      }
+    },
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "enabled": true,
+      "headers": {
+        "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
+      }
+    }
   }
 }

@@ -5,9 +5,7 @@ description: GitHub automation for SPEC-driven development workflow with .specs/
 
 # GitHub Workflow Skill
 
-Automate SPEC-driven development using GitHub issues, branches, and PRs via MCP, with full integration into the `/.specs/` directory structure.
-
-> **Important:** Use MCP tools for ALL GitHub operations. Direct API calls (curl/gh) are NOT allowed except for verification.
+Automate SPEC-driven development using GitHub issues, branches, and PRs, with full integration into the `/.specs/` directory structure.
 
 ## SPEC Storage Integration
 
@@ -33,13 +31,11 @@ All GitHub operations are tied to SPECs stored in `/.specs/`:
 ## Workflow Integration
 
 ### SPEC Creation → Issue
-When a SPEC is created in `/.specs/`, automatically create a GitHub issue using MCP:
+When a SPEC is created in `/.specs/`, automatically create a GitHub issue:
 
 1. Extract issue number and slug from filename
-2. Create issue with `spec` and `approved` labels via MCP
+2. Create issue with `spec` and `approved` labels
 3. Link to SPEC file path
-
-> **Token:** Use `OPENCODE_BOT_TOKEN` (MCP server: github_bot)
 
 ```markdown
 ## Overview
@@ -96,39 +92,60 @@ Closes #[issue-number]
 1. Move SPEC to `/.specs/archived/`
 2. Update `/.specs/README.md` status
 
-## GitHub MCP Tools
-
-> **Important:** For verification only. Use MCP for all operations.
-
-### Verify MCP Connection
-```bash
-# Test GitHub MCP endpoint (verification only)
-curl -s -X POST https://api.githubcopilot.com/mcp/ \
-  -H "Authorization: Bearer $OPENCODE_BOT_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
-```
-
-### Tools Available via MCP
-
-| Tool | Token | Purpose |
-|------|-------|---------|
-| `create_issue` | Bot | Create issues |
-| `create_pull_request` | Bot | Create PRs |
-| `merge_pull_request` | Bot | Merge after approval |
-| `approve_pull_request` | Human | Approve PRs |
+## GitHub API Operations
 
 ### Create Issue
-> Use MCP tool: `create_issue` with `OPENCODE_BOT_TOKEN`
+```bash
+curl -X POST https://api.github.com/repos/{owner}/{repo}/issues \
+  -H "Authorization: Bearer {token}" \
+  -H "Accept: application/vnd.github.v3+json" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "SPEC: [Feature Name]",
+    "body": "[spec-content]",
+    "labels": ["spec", "approved"]
+  }'
+```
 
 ### Create Branch
-> Use Git locally: `git checkout -b spec/{issue}-{slug}`
+```bash
+curl -X POST https://api.github.com/repos/{owner}/{repo}/git/refs \
+  -H "Authorization: Bearer {token}" \
+  -H "Accept: application/vnd.github.v3+json" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "ref": "refs/heads/spec/{issue}-{slug}",
+    "sha": "{main-branch-sha}"
+  }'
+```
 
 ### Create PR
-> Use MCP tool: `create_pull_request` with `OPENCODE_BOT_TOKEN`
+```bash
+curl -X POST https://api.github.com/repos/{owner}/{repo}/pulls \
+  -H "Authorization: Bearer {token}" \
+  -H "Accept: application/vnd.github.v3+json" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Closes #{issue}: [feature]",
+    "body": "[changes]\n\nCloses #{issue}\n\nSPEC: /.specs/{issue}-{slug}.md",
+    "head": "spec/{issue}-{slug}",
+    "base": "main"
+  }'
+```
 
-### Merge PR
-> Use MCP tool: `merge_pull_request` with `OPENCODE_BOT_TOKEN` (after human approval)
+## Update Issue Checkboxes
+
+After completing tasks, update issue body:
+
+```bash
+curl -X PATCH https://api.github.com/repos/{owner}/{repo}/issues/{issue-number} \
+  -H "Authorization: Bearer {token}" \
+  -H "Accept: application/vnd.github.v3+json" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "body": "[updated-body-with-checked-items]"
+  }'
+```
 
 ## Index Maintenance
 
