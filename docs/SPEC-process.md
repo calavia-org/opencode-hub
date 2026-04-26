@@ -162,6 +162,25 @@ Tasks tracked in both:
 
 > **Important:** Documentation updates are part of the implementation. Never skip this step - applies to every repo.
 
+### 5.2. Reviewer Agent: Check Copilot Comments (ALWAYS Required)
+
+**RULE:** After code is committed but BEFORE PR is created/merged, reviewer agents MUST:
+
+1. **Fetch GitHub Copilot comments** on the PR/changes
+2. **Evaluate each comment** to determine if it should be honored:
+   - Required changes → Address and fix
+   - Suggestions → Consider and apply if valuable
+   - Questions → Answer before merging
+3. **If in doubt** → Ask the user before proceeding
+
+```bash
+# Fetch Copilot review comments
+gh pr view [PR_NUMBER] --comments
+gh api repos/[owner]/[repo]/pulls/[number]/comments
+```
+
+> **Important:** Copilot feedback must be reviewed before merging. Never ignore Copilot comments.
+
 ### 6. Pull Request
 
 When complete:
