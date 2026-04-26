@@ -23,6 +23,7 @@
     .nav a { color: #0066cc; text-decoration: none; }
     .nav a:hover { text-decoration: underline; }
     .nav a.active { font-weight: bold; }
+  .tip { background: #e8f5e9; border-left: 4px solid #4caf50; padding: 1rem; margin: 1rem 0; }
   </style>
 </head>
 <body>
@@ -78,7 +79,23 @@
   <table>
     <tr><th>Agent</th><th>Description</th></tr>
     <tr><td><code>spec-driven</code></td><td>SPEC-driven development orchestrator</td></tr>
+    <tr><td><code>opencode-implementer</code></td><td>Implements OpenCode/Spec-driven code</td></tr>
   </table>
+
+  <h2>Technology Detection</h2>
+  <p>The spec-driven skill automatically detects project technology:</p>
+  <table>
+    <tr><th>Pattern</th><th>Technology</th><th>Agent</th></tr>
+    <tr><td><code>*.py</code>, <code>requirements.txt</code></td><td>Python</td><td>python-implementer</td></tr>
+    <tr><td><code>*.go</code>, <code>go.mod</code></td><td>Go</td><td>go-implementer</td></tr>
+    <tr><td><code>*.java</code>, <code>pom.xml</code></td><td>Java</td><td>java-implementer</td></tr>
+    <tr><td><code>*.tf</code></td><td>Terraform</td><td>terraform-implementer</td></tr>
+    <tr><td><code>SPEC.md</code>, <code>SKILL.md</code>, <code>agents/</code></td><td>OpenCode/Spec</td><td>opencode-implementer</td></tr>
+  </table>
+
+  <div class="tip">
+    <strong>Override:</strong> Use <code>/change-agent [name]</code> to override the inferred agent.
+  </div>
 
   <h2>Pipeline Stage Mapping</h2>
   <table>
