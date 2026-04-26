@@ -2,6 +2,53 @@
 
 The SPEC-driven development process is a structured workflow that ensures every feature is properly specified before implementation.
 
+## Token Requirements for GitHub Actions
+
+This workflow uses **MCP (Model Context Protocol)** for ALL GitHub interactions. Direct API calls should NOT be used.
+
+| Step | Token to Use | MCP Server | Action |
+|------|-------------|-----------|----------|
+| Create Issue | `OPENCODE_BOT_TOKEN` | `github_bot` | `create_issue` |
+| Create Branch | SSH Key | Git (local) | `git checkout -b` |
+| Commit | SSH Key | Git (local) | `git commit` |
+| Push | SSH Key | Git (local) | `git push` |
+| Create PR | `OPENCODE_BOT_TOKEN` | `github_bot` | `create_pull_request` |
+| Review PR | `HUMAN_TOKEN` | `github_human` | `add_comment_to_pending_review` |
+| Approve PR | `HUMAN_TOKEN` | `github_human` | `approve_pull_request` |
+| Merge PR | `HUMAN_TOKEN` | `github_human` | `merge_pull_request` |
+
+### MCP Configuration
+
+```json
+{
+  "mcp": {
+    "github_bot": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer {env:OPENCODE_BOT_TOKEN}"
+      }
+    },
+    "github_human": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer {env:HUMAN_TOKEN}"
+      }
+    }
+  }
+}
+```
+
+### Token Setup
+
+| Token | Variable | Required Scopes |
+|-------|----------|-----------------|
+| Bot | `OPENCODE_BOT_TOKEN` | `repo`, `read:org` |
+| Human | `HUMAN_TOKEN` | `repo`, `read:org` |
+
+> **Important:** Fine-Grained tokens often lack `read:org`. Use Classic tokens for MCP to work reliably.
+
 ## Overview
 
 ```

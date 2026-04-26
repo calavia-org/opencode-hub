@@ -84,24 +84,37 @@ flowchart TD
 
 ## Token Flow
 
+ALL GitHub actions MUST use MCP. Direct API calls are NOT allowed.
+
 ```mermaid
 sequenceDiagram
-    participant Human
-    participant Bot
-    participant GitHub
-    participant Vercel
+    participant Bot as Bot (MCP)
+    participant Human as Human (MCP)
+    participant GitHub as GitHub MCP
+    participant Vercel as Vercel
 
-    Note over Human,Bot: Bot Token (OPENCODE_BOT_TOKEN)
-    Bot->>GitHub: Create issues, branches, PRs
-    Bot->>GitHub: Commit code
-    Bot->>GitHub: Merge after approval
+    Note over Bot: OPENCODE_BOT_TOKEN
+    Bot->>GitHub: MCP create_issue
+    Bot->>GitHub: MCP create_pull_request
     
-    Note over Human,GitHub: Human Token (HUMAN_TOKEN)
-    Human->>GitHub: Approve PR
-    Human->>GitHub: Merge (fallback)
+    Note over Human: HUMAN_TOKEN
+    Human->>GitHub: MCP approve_pull_request
+    Human->>GitHub: MCP merge_pull_request
     
     GitHub->>Vercel: Deploy on merge
 ```
+
+## MCP Token Rules
+
+| Step | Token | MCP Server | Tool |
+|------|-------|-----------|------|
+| Create Issue | `OPENCODE_BOT_TOKEN` | github_bot | `create_issue` |
+| Create PR | `OPENCODE_BOT_TOKEN` | github_bot | `create_pull_request` |
+| Review PR | `HUMAN_TOKEN` | github_human | `add_comment_to_pending_review` |
+| Approve | `HUMAN_TOKEN` | github_human | `approve_pull_request` |
+| Merge | `HUMAN_TOKEN` | github_human | `merge_pull_request` |
+
+> **Important:** Never use direct API calls (curl) for GitHub actions. Always use MCP.
 
 ## Agent Specialization Matrix
 

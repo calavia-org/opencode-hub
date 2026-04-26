@@ -7,7 +7,7 @@ This directory contains all project specifications organized by issue number.
 | # | Feature | Agent | Status | Created | Branch |
 |---|---------|-------|--------|---------|--------|
 | 011 | PR Review Merge Workflow | - | - | - | - |
-| 012 | Remote Config Loader | opencode-implementer | approved | 2026-04-25 | spec/012-remote-config-loader |
+| 012 | Remote Config Loader | opencode-implementer | Completed | 2026-04-25 | spec/012-remote-config-loader |
 | 023 | Fix Documents | opencode-implementer | approved | 2026-04-26 | spec/020-fix-documents |
 
 ## Archived SPECs

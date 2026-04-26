@@ -141,6 +141,54 @@ curl -H "Authorization: token $HUMAN_TOKEN" \
 
 ---
 
+## MCP Configuration
+
+### GitHub MCP Server
+
+The system uses GitHub's official MCP server at `https://api.githubcopilot.com/mcp/` for all GitHub actions.
+
+```json
+{
+  "mcp": {
+    "github_bot": {
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer {env:OPENCODE_BOT_TOKEN}"
+      }
+    },
+    "github_human": {
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer {env:HUMAN_TOKEN}"
+      }
+    }
+  }
+}
+```
+
+### Testing MCP Connection
+
+```bash
+# Test GitHub MCP with bot token
+curl -s -X POST https://api.githubcopilot.com/mcp/ \
+  -H "Authorization: Bearer $OPENCODE_BOT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -H "Accept: text/event-stream, application/json" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
+```
+
+### Available MCP Tools
+
+| Tool | Used By | Purpose |
+|------|---------|---------|
+| `create_issue` | Bot | Create issues |
+| `create_pull_request` | Bot | Create PRs |
+| `add_comment_to_pending_review` | Human | Add review comments |
+| `approve_pull_request` | Human | Approve PRs |
+| `merge_pull_request` | Human | Merge PRs |
+
+---
+
 ## Environment Variables Summary
 
 ```bash
