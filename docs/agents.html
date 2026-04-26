@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agents - OpenCode Hub</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 900px; margin: 0 auto; padding: 2rem; line-height: 1.6; color: #333; }
+    h1 { color: #333; border-bottom: 2px solid #0066cc; padding-bottom: 0.5rem; }
+    h2 { color: #0066cc; margin-top: 2rem; }
+    h3 { color: #555; margin-top: 1.5rem; }
+    code { background: #f4f4f4; padding: 0.2rem 0.4rem; border-radius: 3px; }
+    pre { background: #f4f4f4; padding: 1rem; border-radius: 5px; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    th, td { border: 1px solid #ddd; padding: 0.5rem; text-align: left; }
+    th { background: #f4f4f4; }
+    .badge { display: inline-block; background: #0066cc; color: white; padding: 0.2rem 0.5rem; border-radius: 3px; font-size: 0.8rem; }
+    .badge-impl { background: #4caf50; }
+    .badge-test { background: #2196f3; }
+    .badge-verify { background: #ff9800; }
+    .badge-deploy { background: #9c27b0; }
+    .nav { display: flex; gap: 1rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #ddd; }
+    .nav a { color: #0066cc; text-decoration: none; }
+    .nav a:hover { text-decoration: underline; }
+    .nav a.active { font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="nav">
+    <a href="/">Home</a>
+    <a href="/docs/SPEC-process.html">SPEC Process</a>
+    <a href="/docs/workflows.html">Workflows</a>
+    <a href="/docs/tokens.html">Tokens</a>
+    <a href="/docs/agents.html" class="active">Agents</a>
+    <a href="/docs/skills.html">Skills</a>
+  </div>
+
+  <h1>Available Agents</h1>
+  <p>Specialized agents for each technology and pipeline stage.</p>
+
+  <h2>Java / Kotlin Pipeline</h2>
+  <table>
+    <tr><th>Agent</th><th>Description</th><th>Badge</th></tr>
+    <tr><td><code>java-implementer</code></td><td>Implements Java code</td><td><span class="badge badge-impl">Implement</span></td></tr>
+    <tr><td><code>java-tester</code></td><td>Runs JUnit tests</td><td><span class="badge badge-test">Test</span></td></tr>
+    <tr><td><code>java-verifier</code></td><td>Validates non-functional</td><td><span class="badge badge-verify">Verify</span></td></tr>
+    <tr><td><code>java-deployer</code></td><td>Deploys to Docker/K8s</td><td><span class="badge badge-deploy">Deploy</span></td></tr>
+  </table>
+
+  <h2>Python Pipeline</h2>
+  <table>
+    <tr><th>Agent</th><th>Description</th><th>Badge</th></tr>
+    <tr><td><code>python-implementer</code></td><td>Implements Python code</td><td><span class="badge badge-impl">Implement</span></td></tr>
+    <tr><td><code>python-tester</code></td><td>Runs pytest tests</td><td><span class="badge badge-test">Test</span></td></tr>
+    <tr><td><code>python-verifier</code></td><td>Validates non-functional</td><td><span class="badge badge-verify">Verify</span></td></tr>
+    <tr><td><code>python-deployer</code></td><td>Deploys to Docker/K8s</td><td><span class="badge badge-deploy">Deploy</span></td></tr>
+  </table>
+
+  <h2>Go Pipeline</h2>
+  <table>
+    <tr><th>Agent</th><th>Description</th><th>Badge</th></tr>
+    <tr><td><code>go-implementer</code></td><td>Implements Go code</td><td><span class="badge badge-impl">Implement</span></td></tr>
+    <tr><td><code>go-tester</code></td><td>Runs Go tests</td><td><span class="badge badge-test">Test</span></td></tr>
+    <tr><td><code>go-verifier</code></td><td>Validates non-functional</td><td><span class="badge badge-verify">Verify</span></td></tr>
+    <tr><td><code>go-deployer</code></td><td>Deploys to Docker/K8s</td><td><span class="badge badge-deploy">Deploy</span></td></tr>
+  </table>
+
+  <h2>Terraform Pipeline</h2>
+  <table>
+    <tr><th>Agent</th><th>Description</th><th>Badge</th></tr>
+    <tr><td><code>terraform-implementer</code></td><td>Writes Terraform code</td><td><span class="badge badge-impl">Implement</span></td></tr>
+    <tr><td><code>terraform-tester</code></td><td>Tests and security scans</td><td><span class="badge badge-test">Test</span></td></tr>
+    <tr><td><code>terraform-verifier</code></td><td>TFLint, checkov, OPA</td><td><span class="badge badge-verify">Verify</span></td></tr>
+    <tr><td><code>terraform-deployer</code></td><td>Deploys to Terraform Cloud</td><td><span class="badge badge-deploy">Deploy</span></td></tr>
+  </table>
+
+  <h2>Orchestrator</h2>
+  <table>
+    <tr><th>Agent</th><th>Description</th></tr>
+    <tr><td><code>spec-driven</code></td><td>SPEC-driven development orchestrator</td></tr>
+  </table>
+
+  <h2>Pipeline Stage Mapping</h2>
+  <table>
+    <tr><th>Stage</th><th>Function</th></tr>
+    <tr><td><span class="badge badge-impl">Implement</span></td><td>Writes code following best practices</td></tr>
+    <tr><td><span class="badge badge-test">Test</span></td><td>Runs language-specific test frameworks</td></tr>
+    <tr><td><span class="badge badge-verify">Verify</span></td><td>Validates performance, security, compliance</td></tr>
+    <tr><td><span class="badge badge-deploy">Deploy</span></td><td>Deploys to Docker, K8s, or cloud services</td></tr>
+  </table>
+
+  <hr>
+  <p><small><a href="https://github.com/calavia-org/opencode-hub">GitHub</a></small></p>
+</body>
+</html>

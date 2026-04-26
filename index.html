@@ -6,7 +6,7 @@
   <title>Calavia OpenCode Hub</title>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 900px; margin: 0 auto; padding: 2rem; line-height: 1.6; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 900px; margin: 0 auto; padding: 2rem; line-height: 1.6; color: #333; }
     h1 { color: #333; border-bottom: 2px solid #0066cc; padding-bottom: 0.5rem; }
     h2 { color: #0066cc; margin-top: 2rem; }
     h3 { color: #555; }
@@ -16,187 +16,79 @@
     th, td { border: 1px solid #ddd; padding: 0.5rem; text-align: left; }
     th { background: #f4f4f4; }
     .badge { display: inline-block; background: #0066cc; color: white; padding: 0.2rem 0.5rem; border-radius: 3px; font-size: 0.8rem; }
-    .mermaid { background: #f9f9f9; padding: 1rem; border-radius: 5px; margin: 1rem 0; }
-    .pipeline { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
-    .step { background: #e3f2fd; padding: 0.5rem 1rem; border-radius: 5px; }
-    .arrow { color: #0066cc; font-weight: bold; }
-    .nav { display: flex; gap: 1rem; margin-bottom: 1rem; }
+    .nav { display: flex; gap: 1rem; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #ddd; }
     .nav a { color: #0066cc; text-decoration: none; }
     .nav a:hover { text-decoration: underline; }
+    .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; border-radius: 10px; margin-bottom: 2rem; }
+    .hero h1 { color: white; border: none; }
+    .hero p { font-size: 1.2rem; }
+    .tech-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
+    .tech-card { background: #f5f5f5; padding: 1rem; border-radius: 5px; text-align: center; }
+    .tech-name { font-weight: bold; color: #0066cc; }
+    .cta { display: inline-block; background: #0066cc; color: white; padding: 0.75rem 1.5rem; border-radius: 5px; text-decoration: none; margin: 0.5rem 0; }
+    .cta:hover { background: #0052a3; }
   </style>
 </head>
 <body>
   <div class="nav">
     <a href="/">Home</a>
-    <a href="/docs/SPEC-process.md">SPEC Process</a>
-    <a href="/docs/workflows.md">Workflows</a>
-    <a href="/docs/tokens.md">Tokens</a>
+    <a href="/docs/SPEC-process.html">SPEC Process</a>
+    <a href="/docs/workflows.html">Workflows</a>
+    <a href="/docs/tokens.html">Tokens</a>
+    <a href="/docs/agents.html">Agents</a>
+    <a href="/docs/skills.html">Skills</a>
   </div>
 
-  <h1>Calavia OpenCode Hub <span class="badge">v3</span></h1>
-  <p>Centralized OpenCode configuration. Stack: Java/Kotlin, Python, Go + Docker/Portainer/K8s</p>
+  <div class="hero">
+    <h1>Calavia OpenCode Hub</h1>
+    <p>SPEC-driven development with full GitHub workflow automation</p>
+  </div>
 
-  <h2>Quick Start</h2>
-  <pre><code># One-time setup
-curl -sL https://opencode.calavia.org/setup.sh | bash
+  <h2>Supported Technologies</h2>
+  <div class="tech-grid">
+    <div class="tech-card"><div class="tech-name">Java/Kotlin</div><div>Implement, Test, Verify, Deploy</div></div>
+    <div class="tech-card"><div class="tech-name">Python</div><div>Implement, Test, Verify, Deploy</div></div>
+    <div class="tech-card"><div class="tech-name">Go</div><div>Implement, Test, Verify, Deploy</div></div>
+    <div class="tech-card"><div class="tech-name">Terraform</div><div>Implement, Test, Verify, Deploy</div></div>
+  </div>
 
-# Add to profile
-echo 'export OPENCODE_CONFIG_DIR=~/.config/opencode' >> ~/.zshrc
-echo 'export GITHUB_TOKEN=ghp_your_token_here' >> ~/.zshrc
-
-# Start
-source ~/.zshrc
-opencode</code></pre>
-
-  <h2>SPEC-Driven Development</h2>
-  <p>This project uses a SPEC-first development methodology. Every feature starts with a specification document.</p>
-
-  <pre class="mermaid">
-graph LR
-    A[Define Feature] --> B[Create SPEC]
-    B --> C[GitHub Issue]
-    C --> D[Feature Branch]
-    D --> E[Implement]
-    E --> F[Pull Request]
-    F --> G[Review & Merge]
-    G --> H[Archive SPEC]
-  </pre>
-
-  <h3>Why SPEC First?</h3>
+  <h2>Quick Links</h2>
   <ul>
-    <li><strong>Clear requirements</strong> - No scope creep</li>
-    <li><strong>Testable criteria</strong> - Know when done</li>
-    <li><strong>Full tracking</strong> - Progress visible</li>
+    <li><a href="/docs/SPEC-process.html">SPEC Process</a> - How SPEC-driven development works</li>
+    <li><a href="/docs/workflows.html">Workflows & Diagrams</a> - Visual diagrams of all processes</li>
+    <li><a href="/docs/tokens.html">Token Setup</a> - Bot account and HUMAN token configuration</li>
+    <li><a href="/docs/agents.html">Agents</a> - All available agents</li>
+    <li><a href="/docs/skills.html">Skills</a> - All available skills</li>
   </ul>
-
-  <h3>Full Workflow</h3>
-  <div class="pipeline">
-    <span class="step">1. SPEC</span>
-    <span class="arrow">→</span>
-    <span class="step">2. Issue</span>
-    <span class="arrow">→</span>
-    <span class="step">3. Branch</span>
-    <span class="arrow">→</span>
-    <span class="step">4. Implement</span>
-    <span class="arrow">→</span>
-    <span class="step">5. Test</span>
-    <span class="arrow">→</span>
-    <span class="step">6. Verify</span>
-    <span class="arrow">→</span>
-    <span class="step">7. Deploy</span>
-    <span class="arrow">→</span>
-    <span class="step">8. PR</span>
-  </div>
-
-  <p>See <a href="docs/SPEC-process.html">SPEC Process Documentation</a> for full details.</p>
 
   <h2>Architecture</h2>
   <pre class="mermaid">
-graph TB
-    subgraph "GitHub"
-        Issue[GitHub Issue]
-        Branch[GitHub Branch]
-        PR[GitHub PR]
-    end
-
-    SD[spec-driven]
-
-    Impl["[lang]-implementer"]
-    Test["[lang]-tester"]
-    Verify["[lang]-verifier"]
-    Deploy["[lang]-deployer"]
-
-    SD -->|Creates| Issue
-    SD -->|Creates| Branch
-    SD -->|Delegates| Impl
-    Impl --> Test
-    Test --> Verify
-    Verify --> Deploy
-    Deploy -->|Creates| PR
-    PR -->|Closes| Issue
+graph LR
+    SUB1[User] --> SPEC[Create SPEC]
+    SPEC --> ISSUE[GitHub Issue]
+    ISSUE --> BRANCH[Branch]
+    BRANCH --> IMPL[Implement]
+    IMPL --> TEST[Tests]
+    TEST --> VERIFY[Verify]
+    VERIFY --> DEPLOY[Deploy]
+    DEPLOY --> PR[PR]
+    PR --> MERGE[Merge]
   </pre>
 
-  <h2>Agents</h2>
+  <h2>Setup</h2>
+  <pre><code># One-time setup
+curl -sL https://opencode.calavia.org/setup.sh | bash
 
-  <h3>Orchestrator</h3>
-  <table>
-    <tr><th>Agent</th><th>Description</th></tr>
-    <tr><td><code>spec-driven</code></td><td>SPEC-driven orchestrator</td></tr>
-  </table>
+# Add tokens to your profile
+export GITHUB_TOKEN="ghp_..."</code></pre>
 
-  <h3>Java/Kotlin</h3>
-  <table>
-    <tr><th>Agent</th><th>Description</th></tr>
-    <tr><td><code>java-implementer</code></td><td>Implements Java code</td></tr>
-    <tr><td><code>java-tester</code></td><td>Runs JUnit tests</td></tr>
-    <tr><td><code>java-verifier</code></td><td>Validates non-functional</td></tr>
-    <tr><td><code>java-deployer</code></td><td>Deploys to Docker/K8s</td></tr>
-  </table>
+  <p>See <a href="/docs/tokens.html">Token Setup Guide</a> for bot account and HUMAN token configuration.</p>
 
-  <h3>Python</h3>
-  <table>
-    <tr><th>Agent</th><th>Description</th></tr>
-    <tr><td><code>python-implementer</code></td><td>Implements Python code</td></tr>
-    <tr><td><code>python-tester</code></td><td>Runs pytest tests</td></tr>
-    <tr><td><code>python-verifier</code></td><td>Validates non-functional</td></tr>
-    <tr><td><code>python-deployer</code></td><td>Deploys to Docker/K8s</td></tr>
-  </table>
-
-  <h3>Go</h3>
-  <table>
-    <tr><th>Agent</th><th>Description</th></tr>
-    <tr><td><code>go-implementer</code></td><td>Implements Go code</td></tr>
-    <tr><td><code>go-tester</code></td><td>Runs Go tests</td></tr>
-    <tr><td><code>go-verifier</code></td><td>Validates non-functional</td></tr>
-    <tr><td><code>go-deployer</code></td><td>Deploys to Docker/K8s</td></tr>
-  </table>
-
-  <h3>Terraform</h3>
-  <table>
-    <tr><th>Agent</th><th>Description</th></tr>
-    <tr><td><code>terraform-implementer</code></td><td>Writes Terraform code</td></tr>
-    <tr><td><code>terraform-tester</code></td><td>Tests and security scans</td></tr>
-    <tr><td><code>terraform-verifier</code></td><td>TFLint, checkov, OPA</td></tr>
-    <tr><td><code>terraform-deployer</code></td><td>Deploys to Terraform Cloud</td></tr>
-  </table>
-
-  <h2>Skills</h2>
-  <table>
-    <tr><th>Skill</th><th>Description</th></tr>
-    <tr><td><code>spec-driven</code></td><td>Create specs</td></tr>
-    <tr><td><code>github-workflow</code></td><td>GitHub automation</td></tr>
-    <tr><td><code>root-cause-analysis</code></td><td>Debug distributed systems</td></tr>
-    <tr><td><code>repo-bootstrap</code></td><td>Project setup</td></tr>
-    <tr><td><code>context7</code></td><td>Up-to-date library docs</td></tr>
-    <tr><td><code>expert-config</code></td><td>Config validation and optimization</td></tr>
-  </table>
-
-  <h2>Token Configuration</h2>
-  <p>See <a href="docs/tokens.html">Token Setup Guide</a> for detailed configuration.</p>
-
-  <pre><code># Required: GitHub token
-export GITHUB_TOKEN="ghp_..."
-
-# Recommended: Two-token setup
-export OPENCODE_BOT_TOKEN="ghp_..."  # Bot automation
-export HUMAN_TOKEN="ghp_..."         # Human approvals
-
-# Optional: Context7
-export CONTEXT7_API_KEY="ctx7_..."</code></pre>
-
-  <h3>With Bot + Human Tokens</h3>
-  <p>The system supports two tokens for proper separation:</p>
-  <ul>
-    <li><strong>Bot Token</strong>: Creates issues, branches, commits, PRs</li>
-    <li><strong>Human Token</strong>: Approves and merges PRs</li>
-  </ul>
-  <p>See <a href="docs/tokens.html">Token Setup</a> for full guide.</p>
+  <hr>
+  <p><small><a href="https://github.com/calavia-org/opencode-hub">GitHub</a> • Deployed on Vercel</small></p>
 
   <script>
     mermaid.initialize({ startOnLoad: true });
   </script>
-
-  <hr>
-  <p><small><a href="https://github.com/calavia-org/opencode-hub">GitHub</a></small></p>
 </body>
 </html>

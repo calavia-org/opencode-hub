@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Workflows & Diagrams - OpenCode Hub</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 900px; margin: 0 auto; padding: 2rem; line-height: 1.6; color: #333; }
+    h1 { color: #333; border-bottom: 2px solid #0066cc; padding-bottom: 0.5rem; }
+    h2 { color: #0066cc; margin-top: 2rem; }
+    h3 { color: #555; }
+    code { background: #f4f4f4; padding: 0.2rem 0.4rem; border-radius: 3px; }
+    pre { background: #f4f4f4; padding: 1rem; border-radius: 5px; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    th, td { border: 1px solid #ddd; padding: 0.5rem; text-align: left; }
+    th { background: #f4f4f4; }
+    .badge { display: inline-block; background: #0066cc; color: white; padding: 0.2rem 0.5rem; border-radius: 3px; font-size: 0.8rem; }
+    .nav { display: flex; gap: 1rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #ddd; }
+    .nav a { color: #0066cc; text-decoration: none; }
+    .nav a:hover { text-decoration: underline; }
+    .nav a.active { font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="nav">
+    <a href="/">Home</a>
+    <a href="/docs/SPEC-process.html">SPEC Process</a>
+    <a href="/docs/workflows.html" class="active">Workflows</a>
+    <a href="/docs/tokens.html">Tokens</a>
+    <a href="/docs/agents.html">Agents</a>
+    <a href="/docs/skills.html">Skills</a>
+  </div>
+
+  <h1>Workflows & Diagrams</h1>
+  <p>Visual representations of the SPEC-driven development workflow.</p>
+
+  <h2>Architecture Overview</h2>
+  <pre class="mermaid">
+graph TB
+    subgraph "GitHub"
+        Issue[GitHub Issue]
+        Branch[GitHub Branch]
+        PR[GitHub PR]
+    end
+
+    subgraph "Orchestrator"
+        SD[spec-driven]
+    end
+
+    subgraph "Pipeline"
+        Impl["[lang]-implementer"]
+        Test["[lang]-tester"]
+        Verify["[lang]-verifier"]
+        Deploy["[lang]-deployer"]
+    end
+
+    SD -->|1. Creates| Issue
+    SD -->|2. Creates| Branch
+    SD -->|3. Delegates| Impl
+    Impl --> Test
+    Test --> Verify
+    Verify --> Deploy
+    Deploy -->|5. Creates| PR
+    PR -->|Closes| Issue
+  </pre>
+
+  <h2>Agent Pipeline Flow</h2>
+  <pre class="mermaid">
+sequenceDiagram
+    participant User
+    participant SD as spec-driven
+    participant GitHub
+    participant Impl as [lang]-implementer
+    participant Test as [lang]-tester
+    participant Verify as [lang]-verifier
+    participant Deploy as [lang]-deployer
+
+    User->>SD: Create spec for feature
+    SD->>GitHub: Create Issue
+    SD->>GitHub: Create Branch spec/{id}-{slug}
+    SD->>Impl: Implement task 1
+    Impl->>Test: Run tests
+    SD->>Impl: Implement task 2
+    SD->>Test: Run tests
+    Test->>Verify: Verify non-functional
+    Verify->>Deploy: Prepare deployment
+    Deploy->>GitHub: Create PR
+    Note over GitHub: Closes #[issue]
+  </pre>
+
+  <h2>Human Approval Flow</h2>
+  <pre class="mermaid">
+flowchart TD
+    A[Human defines SPEC] --> B[Bot creates SPEC, branch]
+    B --> C[Bot implements features]
+    C --> D[Bot opens PR]
+    D --> E{Human reviews PR?}
+    E -->|Approve| F[Human clicks Approve]
+    E -->|Request Changes| G[Human requests changes]
+    F --> H[Bot merges PR]
+    G --> C
+    H --> I[GitHub Action archives SPEC]
+    I --> J[SPEC moved to archived/]
+  </pre>
+
+  <h2>Token Flow</h2>
+  <pre class="mermaid">
+sequenceDiagram
+    participant Human
+    participant Bot
+    participant GitHub
+    participant Vercel
+
+    Note over Human,Bot: Bot Token (OPENCODE_BOT_TOKEN)
+    Bot->>GitHub: Create issues, branches, PRs
+    Bot->>GitHub: Commit code
+    Bot->>GitHub: Merge after approval
+    
+    Note over Human,GitHub: Human Token (HUMAN_TOKEN)
+    Human->>GitHub: Approve PR
+    Human->>GitHub: Merge (fallback)
+    
+    GitHub->>Vercel: Deploy on merge
+  </pre>
+
+  <h2>Agent Specialization Matrix</h2>
+  <table>
+    <tr><th>Stage</th><th>Java</th><th>Python</th><th>Go</th><th>Terraform</th></tr>
+    <tr><td>Implement</td><td>java-implementer</td><td>python-implementer</td><td>go-implementer</td><td>terraform-implementer</td></tr>
+    <tr><td>Test</td><td>java-tester</td><td>python-tester</td><td>go-tester</td><td>terraform-tester</td></tr>
+    <tr><td>Verify</td><td>java-verifier</td><td>python-verifier</td><td>go-verifier</td><td>terraform-verifier</td></tr>
+    <tr><td>Deploy</td><td>java-deployer</td><td>python-deployer</td><td>go-deployer</td><td>terraform-deployer</td></tr>
+  </table>
+
+  <h2>GitHub Issue Lifecycle</h2>
+  <pre class="mermaid">
+stateDiagram-v2
+    [*] --> Draft
+    Draft --> InReview: Submit for review
+    InReview --> Approved: Approve
+    InReview --> Draft: Reject
+    Approved --> InProgress: Start work
+    InProgress --> Completed: Merge PR
+    Completed --> [*]
+    
+    Draft --> Cancelled: Cancel
+    InProgress --> Cancelled: Cancel
+  </pre>
+
+  <h2>Quick Reference</h2>
+  <table>
+    <tr><th>Step</th><th>Command</th><th>Description</th></tr>
+    <tr><td>1</td><td>SPEC created</td><td>Feature specified in <code>.specs/</code></td></tr>
+    <tr><td>2</td><td><code>gh issue create</code></td><td>GitHub issue with SPEC</td></tr>
+    <tr><td>3</td><td><code>git checkout -b spec/NNN-*</code></td><td>Feature branch</td></tr>
+    <tr><td>4</td><td>Implement + tests</td><td>Code with verification</td></tr>
+    <tr><td>5</td><td><code>gh pr create</code></td><td>Pull request</td></tr>
+    <tr><td>6</td><td>Review + merge</td><td>Human approval</td></tr>
+    <tr><td>7</td><td>Archive</td><td>Move to <code>.specs/archived/</code></td></tr>
+  </table>
+
+  <hr>
+  <p><small><a href="https://github.com/calavia-org/opencode-hub">GitHub</a></small></p>
+
+  <script>
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+</body>
+</html>
