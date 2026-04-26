@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SPEC Process - OpenCode Hub</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 900px; margin: 0 auto; padding: 2rem; line-height: 1.6; color: #333; }
+    h1 { color: #333; border-bottom: 2px solid #0066cc; padding-bottom: 0.5rem; }
+    h2 { color: #0066cc; margin-top: 2rem; }
+    h3 { color: #555; }
+    code { background: #f4f4f4; padding: 0.2rem 0.4rem; border-radius: 3px; }
+    pre { background: #f4f4f4; padding: 1rem; border-radius: 5px; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    th, td { border: 1px solid #ddd; padding: 0.5rem; text-align: left; }
+    th { background: #f4f4f4; }
+    .badge { display: inline-block; background: #0066cc; color: white; padding: 0.2rem 0.5rem; border-radius: 3px; font-size: 0.8rem; }
+    .nav { display: flex; gap: 1rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #ddd; }
+    .nav a { color: #0066cc; text-decoration: none; }
+    .nav a:hover { text-decoration: underline; }
+    .nav a.active { font-weight: bold; }
+    .flow { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin: 1rem 0; }
+    .flow-step { background: #e3f2fd; padding: 0.5rem 1rem; border-radius: 5px; }
+    .flow-arrow { color: #0066cc; font-weight: bold; }
+    .tip { background: #e8f5e9; border-left: 4px solid #4caf50; padding: 1rem; margin: 1rem 0; }
+    .warning { background: #fff3e0; border-left: 4px solid #ff9800; padding: 1rem; margin: 1rem 0; }
+  </style>
+</head>
+<body>
+  <div class="nav">
+    <a href="/">Home</a>
+    <a href="/docs/SPEC-process.html" class="active">SPEC Process</a>
+    <a href="/docs/workflows.html">Workflows</a>
+    <a href="/docs/tokens.html">Tokens</a>
+    <a href="/docs/agents.html">Agents</a>
+    <a href="/docs/skills.html">Skills</a>
+  </div>
+
+  <h1>SPEC-Driven Development Process</h1>
+  <p>A structured workflow that ensures every feature is properly specified before implementation.</p>
+
+  <h2>Overview</h2>
+  <div class="flow">
+    <span class="flow-step">📋 SPEC</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">📝 Issue</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">🌿 Branch</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">🔧 PR</span>
+  </div>
+
+  <h2>Why SPEC First?</h2>
+  <table>
+    <tr><th>Without SPEC</th><th>With SPEC</th></tr>
+    <tr><td>Scope creep</td><td>Clear boundaries</td></tr>
+    <tr><td>Unclear requirements</td><td>Testable criteria</td></tr>
+    <tr><td>Rework needed</td><td>Done right the first time</td></tr>
+    <tr><td>Untracked progress</td><td>Checkbox tracking</td></tr>
+  </table>
+
+  <h2>The Workflow</h2>
+
+  <h3>1. Define Feature</h3>
+  <p>User provides:</p>
+  <ul>
+    <li><strong>Feature name</strong> - 2-4 words</li>
+    <li><strong>Description</strong> - What it does</li>
+    <li><strong>Motivation</strong> - Why it's needed</li>
+    <li><strong>Requirements</strong> - Any ideas or tech preferences</li>
+  </ul>
+
+  <h3>2. Create SPEC</h3>
+  <p>Agent creates specification with:</p>
+  <ul>
+    <li>Frontmatter (issue, status, agent, created)</li>
+    <li>Overview (one-paragraph description)</li>
+    <li>Motivation (problem solved)</li>
+    <li>Requirements (checkboxes)</li>
+    <li>Acceptance Criteria (testable checkboxes)</li>
+    <li>Design Decisions (with rationale)</li>
+    <li>Tasks (implementable checkboxes)</li>
+    <li>Dependencies (external/internal)</li>
+    <li>Out of Scope (what's NOT included)</li>
+  </ul>
+
+  <h3>3. GitHub Issue</h3>
+  <p>After SPEC approval:</p>
+  <ul>
+    <li>Title: <code>SPEC: [Feature Name]</code></li>
+    <li>Labels: <span class="badge">spec</span> <span class="badge">approved</span></li>
+    <li>Body: Full SPEC content</li>
+  </ul>
+
+  <h3>4. Feature Branch</h3>
+  <p>Branch created from issue number:</p>
+  <pre><code>spec/{issue-number}-{feature-slug}
+# Example: spec/023-fix-documents</code></pre>
+
+  <h3>5. Implementation</h3>
+  <p>Tasks tracked in both:</p>
+  <ul>
+    <li>SPEC.md (checkboxes)</li>
+    <li>GitHub issue (checkbox comments)</li>
+  </ul>
+
+  <h3>6. Pull Request</h3>
+  <p>When complete:</p>
+  <ul>
+    <li>Title: <code>Closes #[issue]: [feature]</code></li>
+    <li>Body: Changes + <code>Closes #[issue]</code></li>
+    <li>Labels updated</li>
+    <li>Review requested</li>
+  </ul>
+
+  <h3>7. Archive</h3>
+  <p>After PR merge:</p>
+  <ul>
+    <li>SPEC moved to <code>.specs/archived/</code></li>
+    <li>Status updated to <code>completed</code></li>
+  </ul>
+
+  <h2>SPEC Template</h2>
+  <pre><code>---
+name: feature-slug
+issue: 001
+status: draft
+technology: [detected]
+agent: [inferred + approved]
+created: YYYY-MM-DD
+---
+
+# Feature Name
+
+## Overview
+One-paragraph description.
+
+## Motivation
+Why is this needed?
+
+## Requirements
+- [ ] Requirement 1
+- [ ] Requirement 2
+
+## Acceptance Criteria
+- [ ] Testable criterion 1
+- [ ] Testable criterion 2
+
+## Tasks
+- [ ] Task 1
+- [ ] Task 2
+
+## Dependencies
+**External:** Library/Service
+**Internal:** Required feature
+
+## Out of Scope
+- What's NOT included</code></pre>
+
+  <h2>Tracking</h2>
+  <p>All SPECs stored in <code>.specs/</code> directory:</p>
+  <pre><code>.specs/
+├── README.md              # Index
+├── archived/              # Completed
+├── 001-feature.md       # Active
+└── ...
+</code></pre>
+
+  <h2>Commands</h2>
+  <pre><code># List all SPECs
+cat .specs/README.md
+
+# View active SPECS
+ls .specs/[0-9]*.md
+
+# View archived SPECs
+ls .specs/archived/</code></pre>
+
+  <div class="tip">
+    <strong>Tip:</strong> Use the <code>spec-driven</code> skill to create new SPECs with this full workflow.
+  </div>
+
+  <hr>
+  <p><small><a href="https://github.com/calavia-org/opencode-hub">GitHub</a></small></p>
+
+  <script>
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+</body>
+</html>

@@ -1,6 +1,7 @@
 {
   "agents": [
     { "name": "spec-driven", "description": "SPEC-driven development orchestrator" },
+    { "name": "opencode-implementer", "description": "Implements OpenCode/Spec-driven code" },
     { "name": "go-implementer", "description": "Implements Go code" },
     { "name": "go-tester", "description": "Runs Go tests" },
     { "name": "go-verifier", "description": "Validates non-functional" },

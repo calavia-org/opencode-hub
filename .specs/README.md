@@ -8,13 +8,14 @@ This directory contains all project specifications organized by issue number.
 |---|---------|-------|--------|---------|--------|
 | 011 | PR Review Merge Workflow | - | - | - | - |
 | 012 | Remote Config Loader | - | - | - | - |
+| 023 | Fix Documents | opencode-implementer | approved | 2026-04-26 | spec/020-fix-documents |
 
 ## Archived SPECs
 
 | # | Feature | Agent | Status | Merged |
 |---|---------|-------|--------|--------|
-| 019 | Enhance Spec-Driven Agent | javascript-implementer | Completed | 2026-04-25 |
-| 013 | Expert Config Implementer | - | Completed | 2026-04-25 |
+| 019 | Enhance Spec-Driven Agent | opencode-implementer | Completed | 2026-04-25 |
+| 013 | Expert Config Implementer | opencode-implementer | Completed | 2026-04-25 |
 | 001 | SPEC Tracking System | - | Completed | 2026-04-24 |
 
 ---
