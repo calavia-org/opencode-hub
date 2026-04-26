@@ -84,22 +84,9 @@ cd /tmp/test-remote-load && opencode debug config
 
 ### Why Remote Config Does NOT Load
 
-OpenCode only fetches `.well-known/opencode` when:
-1. Authenticated with a provider that supports well-known
-2. Provider has `wellknown` URL configured
-3. Provider returns valid `.well-known/opencode` endpoint
+**Correction from Context7 docs:** OAuth is NOT required. Remote config loads **automatically upon authentication** when any provider API key is configured.
 
-The current setup:
-- GitHub Copilot OAuth is configured
-- But NO well-known issuer URL configured
-- Remote config NOT automatically fetched
-
-### Gap: Provider Configuration Missing
-
-The remote config at `https://opencode.calavia.org` exists but there's no provider connection to trigger loading. To fix:
-
-1. Configure a provider with `wellknown: "https://opencode.calavia.org"` in auth, OR
-2. Configure the GitHub Copilot provider to point to opencode.calavia.org
+Required: Configure any provider (e.g., Anthropic, OpenAI) with API key via `opencode auth login`.
 
 ### Status: PARTIALLY COMPLETE
 
@@ -162,8 +149,8 @@ Instead of a local config file, users can deploy their own `opencode.json` at th
 
 | Decision | Rationale | Alternative Considered |
 |----------|----------|------------------------|
-| Remote config via .well-known/opencode.json | Standard location for OAuth issuer discovery | Custom endpoint |
-| OAuth flow for authentication | Secure, supports GitHub auth | API key / token |
+| Remote config via .well-known/opencode.json | Standard well-known endpoint | Custom endpoint |
+| Provider API key triggers loading | Automatic on auth | Manual URL config |
 | Per-repository file evaluation | Simplifies repo-specific overrides | Global config only |
 | **No local config file** | Unnecessary complexity | Per-repo `.opencode/config.json` |
 
@@ -189,7 +176,7 @@ Instead of a local config file, users can deploy their own `opencode.json` at th
 
 **External:**
 - `https://opencode.calavia.org/.well-known/opencode.json` - Config endpoint
-- GitHub OAuth - Authentication provider
+- Any provider API key configured via `opencode auth login` - Triggers loading
 
 **Internal:**
 - None
