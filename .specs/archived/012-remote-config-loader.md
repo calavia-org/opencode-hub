@@ -94,7 +94,41 @@ Required: Configure any provider (e.g., Anthropic, OpenAI) with API key via `ope
 |------|--------|
 | Remote URL accessible | ✅ Working |
 | OpenCode loads URL (curl) | ✅ Working |
-| OpenCode loads via OAuth | ❌ NOT Working - provider gap |
+| OpenCode loads via provider auth | ❌ NOT Working - needs further investigation |
+
+## Final Test Results
+
+```bash
+# Test 1: Remote URL (curl)
+curl -sI https://opencode.calavia.org/.well-known/opencode.json
+# Result: 200 OK ✓
+
+# Test 2: OpenCode config output
+opencode debug config
+# Result: mcp: null, agents: null, skills: null ✗
+
+# Test 3: Debug logs
+opencode debug config --log-level DEBUG 2>&1 | grep remote
+# Result: No fetch attempt logged ✗
+```
+
+### Root Cause
+
+Context7 docs say remote config "fetched automatically upon authentication" but:
+- GitHub Copilot OAuth configured
+- No fetch attempt in logs
+- Config shows null values
+
+This suggests either:
+1. GitHub Copilot provider doesn't support well-known loading
+2. Need a different provider (API key-based) to trigger
+3. Or need to explicitly configure provider with well-known URL
+
+### Remaining Work
+
+1. Test with API key provider (Anthropic/OpenAI) instead of OAuth
+2. Or find how to configure provider with explicit well-known URL
+3. Or file bug/report with OpenCode team
 
 ## Test Results
 
