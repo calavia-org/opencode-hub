@@ -5,6 +5,8 @@ description: Find production issue cause in distributed systems and containerize
 
 # Root Cause Analysis Skill
 
+> ⚡ **Note**: If this skill performs GitHub operations, it must follow [GitHub Workflow Rules](docs/github-workflow-rules.md)
+
 Investigate issues in containerized, distributed environments.
 
 ## Steps

@@ -5,6 +5,10 @@ description: Quickly become productive in a new repository.
 
 # Repository Bootstrap Skill
 
+> ⚡ **Note**: If this skill performs GitHub operations, it must follow [GitHub Workflow Rules](docs/github-workflow-rules.md):
+> - MCP-only for GitHub API (no gh CLI, curl)
+> - Token separation (BOT vs HUMAN)
+
 Goal: Become productive quickly in a new repository
 
 Steps:

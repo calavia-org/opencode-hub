@@ -5,6 +5,8 @@ description: Context7 MCP integration for up-to-date library documentation.
 
 # Context7 Skill
 
+> ⚡ **Note**: If this skill performs GitHub operations, it must follow [GitHub Workflow Rules](docs/github-workflow-rules.md)
+
 Get up-to-date library documentation directly in your coding sessions.
 
 ## Overview

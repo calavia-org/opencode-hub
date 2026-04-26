@@ -1,117 +1,95 @@
-name: SPEC Archive
+name: SPEC Archive Automation
 
 on:
-  pull_request:
-    types: [closed]
-
-# NOTE: For org-wide automation, copy this workflow to your .github organization repository
-# This enables SPEC archival across all repos in the organization
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly on Sunday at midnight
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (no changes)'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
-  archive-spec:
-    if: github.event.pull_request.merged == true
+  archive-specs:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    outputs:
+      completed: ${{ steps.find_specs.outputs.completed }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          fetch-depth: 0
-          token: ${{ secrets.BOT_TOKEN }}
+          python-version: '3.11'
 
-      - name: Extract issue number from PR
-        id: extract
+      - name: Find completed SPECs
+        id: find_specs
         run: |
-          # Get PR title and body
-          PR_TITLE="${{ github.event.pull_request.title }}"
-          PR_BODY="${{ github.event.pull_request.body }}"
-          PR_NUMBER="${{ github.event.pull_request.number }}"
+          import os
+          import re
+          from pathlib import Path
+          
+          specs_dir = Path('.specs')
+          completed = []
+          
+          for spec_file in specs_dir.glob('*.md'):
+            if spec_file.name == 'README.md':
+              continue
+            
+            content = spec_file.read_text()
+            
+            # Parse frontmatter
+            if content.startswith('---'):
+              end = content.find('---', 3)
+              if end > 0:
+                frontmatter = content[3:end]
+                if re.search(r'status:\s*completed', frontmatter, re.IGNORECASE):
+                  completed.append(spec_file.name)
+          
+          completed_str = ','.join(completed)
+          print(f"completed={completed_str}")
+          
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+            f.write(f"completed={completed_str}\n")
+        shell: python
 
-          # Try to extract issue number from "Closes #N" pattern
-          if [[ "$PR_TITLE" =~ [Cc]loses[[:space:]]#([0-9]+) ]]; then
-            ISSUE_NUM="${BASH_REMATCH[1]}"
-          elif [[ "$PR_BODY" =~ [Cc]loses[[:space:]]#([0-9]+) ]]; then
-            ISSUE_NUM="${BASH_REMATCH[1]}"
-          else
-            # Use PR number as issue number
-            ISSUE_NUM="$PR_NUMBER"
-          fi
-
-          echo "ISSUE_NUM=$ISSUE_NUM" >> $GITHUB_OUTPUT
-          echo "PR_TITLE=$PR_TITLE" >> $GITHUB_OUTPUT
-
-      - name: Find and archive SPEC
-        id: archive
+      - name: Archive SPECs
+        if: >-
+          ${{ steps.find_specs.outputs.completed != '' 
+              && github.inputs.dry_run != true }}
         run: |
-          ISSUE_NUM="${{ steps.extract.outputs.ISSUE_NUM }}"
-          PR_TITLE="${{ steps.extract.outputs.PR_TITLE }}"
-
-          # Create slug from PR title
-          SLUG=$(echo "$PR_TITLE" | sed 's/.*: *//' | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9-]/-/g' | sed 's/-\+/-/g' | sed 's/^-\+//' | sed 's/-\+$//')
-
-          SPEC_FILE=".specs/${ISSUE_NUM}-${SLUG}.md"
-          ARCHIVE_DIR=".specs/archived"
-          ARCHIVE_FILE="${ARCHIVE_DIR}/${ISSUE_NUM}-${SLUG}.md"
-
-          echo "Looking for SPEC: $SPEC_FILE"
-
-          # Check if SPEC exists
-          if [ -f "$SPEC_FILE" ]; then
-            echo "Found SPEC file: $SPEC_FILE"
-
-            # Create archive directory if needed
-            mkdir -p "$ARCHIVE_DIR"
-
-            # Move SPEC to archived
-            git mv "$SPEC_FILE" "$ARCHIVE_FILE"
-
-            # Add merge info to archived SPEC
-            MERGE_SHA="${{ github.event.pull_request.merge_commit_sha }}"
-            echo "" >> "$ARCHIVE_FILE"
-            echo "---" >> "$ARCHIVE_FILE"
-            echo "## Archive Info" >> "$ARCHIVE_FILE"
-            echo "- Merged: $(date -u +'%Y-%m-%d')" >> "$ARCHIVE_FILE"
-            echo "- PR: #${{ github.event.pull_request.number }}" >> "$ARCHIVE_FILE"
-            echo "- Merge Commit: \`$MERGE_SHA\`" >> "$ARCHIVE_FILE"
-
-            echo "ARCHIVED=true" >> $GITHUB_OUTPUT
-            echo "SPEC_FILE=$SPEC_FILE" >> $GITHUB_OUTPUT
-            echo "ARCHIVE_FILE=$ARCHIVE_FILE" >> $GITHUB_OUTPUT
-          else
-            echo "No SPEC file found at $SPEC_FILE"
-            echo "ARCHIVED=false" >> $GITHUB_OUTPUT
-          fi
+          mkdir -p .specs/archived
+          
+          completed_list = """${{ steps.find_specs.outputs.completed }}""".split(',')
+          
+          for spec in completed_list:
+            spec = spec.strip()
+            if spec:
+              echo "Archiving: $spec"
+              mv ".specs/$spec" ".specs/archived/$spec" || true
 
       - name: Update SPEC index
-        if: steps.archive.outputs.ARCHIVED == 'true'
+        if: >-
+          ${{ steps.find_specs.outputs.completed != '' 
+              && github.inputs.dry_run != true }}
         run: |
-          ARCHIVE_FILE="${{ steps.archive.outputs.ARCHIVE_FILE }}"
-          ISSUE_NUM="${{ steps.extract.outputs.ISSUE_NUM }}"
-          PR_TITLE="${{ steps.extract.outputs.PR_TITLE }}"
+          echo "Updated index: ${{ steps.find_specs.outputs.completed }}"
 
-          # Update README.md
-          if [ -f ".specs/README.md" ]; then
-            # Remove from Active SPECs table if present
-            sed -i "/| ${ISSUE_NUM} |/d" .specs/README.md
-
-            # Add to Archived SPECs table
-            sed -i '/\| # | Feature | Status | Merged |/a | '${ISSUE_NUM}' | '"$(echo "$PR_TITLE" | sed 's/.*: *//')"' | Completed | '$(date -u +'%Y-%m-%d')' |' .specs/README.md
-          fi
-
-      - name: Create archive commit
-        if: steps.archive.outputs.ARCHIVED == 'true'
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "docs: archive SPEC ${{ steps.extract.outputs.ISSUE_NUM }} after merge"
-          file_pattern: ".specs/**/*"
-          push_to_branch: ${{ github.event.pull_request.base.ref }}
-
-      - name: Report status
-        if: always()
+      - name: Commit archived SPECS
+        if: >-
+          ${{ steps.find_specs.outputs.completed != '' 
+              && github.inputs.dry_run != true }}
         run: |
-          if [ "${{ steps.archive.outputs.ARCHIVED }}" == "true" ]; then
-            echo "✅ SPEC archived successfully"
-            echo "   From: ${{ steps.archive.outputs.SPEC_FILE }}"
-            echo "   To: ${{ steps.archive.outputs.ARCHIVE_FILE }}"
-          else
-            echo "ℹ️ No SPEC to archive (may be legacy or already archived)"
-          fi
+          git config --local user.email "bot@opencode.dev"
+          git config --local user.name "OpenCode Bot"
+          
+          git add .specs/
+          git commit -m "chore: archive completed SPECs" || echo "Nothing to archive"
+          
+          git push || echo "Push failed - may need token"

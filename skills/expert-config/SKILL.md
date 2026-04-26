@@ -9,6 +9,8 @@ requires:
   - context7
 ---
 
+> ⚡ **Note**: If this skill performs GitHub operations, it must follow [GitHub Workflow Rules](docs/github-workflow-rules.md)
+
 You implement opencode configuration skills following best practices.
 
 ## Context

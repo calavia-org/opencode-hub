@@ -3,9 +3,15 @@ name: spec-driven
 description: Create and manage specifications for features with full GitHub workflow and .specs/ storage.
 requires:
   - github-workflow
+  - github-workflow-rules
 ---
 
 # SPEC-Driven Development Skill
+
+> ⚡ **Load at start**: This skill enforces [GitHub Workflow Rules](docs/github-workflow-rules.md)
+> - MCP-only for GitHub API (no gh CLI, curl)
+> - Token separation (BOT vs HUMAN)
+> - MCP failure stops execution
 
 Create detailed specifications before implementation with complete GitHub workflow.
 
@@ -135,10 +141,11 @@ This skill orchestrates the complete development workflow:
 5. Update `/.specs/README.md` index
 
 ### 2. Create GitHub Issue
-After SPEC is approved, create GitHub issue using MCP via `gh` CLI:
+After SPEC is approved, create GitHub issue using MCP tool:
 
 ```bash
-gh issue create \
+# Use MCP tool - gh CLI is forbidden for API calls
+mcp_github create-issue \
   --title "SPEC: [Feature Name]" \
   --body "[spec-content-from-.specs]" \
   --label "spec" --label "approved"
@@ -160,7 +167,8 @@ git checkout -b spec/{issue-number}-{slug}
 When all tasks complete:
 
 ```bash
-gh pr create \
+# Use MCP tool - gh CLI is forbidden
+mcp_github create-pull-request \
   --title "Closes #[issue]: [feature]" \
   --body "[changes]\n\nCloses #[issue]\n\nSPEC: /.specs/[issue]-[slug].md" \
   --head "spec/[issue]-[slug]" --base "main"
