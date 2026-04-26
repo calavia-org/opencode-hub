@@ -127,7 +127,7 @@ This suggests either:
 ### Remaining Work
 
 1. Test with API key provider (Anthropic/OpenAI) instead of OAuth - TRIED: No effect
-2. Test with manual remote config in opencode.json - TRIED: No effect
+2. Test with manual remote config in opencode.json - TRIED: Config valid but NOT fetching
 3. Report to OpenCode team
 
 ### Explicit Well-known URL Configuration
@@ -141,18 +141,22 @@ Found in config schema:```json
 }
 ```
 
-**Key Finding:** Skills support loading from URLs via `.well-known/skills/` endpoint. But full config (`agents`, `mcp`, etc.) requires organization-level configuration.### Why Remote Config Doesn't Work
+### Final Test: .opencode.json with Remote URLs
 
-OpenCode remote config design:- **Intended for:** Organizations (GitHub Copilot for Business, Enterprise)- **Mechanism:** User authenticates via org's provider → org provides well-known endpoint- **Reality:** Regular GitHub OAuth apps don't trigger this load
+Tested with `.opencode.json`:
+```json
+{
+  "skills": { "urls": ["https://opencode.calavia.org/skills"] }
+}
+```
 
-Skills work via URL because they have explicit `skills.urls` config option.
-Full config (agents, MCP) requires-org-hosted well-known endpoint - not available.
+**Result:** Config loads but skills load from LOCAL cache, NOT remote!
+- Skills come from: `/Users/jcalavia/.config/opencode/skills/`
+- NOT from: `https://opencode.calavia.org/skills`
 
-### Correct Next Steps
+This is a **BUG in OpenCode** - config accepts URL but doesn't fetch.
 
-**Option A:** Skills only - already works via skills.urls config
-**Option B:** Create new SPEC for skills URL loading as proof of concept
-**Option C:** Accept gap - remote config requires enterprise features
+### Conclusion
 
 ### Conclusion
 
