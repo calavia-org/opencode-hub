@@ -151,16 +151,16 @@ Tasks tracked in both:
 - SPEC.md (checkboxes)
 - GitHub issue (checkbox comments)
 
-### 5.1. Update Documentation (ALWAYS Required)
+### 5.1. Update Documentation (ALWAYS Required - Any Repository)
 
-**RULE:** After implementation, ALWAYS update documentation before creating PR:
+**RULE:** After implementation, ALWAYS update documentation BEFORE creating PR. This applies to ALL repositories using SPEC-driven workflow:
 
-- [ ] Update `docs/` with new workflows, processes, or findings
+- [ ] Update repo's `docs/` folder with new workflows, processes, or findings
 - [ ] Update `SPEC-process.md` if workflow changed
 - [ ] Update `tokens.md` if token requirements changed
-- [ ] Update `workflows.md` if diagrams changed
+- [ ] Update any repository-specific documentation
 
-> **Important:** Documentation updates are part of the implementation. Never skip this step.
+> **Important:** Documentation updates are part of the implementation. Never skip this step - applies to every repo.
 
 ### 6. Pull Request
 
