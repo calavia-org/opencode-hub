@@ -1,19 +1,78 @@
 #!/bin/bash
 # Calavia OpenCode Hub - Organization Setup Script
 # This script sets up OpenCode with centralized configuration from this repository
+#
+# Usage:
+#   setup.sh           # Fresh install or update
+#   setup.sh --update # Force update from repository
+#   setup.sh --clean  # Remove and reinstall
 
 set -e
+
+# Parse arguments
+ACTION="${1:-install}"
 
 # Configuration
 REPO_URL="https://github.com/calavia-org/opencode-hub.git"
 CONFIG_DIR="${OPENCODE_CONFIG_DIR:-$HOME/.config/opencode}"
 GLOBAL_CONFIG="$HOME/.config/opencode/opencode.json"
-LOCAL_CONFIG="$HOME/.opencode.json"
 
 echo "=============================================="
 echo "  Calavia OpenCode Hub - Organization Setup"
 echo "=============================================="
 echo ""
+echo "Mode: $ACTION"
+echo ""
+
+# Handle different actions
+case "$ACTION" in
+    --update)
+        echo "Forcing update from repository..."
+        if [ -d "$CONFIG_DIR/.git" ]; then
+            cd "$CONFIG_DIR" && git pull origin main --quiet
+            echo "✓ Updated"
+            
+            # Reinstall symlinks
+            echo "Reinstalling symlinks..."
+            [ -d "$CONFIG_DIR/agents" ] && ln -sf "$CONFIG_DIR/agents" "$HOME/.config/opencode/agents" 2>/dev/null && echo "✓ Agents updated"
+            [ -d "$CONFIG_DIR/skills" ] && ln -sf "$CONFIG_DIR/skills" "$HOME/.config/opencode/skills" 2>/dev/null && echo "✓ Skills updated"
+            [ -d "$CONFIG_DIR/modes" ] && ln -sf "$CONFIG_DIR/modes" "$HOME/.config/opencode/modes" 2>/dev/null && echo "✓ Modes updated"
+            [ -d "$CONFIG_DIR/commands" ] && ln -sf "$CONFIG_DIR/commands" "$HOME/.config/opencode/commands" 2>/dev/null && echo "✓ Commands updated"
+            
+            echo ""
+            echo "Update complete!"
+            exit 0
+        else
+            echo "ERROR: No existing installation found. Run without --update first."
+            exit 1
+        fi
+        ;;
+    --clean)
+        echo "Removing existing installation..."
+        rm -rf "$CONFIG_DIR"
+        echo "✓ Removed"
+        echo ""
+        echo "Running fresh install..."
+        ;;
+    --help|-h)
+        echo "Usage: setup.sh [--update|--clean|--help]"
+        echo ""
+        echo "Options:"
+        echo "  (none)   Fresh install or update existing"
+        echo "  --update Force update from repository"
+        echo "  --clean  Remove and reinstall"
+        echo "  --help  Show this help"
+        exit 0
+        ;;
+esac
+
+# For install mode, check if already installed
+if [ -d "$CONFIG_DIR/.git" ]; then
+    echo "Configuration already exists at $CONFIG_DIR"
+    echo "Run 'setup.sh --update' to update"
+    echo ""
+    exit 0
+fi
 
 # Function to check if command exists
 command_exists() {
@@ -32,7 +91,7 @@ echo "✓ git found"
 
 # Check if OpenCode is installed
 if command_exists opencode; then
-    opencode --version
+    opencode --version 2>/dev/null | head -1
     echo "✓ OpenCode found"
 else
     echo "WARNING: OpenCode not installed. Install from: https://opencode.ai"
@@ -45,33 +104,27 @@ echo "Checking tokens..."
 if [ -n "$OPENCODE_BOT_TOKEN" ]; then
     echo "✓ OPENCODE_BOT_TOKEN set"
 else
-    echo "WARNING: OPENCODE_BOT_TOKEN not set"
+    echo "⚠ OPENCODE_BOT_TOKEN not set (optional)"
 fi
 
 if [ -n "$HUMAN_TOKEN" ]; then
     echo "✓ HUMAN_TOKEN set"
 else
-    echo "WARNING: HUMAN_TOKEN not set"
+    echo "⚠ HUMAN_TOKEN not set (optional)"
 fi
 
 if [ -n "$CONTEXT7_API_KEY" ]; then
     echo "✓ CONTEXT7_API_KEY set"
 else
-    echo "WARNING: CONTEXT7_API_KEY not set (optional)"
+    echo "⚠ CONTEXT7_API_KEY not set (optional)"
 fi
 
-# Clone or update repository
+# Clone repository
 echo ""
 echo "Setting up configuration..."
 
-if [ -d "$CONFIG_DIR/.git" ]; then
-    echo "Updating existing configuration..."
-    cd "$CONFIG_DIR"
-    git pull origin main --quiet || echo "WARNING: Could not update (may have local changes)"
-else
-    echo "Cloning repository to $CONFIG_DIR..."
-    git clone --depth 1 "$REPO_URL" "$CONFIG_DIR"
-fi
+echo "Cloning repository to $CONFIG_DIR..."
+git clone --depth 1 "$REPO_URL" "$CONFIG_DIR"
 
 # Create directory structure
 mkdir -p "$HOME/.config/opencode"
@@ -142,7 +195,7 @@ cat > "$GLOBAL_CONFIG" << 'EOF'
 }
 EOF
 
-echo "✓ Global MCP config created at $GLOBAL_CONFIG"
+echo "✓ Global MCP config created"
 
 # Create README with setup instructions
 echo ""
@@ -164,8 +217,10 @@ echo ""
 echo "  # Context7 (for documentation lookup)"
 echo "  export CONTEXT7_API_KEY=ctx7_..."
 echo ""
-echo "To enable MCP servers, create $LOCAL_CONFIG:"
+echo "To enable MCP servers, create ~/.opencode.json:"
 echo ""
-echo '  echo "{\"mcp\":{\"github_bot\":{\"enabled\":true}}}" > ~/.opencode.json'
+echo '  {"mcp":{"github_bot":{"enabled":true}}}'
 echo ""
 echo "Then run: opencode"
+echo ""
+echo "To update later: ./setup.sh --update"
