@@ -56,18 +56,58 @@ The remote config is loaded via OpenCode's well-known discovery:
 ### Required Testing (Future)
 
 ```bash
-# 1. Start in fresh directory (no local config)
-cd /tmp/test-opencode-load
+# In fresh directory
+cd /tmp/test-remote-load
 
-# 2. Authenticate with provider supporting well-known
+# Authenticate with GitHub (OAuth)
 opencode auth login github
 
-# 3. Verify remote config loaded
+# Verify remote config loaded
 opencode --debug config 2>&1 | grep "well-known"
 
-# 4. Verify MCP servers connected
+# Verify MCP connected
 opencode mcp list
 ```
+
+## Actual OpenCode Test Results
+
+```bash
+# Test: OpenCode config loading
+cd /tmp/test-remote-load && opencode debug config
+
+# Result: No remote config loaded
+# - mcp: null
+# - agents: null  
+# - skills: null
+# - wellknown: null
+```
+
+### Why Remote Config Does NOT Load
+
+OpenCode only fetches `.well-known/opencode` when:
+1. Authenticated with a provider that supports well-known
+2. Provider has `wellknown` URL configured
+3. Provider returns valid `.well-known/opencode` endpoint
+
+The current setup:
+- GitHub Copilot OAuth is configured
+- But NO well-known issuer URL configured
+- Remote config NOT automatically fetched
+
+### Gap: Provider Configuration Missing
+
+The remote config at `https://opencode.calavia.org` exists but there's no provider connection to trigger loading. To fix:
+
+1. Configure a provider with `wellknown: "https://opencode.calavia.org"` in auth, OR
+2. Configure the GitHub Copilot provider to point to opencode.calavia.org
+
+### Status: PARTIALLY COMPLETE
+
+| What | Status |
+|------|--------|
+| Remote URL accessible | ✅ Working |
+| OpenCode loads URL (curl) | ✅ Working |
+| OpenCode loads via OAuth | ❌ NOT Working - provider gap |
 
 ## Test Results
 
