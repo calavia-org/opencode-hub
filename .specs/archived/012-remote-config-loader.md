@@ -7,6 +7,7 @@ technology: "opencode"
 agent: "opencode-implementer"
 created: 2026-04-25
 completed: 2026-04-26
+resolution: "setup.sh script for organizational distribution"
 ---
 
 # Remote Config Loader
@@ -155,6 +156,20 @@ Tested with `.opencode.json`:
 - NOT from: `https://opencode.calavia.org/skills`
 
 This is a **BUG in OpenCode** - config accepts URL but doesn't fetch.
+
+### Organizational Setup Instead
+
+Since remote URL loading doesn't work, use **setup.sh script** to distribute configuration:
+
+```bash
+# Clone and install organization config
+curl -sL https://raw.githubusercontent.com/calavia-org/opencode-hub/main/setup.sh | bash
+```
+
+This provides:
+- Symlinks to agents, skills, modes, commands from repository
+- Global `opencode.json` with MCP server configurations
+- Token setup instructions
 
 ### Conclusion
 
