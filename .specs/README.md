@@ -10,6 +10,7 @@ This directory contains all project specifications organized by issue number.
 | 012 | Remote Config Loader | opencode-implementer | Completed | 2026-04-25 | spec/012-remote-config-loader |
 | 031 | GitHub Workflow Fine Grained | opencode-implementer | approved | 2026-04-26 | spec/031-github-workflow-fine-grained |
 | 023 | Fix Documents | opencode-implementer | approved | 2026-04-26 | spec/020-fix-documents |
+| 032 | Engram Context Memory | opencode-implementer | in progress | 2026-04-26 | spec/033-engram-context-memory |
 
 ## Archived SPECs
 

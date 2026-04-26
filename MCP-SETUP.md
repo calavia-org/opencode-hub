@@ -99,9 +99,90 @@ curl -s -X POST https://api.githubcopilot.com/mcp/ \
   -d '{"jsonrpc":"2.0","method":"tools/list","id":1}'
 ```
 
-## Checklist
+## Checklist 
 
 - [ ] OPENCODE_BOT_TOKEN exported
 - [ ] HUMAN_TOKEN exported
 - [ ] Both MCPs responding to tools/list
 - [ ] I know which MCP to use for each action
+
+---
+
+## Engram Integration (Context Memory)
+
+Engram provides persistent context memory for OpenCode sessions. It stores typed memories (episodic, semantic, procedural) and provides semantic search via MCP.
+
+### Installation
+
+```bash
+# macOS
+brew install engram
+
+# Or download binary from https://github.com/softmaxdata/engram
+```
+
+### Setup OpenCode Integration
+
+```bash
+# One-command full setup (plugin + MCP)
+engram setup opencode
+```
+
+This command:
+1. Copies plugin to `~/.config/opencode/plugins/engram.ts`
+2. Adds MCP server entry to `opencode.json`
+3. Auto-starts HTTP server when needed
+
+### Manual MCP-Only Setup
+
+If you only want the 13 memory tools without the plugin:
+
+```json
+{
+  "mcp": {
+    "engram": {
+      "type": "local",
+      "command": ["engram", "mcp"],
+      "enabled": true
+    }
+  }
+}
+```
+
+### Starting the Server
+
+```bash
+# Start HTTP API server (default port 7437)
+engram serve
+
+# Or run MCP server directly
+engram mcp
+```
+
+### Available Memory Tools (13)
+
+| Tool | Purpose |
+|------|---------|
+| `mem_put` | Save memory with type |
+| `mem_search` | Vector similarity search |
+| `mem_timeline` | Chronological context |
+| `mem_context` | Recent session context |
+| `mem_summary` | Get session summary |
+| `mem_delete` | Delete memory |
+| `mem_update` | Update memory |
+| And more... |
+
+### Memory Types
+
+- **Episodic**: Conversation history, events
+- **Semantic**: Facts, knowledge, preferences
+- **Procedural**: How-to, workflows
+
+### Verify Integration
+
+```bash
+# Check engram is configured
+engram stats
+```
+
+Then in OpenCode, ask: "What memories do I have?"
