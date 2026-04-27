@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+  <title>Test Fetch</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <div id="content">Loading...</div>
+  <script>
+    console.log('Script started');
+    fetch('/docs/SPEC-process.md')
+      .then(response => {
+        console.log('Fetch response:', response.status, response.ok);
+        if (!response.ok) throw new Error('Failed: ' + response.status);
+        return response.text();
+      })
+      .then(text => {
+        console.log('Got text, length:', text.length);
+        document.getElementById('content').innerHTML = marked.parse(text);
+      })
+      .catch(err => {
+        console.error('Error:', err);
+        document.getElementById('content').innerHTML = 'Error: ' + err.message;
+      });
+  </script>
+</body>
+</html>
