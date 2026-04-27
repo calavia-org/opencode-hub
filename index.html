@@ -16,6 +16,8 @@
     table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
     th, td { border: 1px solid #ddd; padding: 0.5rem; text-align: left; }
     th { background: #f4f4f4; }
+    a { color: #0066cc; text-decoration: none; }
+    a:hover { text-decoration: underline; }
     .badge { display: inline-block; background: #0066cc; color: white; padding: 0.2rem 0.5rem; border-radius: 3px; font-size: 0.8rem; }
     .nav { display: flex; gap: 1rem; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #ddd; }
     .nav a { color: #0066cc; text-decoration: none; }
@@ -29,15 +31,17 @@
     .cta { display: inline-block; background: #0066cc; color: white; padding: 0.75rem 1.5rem; border-radius: 5px; text-decoration: none; margin: 0.5rem 0; }
     .cta:hover { background: #0052a3; }
     #content { margin-top: 2rem; }
+    /* Mermaid diagram styling */
+    .mermaid { text-align: center; margin: 2rem 0; padding: 1rem; background: #f9f9f9; border-radius: 5px; }
   </style>
 </head>
 <body>
   <div class="nav">
     <a href="/">Home</a>
-    <a href="/docs/SPEC-process">SPEC Process</a>
-    <a href="/docs/workflows">Workflows</a>
-    <a href="/docs/tokens">Tokens</a>
-    <a href="/docs/PROJECT-SETUP">Project Setup</a>
+    <a href="/docs/SPEC-process.md">SPEC Process</a>
+    <a href="/docs/workflows.md">Workflows</a>
+    <a href="/docs/tokens.md">Tokens</a>
+    <a href="/docs/PROJECT-SETUP.md">Project Setup</a>
   </div>
 
   <div id="content">
@@ -45,16 +49,37 @@
   </div>
 
   <script>
+    // Configure marked to handle mermaid code blocks
+    const renderer = new marked.Renderer();
+    
+    // Override code rendering to detect mermaid blocks
+    renderer.code = function(code, language) {
+      if (language === 'mermaid') {
+        return '<div class="mermaid">' + code + '</div>';
+      }
+      return '<pre><code class="language-' + language + '">' + code + '</code></pre>';
+    };
+
     // Load and render README.md
     fetch('/README.md')
       .then(response => response.text())
       .then(text => {
-        document.getElementById('content').innerHTML = marked.parse(text);
-        // Initialize mermaid diagrams
-        mermaid.initialize({ startOnLoad: true });
+        // Parse markdown
+        document.getElementById('content').innerHTML = marked.parse(text, { renderer: renderer });
+        
+        // Initialize mermaid
+        mermaid.initialize({ 
+          startOnLoad: true,
+          theme: 'default',
+          securityLevel: 'loose'
+        });
+        
+        // Force mermaid to re-render
+        mermaid.init(undefined, document.querySelectorAll('.mermaid'));
       })
       .catch(err => {
         document.getElementById('content').innerHTML = '<p>Error loading README.md</p>';
+        console.error('Error:', err);
       });
   </script>
 </body>
