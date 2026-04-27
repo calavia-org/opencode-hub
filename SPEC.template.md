@@ -58,12 +58,15 @@ Why is this needed? What user pain point does it address?
 
 ## Storage
 
-Place this SPEC file in `/.specs/` directory with naming pattern:
-`/.specs/{issue-number}-{feature-slug}.md`
+Place this SPEC file directly in context categories (SPEC files ARE context files):
 
-Example: `/.specs/042-api-rate-limiting.md`
+`.opencode/context/{category}/{NNN-feature-slug}.md`
 
-After completion, archive to `/.specs/archived/`.
+Examples:
+- `.opencode/context/core/001-spec-driven-process.md`
+- `.opencode/context/development/001-add-auth.md`
+
+After completion, update status to `completed` (stays in context/{category}/, no archiving).
 
 ## Agent Assignment
 

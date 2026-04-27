@@ -4,31 +4,38 @@ This guide explains how to set up the bot account and HUMAN token for OpenCode d
 
 ## Overview
 
-The system uses **two tokens** for proper separation of concerns:
+The system uses **two tokens + bot SSH key** for proper separation of concerns:
 
-| Token | Variable | Purpose | Can Approve | Can Merge |
-|-------|----------|---------|-------------|-----------|
-| Bot Token | `OPENCODE_BOT_TOKEN` | All automation tasks | ❌ No | ✅ Yes |
-| Human Token | `HUMAN_TOKEN` | Human approval actions | ✅ Yes | ✅ Yes |
+| Token | Variable | Purpose | Can Commit/Push | Can Approve | Can Merge |
+|-------|----------|---------|------------------|-------------|-----------|
+| Bot Token | `OPENCODE_BOT_TOKEN` | MCP API calls (issues, PRs) | ✅ Yes (SSH) | ❌ No | ❌ No |
+| Bot SSH Key | SSH (bot) | Git operations (branch, commit, push) | ✅ Yes | ❌ No | ❌ No |
+| Human Token | `HUMAN_TOKEN` | Reviews + approvals | ❌ No | ✅ Yes | ✅ Yes |
 
-## Why Two Tokens?
+## Why Bot + Human Separation?
 
-1. **Security**: Bot token has limited permissions
-2. **Audit Trail**: Human actions are clearly attributed
-3. **Approval Flow**: PRs require human approval before merge
-4. **Flexibility**: Human can override bot when needed
+1. **Security**: Bot has limited permissions (no approval rights)
+2. **Audit Trail**: Human actions clearly attributed (reviews, approvals)
+3. **Approval Flow**: Bot does work → Human reviews → Human approves/merges
+4. **Git Operations**: Bot SSH key for commits/pushes (bot does the work)
+5. **MCP Operations**: Bot token for API calls (issues, PRs)
 
 ---
 
 ## Bot Account Setup
 
-### Step 1: Create GitHub Account
+### Step1: Create GitHub Account + SSH Key
 
 1. Go to [github.com/signup](https://github.com/signup)
 2. Create account (e.g., `opencode-bot`)
 3. Add to your organization with **Write** access
+4. **Generate SSH key for bot**:
+   ```bash
+   ssh-keygen -t ed25519 -C "opencode-bot@github.com" -f ~/.ssh/opencode_bot
+   ```
+5. Add public key to bot's GitHub account: Settings → SSH and GPG keys → New SSH key
 
-### Step 2: Generate Fine-Grained PAT
+### Step2: Generate Fine-Grained PAT
 
 1. Go to **Settings** → **Developer settings** → **Personal access tokens** → **Fine-grained tokens**
 2. Click **Generate new token**
@@ -51,39 +58,42 @@ The system uses **two tokens** for proper separation of concerns:
 | Commit statuses | Read and write |
 | Workflows | Read and write |
 
-### Step 3: Add to Environment
+### Step3: Add to Environment
 
 ```bash
-# Add to your shell profile
+# Bot token (MCP API calls)
 echo 'export OPENCODE_BOT_TOKEN="ghp_xxxxxxxxxxxx"' >> ~/.zshrc
+
+# Bot SSH key (git operations)
+echo 'export GIT_SSH_COMMAND="ssh -i ~/.ssh/opencode_bot"' >> ~/.zshrc
 
 # Reload
 source ~/.zshrc
 ```
 
-Or add as GitHub Secret:
-- Repository settings → Secrets and variables → Actions
-- Add `OPENCODE_BOT_TOKEN`
+Or add as GitHub Secrets:
+- `OPENCODE_BOT_TOKEN` (for MCP)
+- `SSH_PRIVATE_KEY_BOT` (for git operations in Actions)
 
 ---
 
 ## Human Token Setup
 
-### Step 1: Use Your Personal Token
+### Step1: Use Your Personal Token
 
-Your personal GitHub token has full permissions.
+Your personal GitHub token has full permissions (reviews + approvals).
 
 If you don't have one:
 1. Go to **Settings** → **Developer settings** → **Personal access tokens** → **Tokens (classic)**
 2. Click **Generate new token**
 3. Select scopes:
    - `repo` (Full control of private repositories)
-   - `read:user` (Read user profile data)
+   - `read:org` (Read org and team membership)
 
-### Step 2: Add to Environment
+### Step2: Add to Environment
 
 ```bash
-# Add to your shell profile
+# Human token (MCP reviews + approvals)
 echo 'export HUMAN_TOKEN="ghp_xxxxxxxxxxxx"' >> ~/.zshrc
 
 # Reload
@@ -192,16 +202,22 @@ curl -s -X POST https://api.githubcopilot.com/mcp/ \
 ## Environment Variables Summary
 
 ```bash
-# Required
-export GITHUB_TOKEN="ghp_..."           # Default token (fallback)
+# Bot token (MCP API calls: issues, PRs)
+export OPENCODE_BOT_TOKEN="ghp_..."
 
-# Optional (recommended for two-token setup)
-export OPENCODE_BOT_TOKEN="ghp_..."     # Bot automation
-export HUMAN_TOKEN="ghp_..."           # Human approvals
+# Bot SSH key (git operations: branch, commit, push)
+export GIT_SSH_COMMAND="ssh -i ~/.ssh/opencode_bot"
+
+# Human token (MCP reviews + approvals)
+export HUMAN_TOKEN="ghp_..."
 
 # Additional
 export CONTEXT7_API_KEY="ctx7_..."     # Library docs (optional)
 ```
+
+**Who does what**:
+- **Bot**: Commits/pushes via SSH → Creates PRs via MCP
+- **Human**: Reviews via MCP → Approves/merges via MCP
 
 ---
 

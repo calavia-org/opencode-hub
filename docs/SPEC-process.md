@@ -4,18 +4,26 @@ The SPEC-driven development process is a structured workflow that ensures every 
 
 ## Token Requirements for GitHub Actions
 
-This workflow uses **MCP (Model Context Protocol)** for ALL GitHub interactions. Direct API calls should NOT be used.
+This workflow uses **MCP (Model Context Protocol)** for GitHub API interactions. Direct API calls should NOT be used.
 
-| Step | Token to Use | MCP Server | Action |
-|------|-------------|-----------|----------|
-| Create Issue | `OPENCODE_BOT_TOKEN` | `github_bot` | `create_issue` |
-| Create Branch | SSH Key | Git (local) | `git checkout -b` |
-| Commit | SSH Key | Git (local) | `git commit` |
-| Push | SSH Key | Git (local) | `git push` |
-| Create PR | `OPENCODE_BOT_TOKEN` | `github_bot` | `create_pull_request` |
-| Review PR | `HUMAN_TOKEN` | `github_human` | `add_comment_to_pending_review` |
-| Approve PR | `HUMAN_TOKEN` | `github_human` | `approve_pull_request` |
-| Merge PR | `HUMAN_TOKEN` | `github_human` | `merge_pull_request` |
+**Git Operations Exception**: MCP does NOT provide git tools (branch, commit, push). Git operations use **bot SSH key** (bot does the work, human reviews).
+
+| Step | WHO | Token/Method | MCP Server | Action |
+|------|-----|-------------|-----------|----------|
+| Create Issue | Bot | `OPENCODE_BOT_TOKEN` | `github_bot` | `create_issue` |
+| Create Branch | Bot | SSH Key (bot) | Git (local) | `git checkout -b` |
+| Commit | Bot | SSH Key (bot) | Git (local) | `git commit` |
+| Push | Bot | SSH Key (bot) | Git (local) | `git push` |
+| Create PR | Bot | `OPENCODE_BOT_TOKEN` | `github_bot` | `create_pull_request` |
+| Review PR | Human | `HUMAN_TOKEN` | `github_human` | `add_comment_to_pending_review` |
+| Approve PR | Human | `HUMAN_TOKEN` | `github_human` | `approve_pull_request` |
+| Merge PR | Human | `HUMAN_TOKEN` | `github_human` | `merge_pull_request` |
+
+### MCP-Only Rule (GitHub API Only)
+
+**Allowed**: MCP tools for issues, PRs, reviews, merges
+**Exception**: Git operations (no MCP tools exist)
+**Forbidden**: `gh` CLI, `curl`, direct API calls for GitHub API interactions
 
 ### MCP Configuration
 
@@ -181,19 +189,27 @@ gh api repos/[owner]/[repo]/pulls/[number]/comments
 
 > **Important:** Copilot feedback must be reviewed before merging. Never ignore Copilot comments.
 
-### 6. Pull Request
+### 6. Pull Request (Bot MCP)
 
 When complete:
-- Title: `Closes #[issue]: [feature]`
+- Title: `feat(scope): [feature] - Closes #[issue]`
+- **Conventional commits required**: `feat`, `fix`, `docs`, `chore`, etc.
 - Body: Changes + `Closes #[issue]`
 - Labels updated
 - Review requested
 
-### 7. Archive
+**Examples**:
+```
+feat(auth): add JWT authentication - Closes #123
+fix(api): resolve timeout issue - Closes #456
+docs(readme): update installation - Closes #789
+```
+
+### 7. Complete
 
 After PR merge:
-- SPEC moved to `.specs/archived/`
-- Status updated to `completed`
+- Status updated to `completed` (no archiving)
+- SPEC status updated to `completed` (stays in context/{category}/, no archiving)
 
 ## SPEC Template
 
@@ -201,65 +217,102 @@ After PR merge:
 ---
 name: feature-slug
 issue: 001
-status: draft
-technology: [detected]
-agent: [inferred + approved]
+status: draft  # draft → approved → completed
+category: development  # Where this SPEC lives in context/
 created: YYYY-MM-DD
 ---
 
-# Feature Name
-
 ## Overview
-One-paragraph description.
 
-## Motivation
-Why is this needed?
+## Motivation  
 
 ## Requirements
-- [ ] Requirement 1
-- [ ] Requirement 2
+
+- [ ] Requirement1
 
 ## Acceptance Criteria
-- [ ] Testable criterion 1
-- [ ] Testable criterion 2
+
+- [ ] Criterion1
 
 ## Tasks
-- [ ] Task 1
-- [ ] Task 2
+
+- [ ] Task1
 
 ## Dependencies
-**External:** Library/Service
-**Internal:** Required feature
 
 ## Out of Scope
-- What's NOT included
 ```
+
+**Context Location**: `.opencode/context/{category}/NNN-feature.md`
+
+**Key**: SPEC files ARE context files - they live directly in context categories (no `specs/` subfolder).
 
 ## Tracking
 
-All SPECs stored in `.specs/` directory:
+All SPECs stored directly in context categories:
 
 ```
-.specs/
-├── README.md              # Index
-├── archived/              # Completed
-├── 001-feature.md       # Active
+.opencode/context/
+├── core/
+│   ├── 001-spec-driven-process.md       # SPEC file (IS context)
+│   └── 002-context-structure.md         # SPEC file (IS context)
+├── development/
+│   ├── 001-add-auth.md                  # SPEC file
+│   └── 002-fix-api.md                   # SPEC file
 └── ...
 ```
 
-Check `.specs/README.md` for full index.
+ContextScout discovers SPEC files automatically via context system scan.
 
 ## Commands
 
 ```bash
-# List all SPECs
-cat .specs/README.md
+# List all SPEC files (they're context files)
+find .opencode/context -name "[0-9][0-9][0-9]-*.md"
 
-# View active SPECS
-ls .specs/[0-9]*.md
+# View SPEC files in core/
+ls .opencode/context/core/[0-9]*.md
 
-# View archived SPECs
-ls .specs/archived/
+# View SPEC files in development/
+ls .opencode/context/development/[0-9]*.md
+```
+.opencode/context/
+├── core/
+│   ├── 001-spec-driven-process.md       # SPEC file (IS context)
+│   └── 002-context-structure.md         # SPEC file (IS context)
+├── development/
+│   ├── 001-add-auth.md                  # SPEC file
+│   └── 002-fix-api.md                   # SPEC file
+└── ...```
+
+ContextScout discovers SPEC files automatically via context system scan.
+
+## Commands
+
+```bash
+# List all SPEC files (they're context files)
+find .opencode/context -name "[0-9][0-9][0-9]-*.md"
+
+# View SPEC files in core/
+ls .opencode/context/core/[0-9]*.md
+
+# View SPEC files in development/
+ls .opencode/context/development/[0-9]*.md
+```
+
+ContextScout discovers SPEC files automatically via context system scan.
+
+## Commands
+
+```bash
+# List all SPEC files (they're context files)
+find .opencode/context -name "[0-9][0-9][0-9]-*.md"
+
+# View SPEC files in core/
+ls .opencode/context/core/[0-9]*.md
+
+# View SPEC files in development/
+ls .opencode/context/development/[0-9]*.md
 ```
 
 ## Related

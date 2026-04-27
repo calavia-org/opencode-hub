@@ -2,32 +2,12 @@
   "skills": [
     {
       "name": "spec-driven",
-      "description": "Create and manage specifications for features",
+      "description": "SPEC-driven development workflow",
       "files": ["SKILL.md"]
     },
     {
       "name": "github-workflow",
-      "description": "GitHub issue/branch/PR automation",
-      "files": ["SKILL.md"]
-    },
-    {
-      "name": "context7",
-      "description": "Up-to-date library documentation",
-      "files": ["SKILL.md"]
-    },
-    {
-      "name": "root-cause-analysis",
-      "description": "Debug distributed systems",
-      "files": ["SKILL.md"]
-    },
-    {
-      "name": "repo-bootstrap",
-      "description": "Project setup",
-      "files": ["SKILL.md"]
-    },
-    {
-      "name": "expert-config",
-      "description": "Opencode config validation and optimization",
+      "description": "GitHub automation for SPEC workflow",
       "files": ["SKILL.md"]
     }
   ]

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Calavia OpenCode Hub</title>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 900px; margin: 0 auto; padding: 2rem; line-height: 1.6; color: #333; }
     h1 { color: #333; border-bottom: 2px solid #0066cc; padding-bottom: 0.5rem; }
@@ -27,71 +28,34 @@
     .tech-name { font-weight: bold; color: #0066cc; }
     .cta { display: inline-block; background: #0066cc; color: white; padding: 0.75rem 1.5rem; border-radius: 5px; text-decoration: none; margin: 0.5rem 0; }
     .cta:hover { background: #0052a3; }
+    #content { margin-top: 2rem; }
   </style>
 </head>
 <body>
   <div class="nav">
     <a href="/">Home</a>
-    <a href="/docs/SPEC-process.html">SPEC Process</a>
-    <a href="/docs/workflows.html">Workflows</a>
-    <a href="/docs/tokens.html">Tokens</a>
-    <a href="/docs/agents.html">Agents</a>
-    <a href="/docs/skills.html">Skills</a>
+    <a href="/docs/SPEC-process">SPEC Process</a>
+    <a href="/docs/workflows">Workflows</a>
+    <a href="/docs/tokens">Tokens</a>
+    <a href="/docs/PROJECT-SETUP">Project Setup</a>
   </div>
 
-  <div class="hero">
-    <h1>Calavia OpenCode Hub</h1>
-    <p>SPEC-driven development with full GitHub workflow automation</p>
+  <div id="content">
+    <p>Loading README.md...</p>
   </div>
-
-  <h2>Supported Technologies</h2>
-  <div class="tech-grid">
-    <div class="tech-card"><div class="tech-name">Java/Kotlin</div><div>Implement, Test, Verify, Deploy</div></div>
-    <div class="tech-card"><div class="tech-name">Python</div><div>Implement, Test, Verify, Deploy</div></div>
-    <div class="tech-card"><div class="tech-name">Go</div><div>Implement, Test, Verify, Deploy</div></div>
-    <div class="tech-card"><div class="tech-name">Terraform</div><div>Implement, Test, Verify, Deploy</div></div>
-  </div>
-
-  <h2>Quick Links</h2>
-  <ul>
-    <li><a href="/docs/SPEC-process.html">SPEC Process</a> - How SPEC-driven development works</li>
-    <li><a href="/docs/workflows.html">Workflows & Diagrams</a> - Visual diagrams of all processes</li>
-    <li><a href="/docs/tokens.html">Token Setup</a> - Bot account and HUMAN token configuration</li>
-    <li><a href="/docs/agents.html">Agents</a> - All available agents</li>
-    <li><a href="/docs/skills.html">Skills</a> - All available skills</li>
-  </ul>
-
-  <h2>Architecture</h2>
-  <pre class="mermaid">
-graph LR
-    SUB1[User] --> SPEC[Create SPEC]
-    SPEC --> ISSUE[GitHub Issue]
-    ISSUE --> BRANCH[Branch]
-    BRANCH --> IMPL[Implement]
-    IMPL --> TEST[Tests]
-    TEST --> VERIFY[Verify]
-    VERIFY --> DEPLOY[Deploy]
-    DEPLOY --> PR[PR]
-    PR --> MERGE[Merge]
-  </pre>
-
-  <h2>Setup</h2>
-  <pre><code># One-time setup
-curl -sL https://opencode.calavia.org/setup.sh | bash
-
-# Add token to your profile
-export GITHUB_TOKEN="ghp_..."
-
-# Optional: Context7 for current library docs
-export CONTEXT7_API_KEY="ctx7_..."</code></pre>
-
-  <p>See <a href="/docs/tokens.html">Token Setup Guide</a> for bot account and HUMAN token configuration.</p>
-
-  <hr>
-  <p><small><a href="https://github.com/calavia-org/opencode-hub">GitHub</a> • Deployed on Vercel</small></p>
 
   <script>
-    mermaid.initialize({ startOnLoad: true });
+    // Load and render README.md
+    fetch('/README.md')
+      .then(response => response.text())
+      .then(text => {
+        document.getElementById('content').innerHTML = marked.parse(text);
+        // Initialize mermaid diagrams
+        mermaid.initialize({ startOnLoad: true });
+      })
+      .catch(err => {
+        document.getElementById('content').innerHTML = '<p>Error loading README.md</p>';
+      });
   </script>
 </body>
 </html>

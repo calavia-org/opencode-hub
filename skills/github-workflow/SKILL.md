@@ -1,6 +1,6 @@
 ---
 name: github-workflow
-description: GitHub automation for SPEC-driven development workflow with .specs/ integration.
+description: GitHub automation for SPEC-driven development workflow. SPEC files are context files stored directly in context categories.
 ---
 
 # GitHub Workflow Skill
@@ -10,18 +10,20 @@ description: GitHub automation for SPEC-driven development workflow with .specs/
 > - Token separation (BOT vs HUMAN)
 > - MCP failure stops execution
 
-Automate SPEC-driven development using GitHub issues, branches, and PRs, with full integration into the `/.specs/` directory structure.
+Automate SPEC-driven development using GitHub issues, branches, and PRs, with full integration into the context system.
 
 ## SPEC Storage Integration
 
-All GitHub operations are tied to SPECs stored in `/.specs/`:
+All GitHub operations are tied to SPECs stored directly in context categories (SPEC files ARE context files):
 
 ```
-/.specs/
-├── README.md
-├── archived/
-│   └── {issue}-{slug}.md
-├── {issue}-{slug}.md      # Active SPECs
+.opencode/context/
+├── core/
+│   ├── 001-spec-driven-process.md
+│   └── 002-context-structure.md
+├── development/
+│   ├── 001-add-auth.md
+│   └── 002-fix-api.md
 └── ...
 ```
 
@@ -29,14 +31,14 @@ All GitHub operations are tied to SPECs stored in `/.specs/`:
 
 | GitHub Element | Pattern | Example |
 |---------------|---------|---------|
-| SPEC File | `/.specs/{issue}-{slug}.md` | `/.specs/001-user-auth.md` |
+| SPEC File | `.opencode/context/{category}/{NNN}-{slug}.md` | `.opencode/context/development/001-add-auth.md` |
 | Branch | `spec/{issue}-{slug}` | `spec/001-user-auth` |
 | Issue Title | `SPEC: [Feature Name]` | `SPEC: User Authentication` |
 
 ## Workflow Integration
 
 ### SPEC Creation → Issue
-When a SPEC is created in `/.specs/`, automatically create a GitHub issue:
+When a SPEC is created in `.opencode/context/{category}/`, automatically create a GitHub issue:
 
 1. Extract issue number and slug from filename
 2. Create issue with `spec` and `approved` labels
@@ -58,14 +60,14 @@ When a SPEC is created in `/.specs/`, automatically create a GitHub issue:
 - [ ] [Task 2]
 
 ## Linked SPEC
-`/.specs/{issue}-{slug}.md`
+`.opencode/context/{category}/{NNN}-{slug}.md`
 ```
 
 ### Issue → Branch
 Create branch from issue number in SPEC filename:
 
 ```bash
-# Branch name from SPEC: /.specs/001-user-auth.md
+# Branch name from SPEC: .opencode/context/development/001-user-auth.md
 git checkout -b spec/001-user-auth
 ```
 
@@ -86,16 +88,16 @@ Closes #[issue-number]
 - [ ] Change 2
 
 ## SPEC
-`/.specs/{issue}-{slug}.md`
+`.opencode/context/{category}/{NNN}-{slug}.md`
 
 ## Testing
 - [ ] Unit tests added
 - [ ] Integration tests passed
 ```
 
-### After Merge → Archive
-1. Move SPEC to `/.specs/archived/`
-2. Update `/.specs/README.md` status
+### After Merge → Update Status
+1. Update SPEC status to `completed` (stays in context/{category}/)
+2. No archiving - SPEC remains discoverable by ContextScout
 
 ## GitHub API Operations (MCP Required)
 
@@ -135,18 +137,20 @@ mcp_github update-issue \
   --body "[updated-body-with-checked-items]"
 ```
 
-## Index Maintenance
+## SPEC Maintenance
 
-Update `/.specs/README.md` when:
-- New SPEC created (add to Active table)
-- Status changes (update Status column)
-- SPEC completed (move to Archived table)
+Update SPEC status directly in the context file:
+- New SPEC created (status: `draft`)
+- Status changes (update frontmatter)
+- SPEC completed (status: `completed`, stays in context/{category}/)
+
+No index needed - ContextScout discovers SPEC files automatically.
 
 ## Rules
 
 1. Always link PR to issue
 2. Use conventional commits
-3. Squash merge preferred
+3. Squash merge ONLY (enforced via branch protection)
 4. Require reviews
-5. Store all SPECs in `/.specs/` directory
-6. Archive completed SPECs to `/.specs/archived/`
+5. Store all SPECs directly in context categories (`.opencode/context/{category}/`)
+6. No archiving - SPEC stays in context with status `completed`
