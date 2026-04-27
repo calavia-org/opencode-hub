@@ -282,7 +282,6 @@ Deployed on Vercel: **https://opencode.calavia.org/**
 - See **Quick Start** section above
 
 ### Build (Optional)
-For better SEO, convert `.md` to `.html`:
-```bash
-./build.sh
-```
+For better SEO, Vercel can convert `.md` to `.html` on the fly using `marked.js` (see `index.html`).
+
+**No build step needed** - files are served statically.
