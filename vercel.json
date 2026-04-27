@@ -8,12 +8,16 @@
       "dest": "/.well-known/$1"
     },
     {
-      "src": "/docs/(.*)",
-      "dest": "/docs/$1"
+      "src": "/docs/(.*).md",
+      "dest": "/docs/$1.html"
     },
     {
-      "src": "/(.*)\\.md$",
-      "dest": "/$1.md"
+      "src": "/docs/(.*).html",
+      "dest": "/docs/$1.html"
+    },
+    {
+      "src": "/(.*).md",
+      "dest": "/$1.html"
     },
     {
       "src": "/(.*)",
@@ -31,7 +35,7 @@
       ]
     },
     {
-      "source": "/(.*)\\.md$",
+      "source": "/(.*).md$",
       "headers": [
         {
           "key": "Content-Type",
@@ -40,20 +44,20 @@
       ]
     },
     {
-      "source": "/(.*)\\.json$",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "application/json"
-        }
-      ]
-    },
-    {
-      "source": "/(.*)\\.html$",
+      "source": "/(.*).html$",
       "headers": [
         {
           "key": "Content-Type",
           "value": "text/html; charset=utf-8"
+        }
+      ]
+    },
+    {
+      "source": "/(.*).json$",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
         }
       ]
     }
