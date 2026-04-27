@@ -1,29 +1,19 @@
 {
-  "builds": [
-    {
-      "src": "**/*.md",
-      "use": "@vercel/static-build",
-      "config": {
-        "outputDirectory": "."
-      }
-    },
-    {
-      "src": "**/*.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "**/*.json",
-      "use": "@vercel/static"
-    }
-  ],
+  "version": 2,
+  "buildCommand": null,
+  "outputDirectory": ".",
   "routes": [
     {
-      "src": "/(.*)\\.md",
-      "dest": "/$1.md"
+      "src": "/.well-known/(.*)",
+      "dest": "/.well-known/$1"
     },
     {
       "src": "/docs/(.*)",
       "dest": "/docs/$1"
+    },
+    {
+      "src": "/(.*)\\.md$",
+      "dest": "/$1.md"
     },
     {
       "src": "/(.*)",
