@@ -210,25 +210,29 @@ ls .opencode/context/development/[0-9]*.md
 # ContextScout automatically discovers SPEC files (no index needed)
 ```
 
-## Structure (Minimal Hub)
+## Structure (Minimal Hub with Remote Inheritance)
 
 ```
-agents/              # 1 agent (spec-driven orchestrator - unique to this hub)
-skills/               # 2 skills (spec-driven, github-workflow)
+agents/                    # 1 agent (spec-driven orchestrator - unique to this hub)
+skills/                    # 2 skills (spec-driven, github-workflow)
 .opencode/
-  ├── context/       # SPEC files ARE context files
-  ├── config/        # Path configuration (paths.json)
+  ├── context/             # Hub-specific context files ONLY
+  │   ├── core/           # SPEC files + hub guides (local)
+  │   └── ...             # (other categories inherited remotely)
+  ├── config/
+  │   └── paths.json      # Remote inheritance config
   └── ...
-.github/             # PR template, workflows
-SPEC.template.md      # Template for new SPEC files
-docs/                 # Documentation (.md files only)
+.github/                  # PR template, workflows
+SPEC.template.md           # Template for new SPEC files
+docs/                      # Documentation (.md files only)
 ```
 
 **Key**: 
-- SPEC files live directly in `.opencode/context/{category}/` (no `.specs/` folder)
-- All tech-specific agents/skills/modes/tools **inherited from OpenAgentsControl via URL** (no local copies)
-- Minimal repo - only opencode-hub specific files stored locally
-- Unified docs: `.md` files work on GitHub + Vercel (via marked.js)
+- **Local**: Only hub-specific files (SPEC files, spec-driven agent, 2 skills)
+- **Remote**: Tech-specific agents/skills/modes/tools **inherited from OpenAgentsControl via URL**
+- **Configured in**: `.opencode/config/paths.json` (remote inheritance)
+- **No local copies**: 100+ OpenAgentsControl files NOT stored here
+- **Unified docs**: `.md` files work on GitHub + Vercel (via marked.js)
 
 ## Documentation (Unified .md)
 
