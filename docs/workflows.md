@@ -47,39 +47,36 @@ graph TB
 sequenceDiagram
     participant User
     participant SD as spec-driven
+    participant Context as Context System
     participant GitHub
     participant Impl as [lang]-implementer
     participant Test as [lang]-tester
-    participant Verify as [lang]-verifier
-    participant Deploy as [lang]-deployer
 
     User->>SD: Create spec for feature
-    SD->>GitHub: Create Issue
-    SD->>GitHub: Create Branch spec/{id}-{slug}
-    SD->>Impl: Implement task 1
+    SD->>Context: Create SPEC in context/{cat}/{NNN-feature}.md
+    SD->>GitHub: MCP create_issue
+    SD->>GitHub: Git branch via bot SSH
+    SD->>Impl: Implement task (OpenAgentsControl)
     Impl->>Test: Run tests
-    SD->>Impl: Implement task 2
-    SD->>Test: Run tests
-    Test->>Verify: Verify non-functional
-    Verify->>Deploy: Prepare deployment
-    Deploy->>GitHub: Create PR
+    Test->>GitHub: MCP create_pull_request
     Note over GitHub: Closes #[issue]
+    Note over Context: Update SPEC status to completed
 ```
 
 ## Human Approval Flow
 
 ```mermaid
 flowchart TD
-    A[Human defines SPEC] --> B[Bot creates SPEC, branch]
+    A[Human defines SPEC] --> B[Bot creates SPEC, branch via SSH]
     B --> C[Bot implements features]
-    C --> D[Bot opens PR]
+    C --> D[Bot opens PR via MCP]
     D --> E{Human reviews PR?}
-    E -->|Approve| F[Human clicks Approve]
+    E -->|Approve| F[Human approves via MCP]
     E -->|Request Changes| G[Human requests changes]
-    F --> H[Bot merges PR]
+    F --> H[Human merges via MCP]
     G --> C
-    H --> I[GitHub Action archives SPEC]
-    I --> J[SPEC moved to archived/]
+    H --> I[Update SPEC status to completed]
+    I --> J[SPEC stays in context/{category}/ - no archiving]
 ```
 
 ## Token Flow
@@ -139,19 +136,24 @@ stateDiagram-v2
     
     Draft --> Cancelled: Cancel
     InProgress --> Cancelled: Cancel
+    
+    note right of Completed
+        SPEC status: completed
+        No archiving - stays in context/{category}/
+    end note
 ```
 
 ## Quick Reference
 
 | Step | Command | Description |
 |------|---------|-------------|
-| 1 | SPEC created | Feature specified in `.specs/` |
-| 2 | `gh issue create` | GitHub issue with SPEC |
-| 3 | `git checkout -b spec/NNN-*` | Feature branch |
+| 1 | SPEC created | Feature specified in `context/{category}/` |
+| 2 | MCP `create_issue` | GitHub issue with SPEC |
+| 3 | `git checkout -b spec/NNN-*` (SSH) | Feature branch (exception) |
 | 4 | Implement + tests | Code with verification |
-| 5 | `gh pr create` | Pull request |
-| 6 | Review + merge | Human approval |
-| 7 | Archive | Move to `.specs/archived/` |
+| 5 | MCP `create_pull_request` | Pull request |
+| 6 | Review + merge | Human approval (MCP) |
+| 7 | Complete | Update SPEC status to `completed` |
 
 ## Related
 

@@ -16,7 +16,7 @@
 
 ## SPEC
 
-This PR implements: `/.specs/{issue}-{slug}.md`
+This PR implements: `.opencode/context/{category}/{NNN}-{slug}.md`
 
 ## Testing
 

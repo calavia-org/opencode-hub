@@ -3,7 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Token Setup - OpenCode Hub</title>
+  <title>$(basename "$file" .html | tr '[:lower:]' '[:upper:]')</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 900px; margin: 0 auto; padding: 2rem; line-height: 1.6; color: #333; }
     h1 { color: #333; border-bottom: 2px solid #0066cc; padding-bottom: 0.5rem; }
@@ -14,130 +16,57 @@
     table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
     th, td { border: 1px solid #ddd; padding: 0.5rem; text-align: left; }
     th { background: #f4f4f4; }
-    .badge { display: inline-block; background: #0066cc; color: white; padding: 0.2rem 0.5rem; border-radius: 3px; font-size: 0.8rem; }
-    .nav { display: flex; gap: 1rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #ddd; }
-    .nav a { color: #0066cc; text-decoration: none; }
-    .nav a:hover { text-decoration: underline; }
-    .nav a.active { font-weight: bold; }
-    .tip { background: #e8f5e9; border-left: 4px solid #4caf50; padding: 1rem; margin: 1rem 0; }
-    .warning { background: #fff3e0; border-left: 4px solid #ff9800; padding: 1rem; margin: 1rem 0; }
-    ol { padding-left: 1.5rem; }
-    li { margin-bottom: 0.5rem; }
+    a { color: #0066cc; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .mermaid { text-align: center; margin: 2rem 0; padding: 1rem; background: #f9f9f9; border-radius: 5px; }
   </style>
 </head>
 <body>
-  <div class="nav">
-    <a href="/">Home</a>
-    <a href="/docs/SPEC-process.html">SPEC Process</a>
-    <a href="/docs/workflows.html">Workflows</a>
-    <a href="/docs/tokens.html" class="active">Tokens</a>
-    <a href="/docs/agents.html">Agents</a>
-    <a href="/docs/skills.html">Skills</a>
-  </div>
+  <div id="content">Loading...</div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Custom renderer for marked to handle mermaid
+      const renderer = new marked.Renderer();
+      
+      renderer.code = function(code, language) {
+        if (language === 'mermaid') {
+          return '<div class="mermaid">' + code + '</div>';
+        }
+        return '<pre><code class="language-' + language + '">' + code + '</code></pre>';
+      };
 
-  <h1>Token Setup for OpenCode</h1>
-  <p>Configure bot account and HUMAN token for OpenCode development.</p>
-
-  <h2>Two Tokens Overview</h2>
-  <table>
-    <tr><th>Token</th><th>Variable</th><th>Purpose</th><th>Can Approve</th><th>Can Merge</th></tr>
-    <tr><td>Bot Token</td><td><code>OPENCODE_BOT_TOKEN</code></td><td>Automation tasks</td><td>❌ No</td><td>✅ Yes</td></tr>
-    <tr><td>Human Token</td><td><code>HUMAN_TOKEN</code></td><td>Human actions</td><td>✅ Yes</td><td>✅ Yes</td></tr>
-  </table>
-
-  <div class="tip">
-    <strong>Why Two Tokens?</strong> Security (limited permissions), Audit trail (human actions attributed), Approval flow (PRs need human approval).
-  </div>
-
-  <h2>Bot Account Setup</h2>
-
-  <h3>Step 1: Create GitHub Account</h3>
-  <ol>
-    <li>Go to <a href="https://github.com/signup">github.com/signup</a></li>
-    <li>Create account (e.g., <code>opencode-bot</code>)</li>
-    <li>Add to your organization with <strong>Write</strong> access</li>
-  </ol>
-
-  <h3>Step 2: Generate Fine-Grained PAT</h3>
-  <ol>
-    <li>Go to <strong>Settings</strong> → <strong>Developer settings</strong> → <strong>Personal access tokens</strong> → <strong>Fine-grained tokens</strong></li>
-    <li>Click <strong>Generate new token</strong></li>
-    <li>Configure:
-      <table>
-        <tr><th>Setting</th><th>Value</th></tr>
-        <tr><td>Token name</td><td><code>opencode-bot</code></td></tr>
-        <tr><td>Expiration</td><td>1 year</td></tr>
-        <tr><td>Resource owner</td><td>Your organization</td></tr>
-        <tr><td>Repository access</td><td>All repositories</td></tr>
-      </table>
-    </li>
-    <li>Set permissions:
-      <table>
-        <tr><th>Permission</th><th>Access</th></tr>
-        <tr><td>Contents</td><td>Read and write</td></tr>
-        <tr><td>Pull requests</td><td>Read and write</td></tr>
-        <tr><td>Issues</td><td>Read and write</td></tr>
-        <tr><td>Commit statuses</td><td>Read and write</td></tr>
-        <tr><td>Workflows</td><td>Read and write</td></tr>
-      </table>
-    </li>
-  </ol>
-
-  <h3>Step 3: Add to Environment</h3>
-  <pre><code># Add to your shell profile
-echo 'export OPENCODE_BOT_TOKEN="ghp_xxxxxxxxxxxx"' >> ~/.zshrc
-
-# Reload
-source ~/.zshrc</code></pre>
-
-  <h2>Human Token Setup</h2>
-
-  <h3>Step 1: Use Your Personal Token</h3>
-  <p>If you don't have one:</p>
-  <ol>
-    <li>Go to <strong>Settings</strong> → <strong>Developer settings</strong> → <strong>Personal access tokens</strong> → <strong>Tokens (classic)</strong></li>
-    <li>Click <strong>Generate new token</strong></li>
-    <li>Select scopes:
-      <table>
-        <tr><th>Scope</th><th>Purpose</th></tr>
-        <tr><td><code>repo</code></td><td>Full control of private repositories</td></tr>
-        <tr><td><code>read:user</code></td><td>Read user profile data</td></tr>
-      </table>
-    </li>
-  </ol>
-
-  <h3>Step 2: Add to Environment</h3>
-  <pre><code># Add to your shell profile
-echo 'export HUMAN_TOKEN="ghp_xxxxxxxxxxxx"' >> ~/.zshrc
-
-# Reload
-source ~/.zshrc</code></pre>
-
-  <h2>Environment Variables</h2>
-  <pre><code># Required
-export GITHUB_TOKEN="ghp_..."           # Default token (fallback)
-
-# Optional (recommended)
-export OPENCODE_BOT_TOKEN="ghp_..."     # Bot automation
-export HUMAN_TOKEN="ghp_..."           # Human approvals
-
-# Additional
-export CONTEXT7_API_KEY="ctx7_..."     # Library docs (optional)</code></pre>
-
-  <h2>Troubleshooting</h2>
-  <table>
-    <tr><th>Issue</th><th>Solution</th></tr>
-    <tr><td>Bot can't create issues</td><td>Check PAT permissions</td></tr>
-    <tr><td>Bot can't merge PRs</td><td>Ensure repo write access</td></tr>
-    <tr><td>Human can't approve</td><td>Use personal token, not bot</td></tr>
-    <tr><td>Actions fail</td><td>Verify token in GitHub secrets</td></tr>
-  </table>
-
-  <div class="warning">
-    <strong>Security:</strong> Never commit tokens. Use environment variables or GitHub secrets. Rotate regularly.
-  </div>
-
-  <hr>
-  <p><small><a href="https://github.com/calavia-org/opencode-hub">GitHub</a></small></p>
+      // Load and render the markdown file
+      const mdFile = window.location.pathname.replace('.html', '.md');
+      
+      fetch(mdFile)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to load: ' + mdFile);
+          }
+          return response.text();
+        })
+        .then(text => {
+          // Parse markdown
+          document.getElementById('content').innerHTML = marked.parse(text, { renderer: renderer });
+          
+          // Initialize mermaid
+          mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose'
+          });
+          
+          // Force mermaid to render
+          setTimeout(() => {
+            mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+          }, 100);
+        })
+        .catch(err => {
+          document.getElementById('content').innerHTML = '<p>Error loading content: ' + err.message + '</p>';
+          console.error('Error:', err);
+        });
+    });
+  </script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 ---
 name: spec-driven
-description: Create and manage specifications for features with full GitHub workflow and .specs/ storage.
+description: Create and manage specifications for features with full GitHub workflow. SPEC files are context files stored directly in context categories.
 requires:
   - github-workflow
   - github-workflow-rules
@@ -17,31 +17,34 @@ Create detailed specifications before implementation with complete GitHub workfl
 
 ## SPEC Storage
 
-All SPECs are stored in the `/.specs/` directory with standardized naming:
+All SPECs are stored directly in context categories as context files:
 
 ```
-/.specs/
-├── README.md              # Index of all SPECs
-├── archived/             # Completed/cancelled SPECs
-├── 001-feature-name.md    # Active SPECs
+.opencode/context/
+├── core/
+│   ├── 001-spec-driven-process.md       # SPEC file (IS context)
+│   └── 002-context-structure.md         # SPEC file (IS context)
+├── development/
+│   ├── 001-add-auth.md                  # SPEC file
+│   └── 002-fix-api.md                   # SPEC file
 └── ...
 ```
 
-### Naming Convention
-
-Pattern: `/.specs/{issue-number}-{feature-slug}.md`
+Pattern: `.opencode/context/{category}/{NNN-feature-slug}.md`
 
 Examples:
-- `/.specs/001-user-authentication.md`
-- `/.specs/042-api-rate-limiting.md`
-- `/.specs/100-payment-integration.md`
+- `.opencode/context/core/001-spec-driven-process.md`
+- `.opencode/context/development/001-add-auth.md`
+- `.opencode/context/development/002-fix-api.md`
+
+**Key**: SPEC files ARE context files - discoverable by ContextScout.
 
 ### Storage Rules
 
-1. **Active SPECs**: Stored directly in `/.specs/`
-2. **Archived SPECs**: Moved to `/.specs/archived/` after completion
+1. **SPECs ARE context files**: Stored directly in `.opencode/context/{category}/`
+2. **No archiving**: SPEC stays in context category with status `completed`
 3. **Template**: Use `SPEC.template.md` at repository root
-4. **Current Pointer**: `SPEC.md` points to the active working SPEC
+4. **Discovery**: ContextScout finds SPEC files automatically
 
 ### SPEC Frontmatter
 
@@ -83,7 +86,7 @@ Scan repository root for technology indicators:
 | `*.tf`, `terraform.tfvars` | Terraform | terraform-implementer |
 | `Cargo.toml`, `*.rs` | Rust | rust-implementer |
 | `Gemfile`, `*.rb` | Ruby | ruby-implementer |
-| `SPEC.md`, `SKILL.md`, `agents/` | OpenCode/Spec-Driven | opencode-implementer |
+| `.opencode/context/{category}/*.md`, `SKILL.md`, `agents/` | OpenCode/Spec-Driven | spec-driven |
 
 ### Multi-Repo Handling
 
@@ -137,9 +140,9 @@ This skill orchestrates the complete development workflow:
 1. Detect repository technology
 2. Infer agent and present for user approval
 3. Create SPEC using template in `SPEC.template.md`
-4. Save to `/.specs/{issue-number}-{feature-slug}.md`
-5. Update `/.specs/README.md` index
+4. Save to `.opencode/context/{category}/{NNN-feature-slug}.md`
 
+5. SPEC is now discoverable by ContextScout (no index needed)
 ### 2. Create GitHub Issue
 After SPEC is approved, create GitHub issue using MCP tool:
 
@@ -159,9 +162,9 @@ git checkout -b spec/{issue-number}-{slug}
 ```
 
 ### 4. Track Tasks
-- Implement tasks from SPEC in `/.specs/`
-- Update checkbox status in GitHub issue
-- Update `/.specs/README.md` with progress
+- Implement tasks from SPEC in `.opencode/context/{category}/`
+
+- Update SPEC status directly in the context file
 
 ### 5. Create PR
 When all tasks complete:
@@ -170,15 +173,15 @@ When all tasks complete:
 # Use MCP tool - gh CLI is forbidden
 mcp_github create-pull-request \
   --title "Closes #[issue]: [feature]" \
-  --body "[changes]\n\nCloses #[issue]\n\nSPEC: /.specs/[issue]-[slug].md" \
+  --body "[changes]\n\nCloses #[issue]\n\nSPEC: .opencode/context/{category}/[NNN]-[slug].md" \
   --head "spec/[issue]-[slug]" --base "main"
 ```
 
 ### 6. Archive
 After PR merge:
-- Move SPEC to `/.specs/archived/`
-- Update `/.specs/README.md` status
+- Update SPEC status to `completed` (stays in context/{category}/)
 
+- No archiving - SPEC remains discoverable by ContextScout
 ## Spec Template
 
 ```markdown
@@ -228,12 +231,17 @@ Why is this needed? What problem does it solve?
 
 The spec-driven agent will:
 
-1. Detect `/.specs/` directory structure
-2. Load SPEC from `/.specs/{issue}-{slug}.md`
-3. Enforce SPEC existence before implementation
-4. Auto-generate branch names from SPEC issue number
-5. Track task completion against SPEC
-6. Maintain `/.specs/README.md` index
+1. Detect SPEC files in `.opencode/context/{category}/[0-9]*.md`
+
+2. Load SPEC from `.opencode/context/{category}/{NNN}-{slug}.md`
+
+3. Parse SPEC frontmatter (issue, status, technology, agent)
+
+4. Execute tasks in order
+
+5. Update SPEC status directly in the context file
+
+6. ContextScout automatically discovers SPEC files (no index needed)
 7. **Detect repository technology and infer appropriate agent**
 8. **Present agent suggestion to user for approval**
 9. **Support `/change-agent` override command**
@@ -248,7 +256,7 @@ The spec-driven agent will:
 6. Checkboxes track progress
 7. Criteria must be testable
 8. Update spec when changing requirements
-9. Store all SPECs in `/.specs/` directory
-10. Archive completed SPECs to `/.specs/archived/`
+9. Store all SPECs directly in context categories (`.opencode/context/{category}/`)
+10. No archiving - SPEC stays in context with status `completed`
 11. **Infer agent from technology, present for user approval**
 12. **Allow override via `/change-agent` command**

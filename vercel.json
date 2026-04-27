@@ -1,8 +1,27 @@
 {
-  "builds": [
+  "version": 2,
+  "buildCommand": null,
+  "outputDirectory": ".",
+  "routes": [
     {
-      "src": "**",
-      "use": "@vercel/static"
+      "src": "/.well-known/(.*)",
+      "dest": "/.well-known/$1"
+    },
+    {
+      "src": "/docs/(.*).md",
+      "dest": "/docs/$1.html"
+    },
+    {
+      "src": "/docs/(.*).html",
+      "dest": "/docs/$1.html"
+    },
+    {
+      "src": "/(.*).md",
+      "dest": "/$1.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
     }
   ],
   "headers": [
@@ -16,7 +35,7 @@
       ]
     },
     {
-      "source": "/(.*)\\.md$",
+      "source": "/(.*).md$",
       "headers": [
         {
           "key": "Content-Type",
@@ -25,20 +44,20 @@
       ]
     },
     {
-      "source": "/(.*)\\.json$",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "application/json"
-        }
-      ]
-    },
-    {
-      "source": "/(.*)\\.html$",
+      "source": "/(.*).html$",
       "headers": [
         {
           "key": "Content-Type",
           "value": "text/html; charset=utf-8"
+        }
+      ]
+    },
+    {
+      "source": "/(.*).json$",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
         }
       ]
     }
