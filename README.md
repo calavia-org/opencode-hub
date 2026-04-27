@@ -2,22 +2,44 @@
 
 Centralized OpenCode configuration for our organization.
 
+**Unified Documentation**: All docs are `.md` files - served directly on Vercel or rendered as HTML via `marked.js`.
+
 Stack: **Java/Kotlin, Python, Go, Terraform** + **Docker/Portainer/Kubernetes**
 
-## Quick Start
+## Quick Start (Pure Remote Config)
+
+OpenCode auto-loads config from `https://opencode.calavia.org/.well-known/opencode.json`:
 
 ```bash
-# One-time setup
-curl -sL https://opencode.calavia.org/setup.sh | bash
+# 1. Install OpenCode CLI (if not installed)
+npm install -g opencode  # or your install method;
 
-# Add to your profile
-echo 'export OPENCODE_CONFIG_DIR=~/.config/opencode' >> ~/.zshrc
-echo 'export GITHUB_TOKEN=ghp_your_token_here' >> ~/.zshrc
+# 2. Add tokens to your profile
+echo 'export OPENCODE_BOT_TOKEN="ghp_..."' >> ~/.zshrc;
+echo 'export HUMAN_TOKEN="ghp_..."' >> ~/.zshrc;
+echo 'export CONTEXT7_API_KEY="ctx7_..."' >> ~/.zshrc;
 
-# Start
-source ~/.zshrc
-opencode
+# 3. Start (auto-loads remote config)
+source ~/.zshrc;
+opencode;
 ```
+
+**What happens:**
+1. OpenCode reads `https://opencode.calavia.org/.well-known/opencode.json`
+2. Auto-loads `spec-driven` agent from this Vercel deployment
+3. Inherits tech-specific agents from OpenAgentsControl URLs
+4. Loads SPEC files from `.opencode/context/` (if repo has them)
+
+**What's served by this Vercel deployment:**
+- ✓ 1 agent (`spec-driven` orchestrator - unique to this hub)
+- ✓ 2 skills (`spec-driven`, `github-workflow`)
+- ✓ SPEC files in `.opencode/context/`
+- ✓ Documentation (.md files)
+
+**Inherited from OpenAgentsControl (via URL - no local install needed):**
+- • Tech-specific agents (go, python, java, etc.)
+- • Tech-specific skills
+- • Modes, tools, commands
 
 ## Architecture
 
@@ -85,93 +107,38 @@ sequenceDiagram
 
 ## Available Agents
 
-### Orchestrator
 | Agent | Description |
 |-------|-------------|
-| `spec-driven` | SPEC-driven development orchestrator |
+| `spec-driven` | SPEC-driven development orchestrator (unique to this hub) |
 
-### Java/Kotlin Pipeline
-| Agent | Description |
-|-------|-------------|
-| `java-implementer` | Implements Java code |
-| `java-tester` | Runs JUnit tests |
-| `java-verifier` | Validates non-functional |
-| `java-deployer` | Deploys to Docker/K8s |
+**Inherited from OpenAgentsControl (via URL):**
+- Tech-specific agents (go, python, java, terraform, etc.)
 
-### Python Pipeline
-| Agent | Description |
-|-------|-------------|
-| `python-implementer` | Implements Python code |
-| `python-tester` | Runs pytest tests |
-| `python-verifier` | Validates non-functional |
-| `python-deployer` | Deploys to Docker/K8s |
+## Available Modes (Inherited from OpenAgentsControl via URL)
 
-### Go Pipeline
-| Agent | Description |
-|-------|-------------|
-| `go-implementer` | Implements Go code |
-| `go-tester` | Runs Go tests |
-| `go-verifier` | Validates non-functional |
-| `go-deployer` | Deploys to Docker/K8s |
-
-### Terraform Pipeline
-| Agent | Description |
-|-------|-------------|
-| `terraform-implementer` | Writes Terraform infrastructure code |
-| `terraform-tester` | Tests and security scans |
-| `terraform-verifier` | TFLint, checkov, OPA validation |
-| `terraform-deployer` | Deploys to Terraform Cloud |
-
-## Available Modes
-
-| Mode | Description |
-|------|-------------|
-| `spec-driven` | SPEC-driven development workflow |
+All modes are inherited from OpenAgentsControl. See: `https://opencode.calavia.org/modes`
 
 ## Available Skills
 
 | Skill | Description |
 |-------|-------------|
-| `spec-driven` | Create specs |
-| `github-workflow` | GitHub issue/branch/PR automation |
-| `root-cause-analysis` | Debug distributed systems |
-| `repo-bootstrap` | Project setup |
-| `context7` | Up-to-date library docs |
-| `expert-config` | Config validation and optimization |
+| `spec-driven` | Create and manage SPEC files (context files) |
+| `github-workflow` | GitHub automation (issues, branches, PRs) |
+
+**What's served by this Vercel deployment:**
+- ✓ 2 skills (`spec-driven`, `github-workflow`)
+
+**Inherited from OpenAgentsControl (via URL):**
+- • Tech-specific skills
 
 ## Token Configuration
 
-The system uses two tokens for proper separation of concerns:
+Tokens are documented in **Quick Start** section above.
 
-| Token | Variable | Purpose | Can Approve | Can Merge |
-|-------|----------|---------|-------------|-----------|
-| Bot Token | `OPENCODE_BOT_TOKEN` | All automation tasks | ❌ No | ✅ Yes |
-| Human Token | `HUMAN_TOKEN` | Human approval actions | ✅ Yes | ✅ Yes |
-
-### Setup
-
-1. **Bot Token** (`OPENCODE_BOT_TOKEN`):
-   - Create GitHub account for bot (e.g., `opencode-bot`)
-   - Add to organization with write access
-   - Generate Fine-grained PAT with permissions:
-     - Contents: Read and write
-     - Pull requests: Read and write
-     - Issues: Read and write
-     - Commit statuses: Read and write
-     - Workflows: Read and write
-   - Add to organization secrets as `OPENCODE_BOT_TOKEN`
-
-2. **Human Token** (`HUMAN_TOKEN`):
-   - Use your personal GitHub token
-   - Add to environment or secrets as `HUMAN_TOKEN`
-
-### Environment Variables
-
-```bash
-export OPENCODE_BOT_TOKEN="ghp_..."  # Bot automation
-export HUMAN_TOKEN="ghp_..."         # Human approvals
-export CONTEXT7_API_KEY="ctx7_..."   # Library docs
-```
+**Summary:**
+- `OPENCODE_BOT_TOKEN` - Bot automation (create branches, PRs, merge)
+- `HUMAN_TOKEN` - Human approvals (review, approve PRs)
+- `CONTEXT7_API_KEY` - Library documentation (optional)
 
 ## Workflow
 
@@ -193,71 +160,105 @@ Bot executes merge
 GitHub Action archives SPEC
 ```
 
-## SPEC Tracking
+## SPEC Files (Context System)
 
-All feature specifications are tracked in the `/.specs/` directory with full GitHub workflow integration.
-
-### Directory Structure
+All SPEC files are stored directly in context categories (SPEC files ARE context files):
 
 ```
-/.specs/
-├── README.md              # Index of all SPECs
-├── archived/              # Completed/cancelled SPECs
-├── 001-feature-name.md    # Active SPECs
+.opencode/context/
+├── core/
+│   ├── 001-spec-driven-process.md       # SPEC file (IS context)
+│   └── 002-context-structure.md         # SPEC file (IS context)
+├── development/
+│   ├── 001-add-auth.md                  # SPEC file
+│   └── 002-fix-api.md                   # SPEC file
 └── ...
 ```
 
+**Key**: 
+- SPEC files live directly in `.opencode/context/{category}/` (no `.specs/` folder)
+- No archiving - completed SPECs stay in context/{category}/ with status `completed`
+- ContextScout discovers SPEC files automatically (no index needed)
+
 ### Naming Convention
 
-- **Pattern**: `/{issue-number}-{feature-slug}.md`
+- **Pattern**: `.opencode/context/{category}/{NNN-feature-slug}.md`
 - **Branch**: `spec/{issue-number}-{feature-slug}`
-- **Example**: `001-user-authentication.md` → branch `spec/001-user-authentication`
+- **Example**: `.opencode/context/development/001-add-auth.md` → branch `spec/001-add-auth`
 
 ### Workflow
 
-1. **Create SPEC** → Save to `/.specs/{issue}-{slug}.md`
+1. **Create SPEC** → Save to `.opencode/context/{category}/{NNN}-{slug}.md`
 2. **GitHub Issue** → Automatically created with `spec` and `approved` labels
 3. **Feature Branch** → `spec/{issue}-{slug}`
 4. **Implement** → Track tasks in SPEC and issue
 5. **PR** → Contains "Closes #{issue}" reference
-6. **Archive** → Move completed SPEC to `/.specs/archived/`
-
-### SPEC Status States
-
-| Status | Description |
-|--------|-------------|
-| Draft | Initial creation |
-| In Review | Under stakeholder review |
-| Approved | Ready for implementation |
-| In Progress | Actively being developed |
-| Completed | PR merged |
-| Cancelled | Abandoned or superseded |
+6. **Complete** → Update SPEC status to `completed` (no archiving, stays in context/{category}/)
 
 ### Quick Commands
 
 ```bash
-# List all SPECs
-cat .specs/README.md
+# List all SPEC files (they're context files)
+find .opencode/context -name "[0-9][0-9][0-9]-*.md"
 
-# View active SPECs (numeric files only)
-ls .specs/[0-9]*.md
+# View SPEC files in core/
+ls .opencode/context/core/[0-9]*.md
 
-# View archived SPECs
-ls .specs/archived/
+# View SPEC files in development/
+ls .opencode/context/development/[0-9]*.md
+
+# ContextScout automatically discovers SPEC files (no index needed)
 ```
 
-## Structure
+## Structure (Minimal Hub)
 
 ```
-agents/          # 17 agents
-modes/           # 1 mode
-skills/          # 6 skills
-commands/        # 1 command
-.specs/          # SPEC tracking directory
-.github/         # PR template
-SPEC.template.md
+agents/              # 1 agent (spec-driven orchestrator - unique to this hub)
+skills/               # 2 skills (spec-driven, github-workflow)
+.opencode/
+  ├── context/       # SPEC files ARE context files
+  ├── config/        # Path configuration (paths.json)
+  └── ...
+.github/             # PR template, workflows
+SPEC.template.md      # Template for new SPEC files
+docs/                 # Documentation (.md files only)
 ```
 
-## Deploy
+**Key**: 
+- SPEC files live directly in `.opencode/context/{category}/` (no `.specs/` folder)
+- All tech-specific agents/skills/modes/tools **inherited from OpenAgentsControl via URL** (no local copies)
+- Minimal repo - only opencode-hub specific files stored locally
+- Unified docs: `.md` files work on GitHub + Vercel (via marked.js)
 
-Deployed on Vercel: https://opencode.calavia.org
+## Documentation (Unified .md)
+
+All documentation lives in `.md` files - single source of truth:
+- **GitHub**: Rendered natively by GitHub
+- **Vercel**: Dynamically loaded via `marked.js` (see `index.html`)
+- **No duplication**: No `.html` duplicates - Vercel converts `.md` → HTML on the fly
+
+### Quick Links
+- [SPEC Process](docs/SPEC-process.md) - How to create and manage SPEC files
+- [Workflows](docs/workflows.md) - Development workflows and patterns
+- [Token Setup](docs/tokens.md) - Configure BOT_TOKEN, HUMAN_TOKEN, CONTEXT7_API_KEY
+- [Project Setup](PROJECT-SETUP.md) - Pure remote config (no local clone needed)
+
+## Deploy (Vercel)
+
+Deployed on Vercel: **https://opencode.calavia.org/**
+
+**How it works:**
+1. Vercel serves this repo's files (`.md`, `.json`, etc.)
+2. OpenCode auto-loads from `https://opencode.calavia.org/.well-known/opencode.json`
+3. All tech-specific agents/skills **inherited from OpenAgentsControl via URLs** (no local copies)
+
+### Pure Remote Config
+- No local clone needed
+- OpenCode auto-loads remote config on startup
+- See **Quick Start** section above
+
+### Build (Optional)
+For better SEO, convert `.md` to `.html`:
+```bash
+./build.sh
+```
