@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>github-workflow-rules</title>
+  <title>$(basename "$file" .html | tr '[:lower:]' '[:upper:]')</title>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
@@ -25,21 +25,48 @@
   <div id="content">Loading...</div>
   
   <script>
-    const renderer = new marked.Renderer();
-    renderer.code = function(code, language) {
-      if (language === 'mermaid') {
-        return '<div class="mermaid">' + code + '</div>';
-      }
-      return '<pre><code class="language-' + language + '">' + code + '</code></pre>';
-    };
-    
-    fetch('/docs/github-workflow-rules.md')
-      .then(response => response.text())
-      .then(text => {
-        document.getElementById('content').innerHTML = marked.parse(text, { renderer: renderer });
-        mermaid.initialize({ startOnLoad: true, theme: 'default' });
-        setTimeout(() => mermaid.init(undefined, document.querySelectorAll('.mermaid')), 100);
-      });
+    document.addEventListener('DOMContentLoaded', function() {
+      // Custom renderer for marked to handle mermaid
+      const renderer = new marked.Renderer();
+      
+      renderer.code = function(code, language) {
+        if (language === 'mermaid') {
+          return '<div class="mermaid">' + code + '</div>';
+        }
+        return '<pre><code class="language-' + language + '">' + code + '</code></pre>';
+      };
+
+      // Load and render the markdown file
+      const mdFile = window.location.pathname.replace('.html', '.md');
+      
+      fetch(mdFile)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to load: ' + mdFile);
+          }
+          return response.text();
+        })
+        .then(text => {
+          // Parse markdown
+          document.getElementById('content').innerHTML = marked.parse(text, { renderer: renderer });
+          
+          // Initialize mermaid
+          mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose'
+          });
+          
+          // Force mermaid to render
+          setTimeout(() => {
+            mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+          }, 100);
+        })
+        .catch(err => {
+          document.getElementById('content').innerHTML = '<p>Error loading content: ' + err.message + '</p>';
+          console.error('Error:', err);
+        });
+    });
   </script>
 </body>
 </html>
