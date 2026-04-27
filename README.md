@@ -10,19 +10,39 @@ Stack: **Java/Kotlin, Python, Go, Terraform** + **Docker/Portainer/Kubernetes**
 
 OpenCode auto-loads config from `https://opencode.calavia.org/.well-known/opencode.json`:
 
+### One-Time Setup (First Time Only)
 ```bash
-# 1. Install OpenCode CLI (if not installed)
-npm install -g opencode  # or your install method;
+# 1. Install OpenCode CLI
+npm install -g opencode
 
-# 2. Add tokens to your profile
-echo 'export OPENCODE_BOT_TOKEN="ghp_..."' >> ~/.zshrc;
-echo 'export HUMAN_TOKEN="ghp_..."' >> ~/.zshrc;
-echo 'export CONTEXT7_API_KEY="ctx7_..."' >> ~/.zshrc;
-
-# 3. Start (auto-loads remote config)
-source ~/.zshrc;
-opencode;
+# 2. Clone the hub (one-time, sets up remote config discovery)
+git clone https://github.com/calavia-org/opencode-hub.git
+cd opencode-hub
+opencode  # Loads config from .well-known/opencode.json
+# → Remembers baseUrl for future use
 ```
+
+### Daily Development (Any Project)
+```bash
+# 3. Add tokens to your profile
+echo 'export OPENCODE_BOT_TOKEN="ghp_..."' >> ~/.zshrc
+echo 'export HUMAN_TOKEN="ghp_..."' >> ~/.zshrc
+echo 'export CONTEXT7_API_KEY="ctx7_..."' >> ~/.zshrc
+echo 'export GIT_SSH_COMMAND="ssh -i ~/.ssh/opencode_bot"' >> ~/.zshrc
+source ~/.zshrc
+
+# 4. Start OpenCode in ANY project (auto-loads remote config)
+cd /path/to/your-project
+opencode
+# → Uses cached baseUrl from hub setup
+# → Inherits agents/skills from OpenAgentsControl via URL
+```
+
+**What happens:**
+1. OpenCode reads `https://opencode.calavia.org/.well-known/opencode.json`
+2. Loads `spec-driven` agent from this Vercel deployment
+3. Inherits tech-specific agents from OpenAgentsControl URLs
+4. Loads SPEC files from `.opencode/context/` (if repo has them)
 
 **What happens:**
 1. OpenCode reads `https://opencode.calavia.org/.well-known/opencode.json`
