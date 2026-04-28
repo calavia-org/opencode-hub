@@ -1,30 +1,14 @@
 {
   "version": "1.0",
-  "description": "Path configuration for Calavia OpenCode Hub - minimal hub with remote inheritance",
+  "description": "Path configuration for Calavia OpenCode Hub - inherits from OpenAgents Control",
   "context_root": ".opencode/context",
-  "remote_inheritance": {
-    "enabled": true,
-    "sources": [
-      {
-        "name": "OpenAgentsControl",
-        "url": "https://opencode.calavia.org/openagents-repo",
-        "description": "Tech-specific agents, skills, workflows, and context files",
-        "categories": [
-          "openagents-repo",
-          "development/ai",
-          "development/backend",
-          "development/frontend",
-          "development/infrastructure",
-          "ui/web",
-          "ui/terminal"
-        ]
-      }
-    ],
-    "fallback_to_local": true
-  },
   "local_context": {
     "core": ".opencode/context/core",
-    "description": "Hub-specific files: SPEC files, guides, and essential concepts"
+    "openagents-repo": ".opencode/context/openagents-repo",
+    "project-intelligence": ".opencode/context/project-intelligence",
+    "project": ".opencode/context/project",
+    "development": ".opencode/context/development",
+    "ui": ".opencode/context/ui"
   },
   "context_discovery": {
     "method": "ContextScout",
