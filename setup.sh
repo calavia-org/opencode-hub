@@ -23,13 +23,8 @@ echo "Step 1: Installing OpenAgents Control..."
 echo "  (provides: openagent, subagents, skills, etc.)"
 echo ""
 
-if [ -f "$(dirname "$0")/install.sh" ] && [ "$(dirname "$0")" != "." ]; then
-    # Running from within opencode-hub repo - use local install.sh
-    bash "$(dirname "$0")/install.sh" "${1:-}"
-else
-    # Not in repo - fetch and run OpenAgentsControl install.sh
-    curl -sL https://raw.githubusercontent.com/darrenhinde/OpenAgentsControl/main/install.sh | bash -s -- "${1:-}"
-fi
+# Use 'essential' profile for non-interactive install
+curl -sL https://raw.githubusercontent.com/darrenhinde/OpenAgentsControl/main/install.sh | bash -s -- essential
 
 echo ""
 echo -e "${GREEN}✓${NC} OpenAgents Control installed"
@@ -39,15 +34,18 @@ echo ""
 echo "Step 2: Installing OpenCode Hub context..."
 
 OPENCODE_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/opencode"
-TARGET_DIR="${1:-$OPENCODE_CONFIG_DIR}"
+TARGET_DIR="$OPENCODE_CONFIG_DIR"
 
 # Install hub-specific context (core, project-intelligence, etc.)
 if [ -d "$(dirname "$0")/.opencode/context" ]; then
-    # Running from repo
+    # Running from repo - copy hub-specific context
     mkdir -p "$TARGET_DIR/context"
-    cp -r "$(dirname "$0")/.opencode/context/core" "$TARGET_DIR/context/" 2>/dev/null || true
-    cp -r "$(dirname "$0")/.opencode/context/project-intelligence" "$TARGET_DIR/context/" 2>/dev/null || true
-    echo -e "${GREEN}✓${NC} Hub context installed"
+    for category in core openagents-repo project-intelligence project; do
+        if [ -d "$(dirname "$0")/.opencode/context/$category" ]; then
+            cp -r "$(dirname "$0")/.opencode/context/$category" "$TARGET_DIR/context/" 2>/dev/null || true
+            echo -e "${GREEN}✓${NC} Installed context: $category"
+        fi
+    done
 else
     echo -e "${YELLOW}⚠${NC} Not running from repo - skipping hub context"
     echo "  Clone opencode-hub to install hub-specific context"
