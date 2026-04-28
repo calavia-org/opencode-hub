@@ -2,22 +2,22 @@
   "version": 2,
   "buildCommand": null,
   "outputDirectory": ".",
-  "routes": [
+  "rewrites": [
     {
-      "src": "/.well-known/(.*)",
-      "dest": "/.well-known/$1"
+      "source": "/.well-known/(.*)",
+      "destination": "/.well-known/$1"
     },
     {
-      "src": "/docs/(.*).md",
-      "dest": "/api/markdown?file=/docs/$1.md"
+      "source": "/docs/(.*).md",
+      "destination": "/api/markdown?file=/docs/$1.md"
     },
     {
-      "src": "/(.*).md",
-      "dest": "/api/markdown?file=/$1.md"
+      "source": "/(.*).md",
+      "destination": "/api/markdown?file=/$1.md"
     },
     {
-      "src": "/(.*)",
-      "dest": "/$1"
+      "source": "/(.*)",
+      "destination": "/$1"
     }
   ],
   "headers": [
@@ -31,11 +31,11 @@
       ]
     },
     {
-      "source": "/(.*).json$",
+      "source": "/api/markdown",
       "headers": [
         {
           "key": "Content-Type",
-          "value": "application/json"
+          "value": "text/html; charset=utf-8"
         }
       ]
     }
