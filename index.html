@@ -4,10 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Calavia OpenCode Hub</title>
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 900px; margin: 0 auto; padding: 2rem; line-height: 1.6; color: #333; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+      max-width: 900px; 
+      margin: 0 auto; 
+      padding: 2rem; 
+      line-height: 1.6; 
+      color: #333; 
+    }
     h1 { color: #333; border-bottom: 2px solid #0066cc; padding-bottom: 0.5rem; }
     h2 { color: #0066cc; margin-top: 2rem; }
     h3 { color: #555; }
@@ -18,21 +23,14 @@
     th { background: #f4f4f4; }
     a { color: #0066cc; text-decoration: none; }
     a:hover { text-decoration: underline; }
-    .badge { display: inline-block; background: #0066cc; color: white; padding: 0.2rem 0.5rem; border-radius: 3px; font-size: 0.8rem; }
     .nav { display: flex; gap: 1rem; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #ddd; }
     .nav a { color: #0066cc; text-decoration: none; }
     .nav a:hover { text-decoration: underline; }
     .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; border-radius: 10px; margin-bottom: 2rem; }
     .hero h1 { color: white; border: none; }
     .hero p { font-size: 1.2rem; }
-    .tech-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
-    .tech-card { background: #f5f5f5; padding: 1rem; border-radius: 5px; text-align: center; }
-    .tech-name { font-weight: bold; color: #0066cc; }
-    .cta { display: inline-block; background: #0066cc; color: white; padding: 0.75rem 1.5rem; border-radius: 5px; text-decoration: none; margin: 0.5rem 0; }
-    .cta:hover { background: #0052a3; }
-    #content { margin-top: 2rem; }
-    /* Mermaid diagram styling */
     .mermaid { text-align: center; margin: 2rem 0; padding: 1rem; background: #f9f9f9; border-radius: 5px; }
+    #content { margin-top: 2rem; }
   </style>
 </head>
 <body>
@@ -50,39 +48,24 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Custom renderer for marked to handle mermaid
-      const renderer = new marked.Renderer();
-      
-      renderer.code = function(code, language) {
-        if (language === 'mermaid') {
-          return '<div class="mermaid">' + code + '</div>';
-        }
-        return '<pre><code class="language-' + language + '">' + code + '</code></pre>';
-      };
-
-      // Load and render README.md
-      fetch('/README.md')
+      // Load and render README.md using the markdown API
+      fetch('/api/markdown?file=README.md')
         .then(response => {
           if (!response.ok) {
             throw new Error('Failed to load README.md');
           }
           return response.text();
         })
-        .then(text => {
-          // Parse markdown
-          document.getElementById('content').innerHTML = marked.parse(text, { renderer: renderer });
+        .then(html => {
+          document.getElementById('content').innerHTML = html;
           
-          // Initialize mermaid
-          mermaid.initialize({ 
-            startOnLoad: true,
-            theme: 'default',
-            securityLevel: 'loose'
-          });
-          
-          // Force mermaid to re-render
-          setTimeout(() => {
-            mermaid.init(undefined, document.querySelectorAll('.mermaid'));
-          }, 100);
+          // Initialize mermaid diagrams
+          if (window.mermaid) {
+            mermaid.initialize({ 
+              startOnLoad: true,
+              theme: 'default'
+            });
+          }
         })
         .catch(err => {
           document.getElementById('content').innerHTML = '<p>Error loading README.md: ' + err.message + '</p>';
