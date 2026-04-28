@@ -48,7 +48,7 @@ Extra inputs are not permitted, field: 'type', value: 'core'
 
 ### After (Clean Separation)
 
-**Agent frontmatter** (`.opencode/agent/core/opencoder.md`):
+**Agent frontmatter** (`.opencode/agent/core/openagent.md`):
 ```yaml
 ---
 # Metadata stored in: .opencode/config/agent-metadata.json
@@ -277,7 +277,7 @@ The registry.json entry contains merged data:
   "id": "opencoder",
   "name": "OpenCoder",
   "type": "agent",
-  "path": ".opencode/agent/core/opencoder.md",
+  "path": ".opencode/agent/core/openagent.md",
   "description": "Orchestration agent for complex coding...",
   "category": "core",
   "tags": ["development", "coding", "implementation"],

@@ -417,7 +417,7 @@ rm .opencode/agent/subagents/old-agent.md
 /check-context-deps --fix
 
 # Option 2: Manual fix
-# Edit .opencode/agent/core/opencoder.md
+# Edit .opencode/agent/core/openagent.md
 # Add to frontmatter:
 dependencies:
   - context:core/standards/code

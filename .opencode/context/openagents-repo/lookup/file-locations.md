@@ -121,7 +121,7 @@ README.md                            # Main documentation
 
 ```
 .opencode/agent/core/openagent.md
-.opencode/agent/core/opencoder.md
+.opencode/agent/core/openagent.md
 .opencode/agent/meta/system-builder.md
 ```
 

@@ -265,7 +265,7 @@ read(filePath=".opencode/context/openagents-repo/core-concepts/registry.md")
 ### Agents That Need Fixing
 
 1. **repo-manager.md** - Uses `ContextScout`
-2. **opencoder.md** - Check if uses incorrect format
+2. **openagent.md** - Check if uses incorrect format
 
 ### Fix Process
 

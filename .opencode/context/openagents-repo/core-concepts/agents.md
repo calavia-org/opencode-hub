@@ -59,7 +59,7 @@ Agents are organized by domain expertise:
 
 Agents:
 - `openagent.md` - General-purpose orchestrator
-- `opencoder.md` - Development specialist
+- `openagent.md` - Development specialist
 - `system-builder.md` - System generation
 
 **When to use**: System-level tasks, orchestration

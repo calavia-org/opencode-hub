@@ -98,7 +98,7 @@ evals/agents/{category}/        # Tests by category
 .opencode/agent/core/
 ├── 0-category.json             # Category metadata
 ├── openagent.md
-├── opencoder.md
+├── openagent.md
 
 .opencode/agent/subagents/development/
 ├── 0-category.json             # Subagent category metadata
@@ -337,7 +337,7 @@ Loads: `.opencode/context/ui/web/react-patterns.md`
 ```
 .opencode/agent/
 ├── openagent.md
-├── opencoder.md
+├── openagent.md
 ├── frontend-specialist.md
 └── copywriter.md
 ```
@@ -348,7 +348,7 @@ Loads: `.opencode/context/ui/web/react-patterns.md`
 .opencode/agent/
 ├── core/
 │   ├── openagent.md
-│   ├── opencoder.md
+│   ├── openagent.md
 ├── subagents/
 │   ├── development/
 │   │   ├── frontend-specialist.md
@@ -380,7 +380,7 @@ New agents use category paths:
 core/
 ├── 0-category.json
 ├── openagent.md
-├── opencoder.md
+├── openagent.md
 ```
 
 ### Development Subagents

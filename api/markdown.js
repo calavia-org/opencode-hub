@@ -56,9 +56,18 @@ module.exports = async (req, res) => {
     a { color: #0066cc; text-decoration: none; }
     a:hover { text-decoration: underline; }
     .mermaid { text-align: center; margin: 2rem 0; padding: 1rem; background: #f9f9f9; border-radius: 5px; }
+    .header { border-bottom: 2px solid #0066cc; padding-bottom: 1rem; margin-bottom: 2rem; }
+    .header a { margin-right: 1rem; font-weight: 500; }
+    .header a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
+  <div class="header">
+    <a href="/.well-known/opencode.json">Home</a>
+    <a href="/opencode/context/navigation.md">Context</a>
+    <a href="/opencode/context/openagents-repo/navigation.md">OpenAgents</a>
+    <a href="/opencode/context/core/navigation.md">Core</a>
+  </div>
   ${htmlContent}
   <script>
     mermaid.initialize({ startOnLoad: true, theme: 'default' });
