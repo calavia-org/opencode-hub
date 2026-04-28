@@ -2,15 +2,14 @@ const { marked } = require('marked');
 
 // Custom renderer to handle mermaid code blocks
 const renderer = new marked.Renderer();
-const defaultRenderer = renderer.code.bind(renderer);
 
-renderer.code = (token) => {
-  if (token.lang === 'mermaid') {
+renderer.code = function(code, lang) {
+  if (lang === 'mermaid') {
     // Wrap mermaid code in div with proper class
-    return `<div class="mermaid">${token.text}</div>`;
+    return `<div class="mermaid">${code}</div>`;
   }
-  // Fall back to default renderer for other languages
-  return defaultRenderer(token);
+  // Fall back to default rendering for other languages
+  return `<pre><code class="language-${lang}">${code}</code></pre>`;
 };
 
 module.exports = async (req, res) => {
