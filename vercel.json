@@ -9,17 +9,11 @@
     },
     {
       "src": "/docs/(.*).md",
-      "dest": "/docs/$1.md",
-      "headers": {
-        "Content-Type": "text/html; charset=utf-8"
-      }
+      "dest": "/api/markdown?file=/docs/$1.md"
     },
     {
       "src": "/(.*).md",
-      "dest": "/$1.md",
-      "headers": {
-        "Content-Type": "text/html; charset=utf-8"
-      }
+      "dest": "/api/markdown?file=/$1.md"
     },
     {
       "src": "/(.*)",
