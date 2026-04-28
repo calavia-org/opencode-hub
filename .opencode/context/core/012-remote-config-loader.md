@@ -6,8 +6,8 @@ status: completed
 technology: "opencode"
 agent: "opencode-implementer"
 created: 2026-04-25
-completed: 2026-04-26
-resolution: "setup.sh script for organizational distribution"
+completed: 2026-04-28
+resolution: "setup.sh script created for distribution; remote_inheritance removed from paths.json (URL was 404)"
 ---
 
 # Remote Config Loader
@@ -178,11 +178,43 @@ This provides:
 | What | Status |
 |------|--------|
 | Remote URL accessible | ✅ 200 OK |
-| OpenCode auto-loads | ❌ Not working |
+| OpenCode auto-loads | ❌ Not working (OpenCode limitation) |
 | Provider triggers | ❌ No effect |
 | Manual config | ❌ Not working |
+| **setup.sh distribution** | ✅ **Working** |
 
-This is a **gap in OpenCode** - remote config exists but isn't being loaded. Need to report to OpenCode team or find the correct configuration.
+### Final Resolution
+
+Since OpenCode doesn't load remote config automatically, we use **setup.sh script** for distribution:
+
+```bash
+# Install OpenCode Hub configuration globally
+curl -sL https://raw.githubusercontent.com/calavia-org/opencode-hub/main/setup.sh | bash
+
+# Or clone and run locally
+git clone https://github.com/calavia-org/opencode-hub.git
+cd opencode-hub
+./setup.sh
+```
+
+The script:
+- Installs core agents (openagent, opencoder) and subagents
+- Installs spec-driven orchestrator
+- Installs skills, commands, and essential context
+- Configures MCP servers (github_bot, github_human, context7)
+- Sets up proper directory structure in `~/.config/opencode/`
+
+### Changes Made (2026-04-28)
+
+1. **Removed `remote_inheritance` from `paths.json`** - The URL `https://opencode.calavia.org/openagents-repo` returned 404. Since this repo IS the source of truth, remote inheritance was misleading.
+
+2. **Created `setup.sh`** - Distribution script that installs configuration to `~/.config/opencode/` for global use.
+
+3. **Updated `paths.json`** - Now documents `local_context` paths and includes `distribution` section pointing to setup.sh.
+
+### Remote Config Status
+
+The `.well-known/opencode.json` endpoint is accessible and returns valid config, but **OpenCode does not load it automatically**. This is a limitation of OpenCode itself. The setup.sh script is the recommended workaround.
 
 ## Test Results
 
