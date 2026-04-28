@@ -1,5 +1,0 @@
-{
-  "commands": [
-    { "name": "spec", "description": "Create and manage specifications" }
-  ]
-}
