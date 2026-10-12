@@ -93,11 +93,11 @@ sequenceDiagram
     Note over Bot: OPENCODE_BOT_TOKEN
     Bot->>GitHub: MCP create_issue
     Bot->>GitHub: MCP create_pull_request
-    
+
     Note over Human: HUMAN_TOKEN
     Human->>GitHub: MCP approve_pull_request
     Human->>GitHub: MCP merge_pull_request
-    
+
     GitHub->>Vercel: Deploy on merge
 ```
 
@@ -133,10 +133,10 @@ stateDiagram-v2
     Approved --> InProgress: Start work
     InProgress --> Completed: Merge PR
     Completed --> [*]
-    
+
     Draft --> Cancelled: Cancel
     InProgress --> Cancelled: Cancel
-    
+
     note right of Completed
         SPEC status: completed
         No archiving - stays in context/{category}/

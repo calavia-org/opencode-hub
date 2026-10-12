@@ -1,6 +1,6 @@
 # Concept: Workflow System
 
-**Core Idea**: GitHub automation flows from SPEC (context file) through PR merge, 
+**Core Idea**: GitHub automation flows from SPEC (context file) through PR merge,
 with bot actions requiring human approval at key stages.
 
 **Key Points**:

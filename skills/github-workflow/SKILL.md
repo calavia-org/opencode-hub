@@ -101,7 +101,7 @@ Closes #[issue-number]
 
 ## GitHub API Operations (MCP Required)
 
-> ⚠️ **Rule**: All GitHub API operations MUST use MCP tools. 
+> ⚠️ **Rule**: All GitHub API operations MUST use MCP tools.
 > gh CLI and curl are forbidden per SPEC #031.
 
 ### Create Issue

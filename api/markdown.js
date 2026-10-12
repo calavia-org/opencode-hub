@@ -2,22 +2,22 @@ const { marked } = require('marked');
 
 module.exports = async (req, res) => {
   const { file } = req.query;
-  
+
   if (!file || !file.endsWith('.md')) {
     return res.status(400).send('Missing or invalid file parameter');
   }
-  
+
   try {
     const baseUrl = `https://${req.headers.host}`;
     const response = await fetch(`${baseUrl}/${file}`);
-    
+
     if (!response.ok) {
       return res.status(404).send('File not found');
     }
-    
+
     const markdown = await response.text();
     const htmlContent = marked.parse(markdown);
-    
+
     const fullHtml = `
 <!doctype html>
 <html lang="en">
@@ -49,10 +49,10 @@ module.exports = async (req, res) => {
 </body>
 </html>
     `;
-    
+
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.send(fullHtml);
-    
+
   } catch (error) {
     console.error('Error:', error);
     res.status(500).send('Internal Server Error');

@@ -23,12 +23,12 @@
 </head>
 <body>
   <div id="content">Loading...</div>
-  
+
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Custom renderer for marked to handle mermaid
       const renderer = new marked.Renderer();
-      
+
       renderer.code = function(code, language) {
         if (language === 'mermaid') {
           return '<div class="mermaid">' + code + '</div>';
@@ -38,7 +38,7 @@
 
       // Load and render the markdown file
       const mdFile = window.location.pathname.replace('.html', '.md');
-      
+
       fetch(mdFile)
         .then(response => {
           if (!response.ok) {
@@ -49,14 +49,14 @@
         .then(text => {
           // Parse markdown
           document.getElementById('content').innerHTML = marked.parse(text, { renderer: renderer });
-          
+
           // Initialize mermaid
-          mermaid.initialize({ 
+          mermaid.initialize({
             startOnLoad: true,
             theme: 'default',
             securityLevel: 'loose'
           });
-          
+
           // Force mermaid to render
           setTimeout(() => {
             mermaid.init(undefined, document.querySelectorAll('.mermaid'));

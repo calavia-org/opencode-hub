@@ -1,6 +1,6 @@
 # Concept: Token System
 
-**Core Idea**: Two-token architecture separates bot automation 
+**Core Idea**: Two-token architecture separates bot automation
 (`OPENCODE_BOT_TOKEN`) from human approvals (`HUMAN_TOKEN`).
 
 **Key Points**:
