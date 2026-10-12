@@ -1,6 +1,6 @@
 # Concept: SPEC-Driven Process
 
-**Core Idea**: Specification-first workflow where features are fully specified 
+**Core Idea**: Specification-first workflow where features are fully specified
 in SPEC context files before any implementation begins.
 
 **Key Points**:

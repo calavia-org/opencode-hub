@@ -195,7 +195,7 @@ All SPEC files are stored directly in context categories (SPEC files ARE context
 └── ...
 ```
 
-**Key**: 
+**Key**:
 - SPEC files live directly in `.opencode/context/{category}/` (no `.specs/` folder)
 - No archiving - completed SPECs stay in context/{category}/ with status `completed`
 - ContextScout discovers SPEC files automatically (no index needed)
@@ -247,7 +247,7 @@ SPEC.template.md           # Template for new SPEC files
 docs/                      # Documentation (.md files only)
 ```
 
-**Key**: 
+**Key**:
 - **Local**: Only hub-specific files (SPEC files, spec-driven agent, 2 skills)
 - **Remote**: Tech-specific agents/skills/modes/tools **inherited from OpenAgentsControl via URL**
 - **Configured in**: `.opencode/config/paths.json` (remote inheritance)

@@ -49,7 +49,7 @@ This causes issues because:
 
 - [x] Simplify setup.sh (226→37 lines)
 - [x] Add MCP rules to spec-driven skill
-- [x] Add MCP rules to spec-driven mode  
+- [x] Add MCP rules to spec-driven mode
 - [x] Add MCP rules to all agents (implementer, tester, verifier, deployer)
 - [x] Test git clone works
 

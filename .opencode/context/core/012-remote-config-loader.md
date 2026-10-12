@@ -78,7 +78,7 @@ cd /tmp/test-remote-load && opencode debug config
 
 # Result: No remote config loaded
 # - mcp: null
-# - agents: null  
+# - agents: null
 # - skills: null
 # - wellknown: null
 ```

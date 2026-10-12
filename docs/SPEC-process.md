@@ -224,7 +224,7 @@ created: YYYY-MM-DD
 
 ## Overview
 
-## Motivation  
+## Motivation
 
 ## Requirements
 

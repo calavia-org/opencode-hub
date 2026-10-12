@@ -52,7 +52,7 @@
     document.addEventListener('DOMContentLoaded', function() {
       // Custom renderer for marked to handle mermaid
       const renderer = new marked.Renderer();
-      
+
       renderer.code = function(code, language) {
         if (language === 'mermaid') {
           return '<div class="mermaid">' + code + '</div>';
@@ -71,14 +71,14 @@
         .then(text => {
           // Parse markdown
           document.getElementById('content').innerHTML = marked.parse(text, { renderer: renderer });
-          
+
           // Initialize mermaid
-          mermaid.initialize({ 
+          mermaid.initialize({
             startOnLoad: true,
             theme: 'default',
             securityLevel: 'loose'
           });
-          
+
           // Force mermaid to re-render
           setTimeout(() => {
             mermaid.init(undefined, document.querySelectorAll('.mermaid'));

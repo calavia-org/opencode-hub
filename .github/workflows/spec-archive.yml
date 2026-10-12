@@ -34,16 +34,16 @@ jobs:
           import os
           import re
           from pathlib import Path
-          
+
           specs_dir = Path('.specs')
           completed = []
-          
+
           for spec_file in specs_dir.glob('*.md'):
             if spec_file.name == 'README.md':
               continue
-            
+
             content = spec_file.read_text()
-            
+
             # Parse frontmatter
             if content.startswith('---'):
               end = content.find('---', 3)
@@ -51,45 +51,45 @@ jobs:
                 frontmatter = content[3:end]
                 if re.search(r'status:\s*completed', frontmatter, re.IGNORECASE):
                   completed.append(spec_file.name)
-          
+
           completed_str = ','.join(completed)
           print(f"completed={completed_str}")
-          
+
           with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
             f.write(f"completed={completed_str}\n")
         shell: python
 
       - name: Archive SPECs
         if: >-
-          ${{ steps.find_specs.outputs.completed != '' 
-              && github.inputs.dry_run != true }}
+          ${{ steps.find_specs.outputs.completed != ''
+              && inputs.dry_run != true }}
         run: |
           mkdir -p .specs/archived
-          
-          completed_list = """${{ steps.find_specs.outputs.completed }}""".split(',')
-          
-          for spec in completed_list:
-            spec = spec.strip()
-            if spec:
-              echo "Archiving: $spec"
-              mv ".specs/$spec" ".specs/archived/$spec" || true
+
+          IFS=',' read -r -a items <<< "${{ steps.find_specs.outputs.completed }}"
+          for spec in "${items[@]}"; do
+            spec="${spec//[[:space:]]/}"
+            [ -n "$spec" ] || continue
+            echo "Archiving: $spec"
+            mv ".specs/$spec" ".specs/archived/$spec" || true
+          done
 
       - name: Update SPEC index
         if: >-
-          ${{ steps.find_specs.outputs.completed != '' 
-              && github.inputs.dry_run != true }}
+          ${{ steps.find_specs.outputs.completed != ''
+              && inputs.dry_run != true }}
         run: |
           echo "Updated index: ${{ steps.find_specs.outputs.completed }}"
 
       - name: Commit archived SPECS
         if: >-
-          ${{ steps.find_specs.outputs.completed != '' 
-              && github.inputs.dry_run != true }}
+          ${{ steps.find_specs.outputs.completed != ''
+              && inputs.dry_run != true }}
         run: |
           git config --local user.email "bot@opencode.dev"
           git config --local user.name "OpenCode Bot"
-          
+
           git add .specs/
           git commit -m "chore: archive completed SPECs" || echo "Nothing to archive"
-          
+
           git push || echo "Push failed - may need token"
